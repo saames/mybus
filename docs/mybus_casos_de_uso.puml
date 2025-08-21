@@ -1,0 +1,27 @@
+@startuml sistema_de_locacao_filmes
+
+left to right direction
+
+actor Administrador
+actor Usuário
+actor "Sistema de rotas"
+
+rectangle "Sistema MyBus" {
+
+    (Visualizar Rotas)
+    (Traçar Rotas)
+    (Gerenciar Rotas)
+    (Gerenciar Ônibus)
+    
+
+    Usuário -- (Visualizar Rotas)
+    Administrador -- (Gerenciar Rotas)
+    Administrador -- (Gerenciar Ônibus)
+    (Traçar Rotas) -- "Sistema de rotas"
+
+
+    (Traçar Rotas) .> (Gerenciar Rotas) : <<extend>>
+
+}
+
+@enduml
