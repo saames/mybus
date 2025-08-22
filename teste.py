@@ -4,6 +4,9 @@ import requests  # Para fazer a chamada à API de rota
 
 # --- Função Principal ---
 
+
+# Lista de todas as paradas
+paradas = []
 def tracar_rota_no_mapa():
     """
     Busca as coordenadas da rota na API do OSRM e as desenha no mapa.
@@ -12,17 +15,8 @@ def tracar_rota_no_mapa():
     ponto_inicio = (-9.953089737653636, -67.86248304933982)
     ponto_fim = (-9.973780474521801, -67.80993100026353)
 
-    # Lista de todas as paradas
-    paradas = [
-        (-9.93134046616895, -67.81839677433912),
-        (-9.948967954095927, -67.8319821729281),
-        (-9.96816579961511, -67.85057813803296),
-        (-9.952527438225166, -67.84780256052507),
-        (-9.972672384338503, -67.8047532169818)
-    ]
-
     # Junta todos os pontos para a requisição (inicio -> paradas -> fim)
-    todos_os_pontos = [ponto_inicio] + paradas + [ponto_fim]
+    todos_os_pontos = paradas
 
     # Formata os pontos para a URL do OSRM (longitude,latitude)
     coordenadas_url = ";".join([f"{lon},{lat}" for lat, lon in todos_os_pontos])
@@ -30,7 +24,7 @@ def tracar_rota_no_mapa():
     try:
         # 1. Monta a URL da API do OSRM com todas as paradas
         url = f"http://router.project-osrm.org/route/v1/driving/{coordenadas_url}?overview=full&geometries=geojson"
-
+        print(url)
         # 2. Faz a requisição para a API
         response = requests.get(url)
         response.raise_for_status()  # Lança um erro se a requisição falhar
@@ -38,6 +32,8 @@ def tracar_rota_no_mapa():
         # 3. Extrai os dados da rota do JSON
         data = response.json()
         rota_coords_raw = data['routes'][0]['geometry']['coordinates']
+        nome_rotas = [x["name"] for x in data["waypoints"]]
+        print(nome_rotas)
 
         # 4. Converte as coordenadas para o formato que o TkinterMapView espera
         # OSRM devolve [longitude, latitude], mas a biblioteca espera (latitude, longitude)
@@ -47,14 +43,11 @@ def tracar_rota_no_mapa():
             print(f"Rota encontrada com {len(pontos_da_rota)} pontos.")
             # 5. Desenha a rota no mapa usando a função .set_path()
             map_widget.set_path(pontos_da_rota, color="blue", width=5)
-
-            # Centraliza o mapa e adiciona marcadores
-            map_widget.set_position(ponto_inicio[0], ponto_inicio[1], marker=True, text="UFAC")
-            map_widget.set_marker(ponto_fim[0], ponto_fim[1], text="Biblioteca centro")
             
-            # Adiciona um marcador para cada parada
-            for i, (lat_parada, lon_parada) in enumerate(paradas):
-                map_widget.set_marker(lat_parada, lon_parada, text=f"Parada {i+1}")
+            for i in range(len(nome_rotas)):
+                if(nome_rotas[i] == ""):
+                    nome_rotas[i] = f"Parada"
+                map_widget.set_marker(paradas[i][0], paradas[i][1], f"{i+1}.{nome_rotas[i]}")
 
             map_widget.set_zoom(12) # Ajusta o zoom para ver a rota toda
         else:
@@ -73,13 +66,32 @@ app = tkinter.Tk()
 app.title("Rota com OSRM e Tkinter")
 app.geometry("800x650")
 
+# Rótulo para exibir as coordenadas
+label_coords = tkinter.Label(app, text="Clique no mapa para ver as coordenadas")
+label_coords.pack()
+
 # Botão para iniciar a ação
 botao_tracar = tkinter.Button(app, text="Traçar Rota", command=tracar_rota_no_mapa)
-botao_tracar.pack(pady=10)
+botao_tracar.pack(pady=5)
 
 # Widget do mapa
 map_widget = tkintermapview.TkinterMapView(app, width=800, height=600, corner_radius=0)
 map_widget.pack()
+
+# --- Função para obter coordenadas do clique ---
+def obter_coordenadas_clique(coordenadas):
+    """
+    Função chamada ao clicar no mapa. Atualiza o rótulo com as coordenadas.
+    """
+    lat, lon = coordenadas
+    label_coords.config(text=f"Coordenadas: (Latitude: {lat:.7f}, Longitude: {lon:.7f})")
+    print(f"Coordenadas do clique: ({lat}, {lon})")
+    map_widget.set_marker(lat, lon)
+    paradas.append((lat, lon))
+
+# Adiciona o comando de clique esquerdo ao mapa
+map_widget.add_left_click_map_command(obter_coordenadas_clique)
+
 
 # Define uma posição inicial para o mapa
 map_widget.set_position(-9.953089737653636, -67.86248304933982)
