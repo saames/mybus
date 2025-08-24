@@ -8,21 +8,21 @@ actor "Sistema de rotas"
 
 rectangle "Sistema MyBus" {
 
-    (Visualizar Rotas)
+    (Visualizar Linhas)
     (Traçar Rotas)
-    (Gerenciar Rotas)
+    (Gerenciar Linhas)
     (Gerenciar Ônibus)
     (Registrar Viagem)
     
 
-    Usuário -- (Visualizar Rotas)
-    Administrador -- (Gerenciar Rotas)
+    Usuário -- (Visualizar Linhas)
+    Administrador -- (Gerenciar Linhas)
     Administrador -- (Gerenciar Ônibus)
     (Traçar Rotas) -- "Sistema de rotas"
     
-    
-    (Visualizar Rotas) <.. (Registrar Viagem) : <<extend>>
-    (Gerenciar Rotas) <.. (Traçar Rotas) : <<extend>>
+
+    (Visualizar Linhas) <.. (Registrar Viagem) : <<extend>>
+    (Gerenciar Linhas) <.. (Traçar Rotas) : <<extend>>
 
 }
 
