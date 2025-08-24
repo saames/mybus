@@ -1,4 +1,4 @@
-@startuml sistema_mybus
+@startuml sistema_de_locacao_filmes
 
 left to right direction
 
@@ -12,15 +12,17 @@ rectangle "Sistema MyBus" {
     (Traçar Rotas)
     (Gerenciar Rotas)
     (Gerenciar Ônibus)
+    (Registrar Viagem)
     
 
     Usuário -- (Visualizar Rotas)
     Administrador -- (Gerenciar Rotas)
     Administrador -- (Gerenciar Ônibus)
     (Traçar Rotas) -- "Sistema de rotas"
-
-
-    (Traçar Rotas) .> (Gerenciar Rotas) : <<extend>>
+    
+    
+    (Visualizar Rotas) <.. (Registrar Viagem) : <<extend>>
+    (Gerenciar Rotas) <.. (Traçar Rotas) : <<extend>>
 
 }
 
