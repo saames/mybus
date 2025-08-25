@@ -1,0 +1,37 @@
+@startuml mybus
+class Onibus{
+    -numero:str
+    -placa:str
+    -status:boolean
+}
+class Usuario{
+    -nome:str
+    -cpf:str
+    -telefone:str
+    -papel: str
+
+}
+class Linha{
+    -nome:str
+    -numero:str
+}
+class Rota{
+    -rota_ida:str
+    -rota_volta:str
+}
+class Horario{
+    -horario_ida:str
+    -horario_volta:str
+}
+
+class UserLinha{
+    -quantidade_uso:int
+}
+
+Linha "0..1" -- "0..*" Onibus
+Rota "1..1" -- "1..1"Linha
+Linha "1..1" -- "1..1"Horario
+Usuario "1..1" -- "0..*"UserLinha
+Linha "1..1" -- "0..*" UserLinha
+
+@enduml
