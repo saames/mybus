@@ -16,22 +16,47 @@ class Linha{
     -numero:str
 }
 class Rota{
-    -rota_ida:str
-    -rota_volta:str
+    -trajetoSentido:str
 }
-class Horario{
-    -horario_ida:str
-    -horario_volta:str
+
+
+class pontos{
+    -latitude:float
+    -longitude:float
+    -descricao:str
+
+}
+class intervalo{
+    tipoDia: str
 }
 
 class UserLinha{
-    -quantidade_uso:int
+    -favorito:boolean
+}
+
+class Historico_Viajem{
+
+}
+
+class Viajem{
+
+}
+
+class Horario {
+    -HoraMinuto: str
+
 }
 
 Linha "0..1" -- "0..*" Onibus
-Rota "1..1" -- "1..1"Linha
-Linha "1..1" -- "1..1"Horario
+Rota "1..*" -- "1..1"Linha
+pontos "1..1" -- "1..*" Rota
+Linha "1..1" -- "1..*" intervalo
+intervalo "1..*" -- "1..1"Horario
 Usuario "1..1" -- "0..*"UserLinha
 Linha "1..1" -- "0..*" UserLinha
+Historico_Viajem "1..*" -- "1..1" Viajem
+Historico_Viajem "1..*" -- "1..1" UserLinha
+
+
 
 @enduml
