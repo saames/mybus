@@ -31,15 +31,8 @@ class intervalo{
 }
 
 class UserLinha{
+    -quantidadeUso:int
     -favorito:boolean
-}
-
-class Historico_Viajem{
-
-}
-
-class Viajem{
-
 }
 
 class Horario {
@@ -54,8 +47,8 @@ Linha "1..1" -- "1..*" intervalo
 intervalo "1..*" -- "1..1"Horario
 Usuario "1..1" -- "0..*"UserLinha
 Linha "1..1" -- "0..*" UserLinha
-Historico_Viajem "1..*" -- "1..1" Viajem
-Historico_Viajem "1..*" -- "1..1" UserLinha
+
+
 
 
 
