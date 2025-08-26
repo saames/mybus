@@ -13,16 +13,19 @@ rectangle "Sistema MyBus" {
     (Gerenciar Linhas)
     (Gerenciar Ônibus)
     (Registrar Viagem)
+    (Criar Linha)
     
 
     Usuário -- (Visualizar Linhas)
     Administrador -- (Gerenciar Linhas)
     Administrador -- (Gerenciar Ônibus)
+    Administrador -- (Criar Linha)
     (Traçar Rotas) -- "Sistema de rotas"
     
 
     (Visualizar Linhas) <.. (Registrar Viagem) : <<extend>>
-    (Gerenciar Linhas) <.. (Traçar Rotas) : <<extend>>
+    (Criar Linha) ..> (Traçar Rotas) : <<include>>
+    
 
 }
 
