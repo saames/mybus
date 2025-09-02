@@ -6,6 +6,7 @@ class Onibus{
 }
 class Usuario{
     -nome:str
+    -senha:str
     -cpf:str
     -telefone:str
     -papel: str
