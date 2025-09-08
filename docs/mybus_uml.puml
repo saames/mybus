@@ -6,7 +6,6 @@ class Onibus{
 }
 class Usuario{
     -nome:str
-    -senha:str
     -cpf:str
     -telefone:str
     -papel: str
@@ -21,13 +20,14 @@ class Rota{
 }
 
 
-class pontos{
+class Ponto{
     -latitude:float
     -longitude:float
     -descricao:str
 
 }
-class intervalo{
+
+class Cronograma{
     tipoDia: str
 }
 
@@ -43,9 +43,9 @@ class Horario {
 
 Linha "0..1" -- "0..*" Onibus
 Rota "1..*" -- "1..1"Linha
-pontos "1..1" -- "1..*" Rota
-Linha "1..1" -- "1..*" intervalo
-intervalo "1..*" -- "1..1"Horario
+Ponto "1..*" -- "1..1" Rota
+Linha "1..1" -- "1..*" Cronograma
+Cronograma "1..*" -- "1..1"Horario
 Usuario "1..1" -- "0..*"UserLinha
 Linha "1..1" -- "0..*" UserLinha
 
