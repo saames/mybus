@@ -9,26 +9,23 @@ class Usuario{
     -cpf:str
     -telefone:str
     -papel: str
-
+    -status: str
 }
 class Linha{
     -nome:str
     -numero:str
 }
+
 class Rota{
     -trajetoSentido:str
+    -coordenadas:list
+    -marcacao:list
 }
 
-
-class Ponto{
-    -latitude:float
-    -longitude:float
-    -descricao:str
-
-}
 
 class Cronograma{
     tipoDia: str
+    horarios: list
 }
 
 class UserLinha{
@@ -36,16 +33,9 @@ class UserLinha{
     -favorito:boolean
 }
 
-class Horario {
-    -HoraMinuto: str
-
-}
-
 Linha "0..1" -- "0..*" Onibus
-Rota "1..*" -- "1..1"Linha
-Ponto "1..*" -- "1..1" Rota
+Rota "1..*" -- "1..1" Linha
 Linha "1..1" -- "1..*" Cronograma
-Cronograma "1..*" -- "1..1"Horario
 Usuario "1..1" -- "0..*"UserLinha
 Linha "1..1" -- "0..*" UserLinha
 
