@@ -10,7 +10,7 @@ class LoginView:
         self.frm_center.pack()
 
         
-        self.img_logo = ttk.PhotoImage(file='mybusapp/resources/media/mybus_logo_128.png')
+        self.img_logo = ttk.PhotoImage(file='../mybusapp/resources/media/mybus_logo_128.png')
         #self.img_logo = self.img_logo.subsample(1,1)
         self.lbl_logo = ttk.Label(self.frm_center, image=self.img_logo)
         self.lbl_logo.image = self.img_logo
