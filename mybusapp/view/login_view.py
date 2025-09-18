@@ -1,16 +1,17 @@
 import ttkbootstrap as ttk
-from mybusapp.control.login_control import LoginControl
+from control.login_control import LoginControl
+from resources.photos import Base64
 
 class LoginView:
     def __init__(self, master):
         self.janela = master
         self.janela.title('MyBus')
-        self.janela.geometry('640x480')
+        self.janela.geometry('440x380')
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.pack()
         
         # Logo MyBus
-        self.img_logo = ttk.PhotoImage(file='./mybusapp/resources/media/mybus_logo_128.png')
+        self.img_logo = ttk.PhotoImage(data=Base64.myBusLogo128())
         self.lbl_logo = ttk.Label(self.frm_center, image=self.img_logo)
         self.lbl_logo.image = self.img_logo
         self.lbl_logo.grid(column=0, row=0, columnspan=2, pady=20)
