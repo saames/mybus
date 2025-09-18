@@ -67,4 +67,3 @@ class Model:
         except Error as er:
             print(er)
 
-ml = Model()
