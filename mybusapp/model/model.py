@@ -30,6 +30,17 @@ class Model:
              print(er)
 
     def update(self, table, values, id):
+        """
+        Atualiza um registro em uma tabela no banco de dados.
+
+        Parâmetros:
+        - table (str): Nome da tabela e os atributos a serem atualizados, no formato 'tabela(atributo1, atributo2,...)'.
+        - values (tuple): Tupla contendo os novos valores a serem atribuídos aos atributos, na mesma ordem dos atributos na tabela.
+        - id (int): Identificador da ocorrencia que deseja atualiza.
+
+        Exemplo de uso:
+        update("Usuario(nome, cpf)", ("João", 00000000000), 1)
+        """
 
         table = table.split("(")
         table_name = table[0]
