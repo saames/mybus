@@ -1,5 +1,5 @@
 import ttkbootstrap as ttk
-from mybusapp.view.user_view.login.login_view import LoginView
+from view.user_view.login.login_view import LoginView
 
 app = ttk.Window(themename='mybus')
 LoginView(app)
