@@ -1,4 +1,4 @@
-from mybusapp.resources.database.conexao import Conexao
+from resources.database.conexao import Conexao
 from sqlite3 import Error
 
 class Model:
