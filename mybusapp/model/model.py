@@ -16,6 +16,25 @@ class Model:
               return result
           except Error as er:
               print(er)
+              return None
+
+    def find(self, table, *args):
+        sql = f"SELECT * FROM {table} WHERE"
+        for i in range(len(args)):
+
+            if i != len(args) - 1:
+                sql += f" {args[i]} AND"
+            else:
+                sql += f" {args[i]};"
+        try:
+            con = self.conexao.get_conexao()
+            cursor = con.cursor()
+            result = cursor.execute(sql).fetchall()
+            con.close()
+            return result
+        except Error as er:
+            print(er)
+            return None
 
     def insert(self, table, values):
          sql = f"INSERT INTO {table} VALUES {values};"
@@ -23,13 +42,26 @@ class Model:
              con = self.conexao.get_conexao()
              cursor = con.cursor()
              result = cursor.execute(sql).rowcount
-             con.commit()
-             con.close()
-             return result
+             if(result == 1):
+                 con.commit()
+                 con.close()
+                 return result
          except Error as er:
              print(er)
+             return None
 
     def update(self, table, values, id):
+        """
+        Atualiza um registro em uma tabela no banco de dados.
+
+        Parâmetros:
+        - table (str): Nome da tabela e os atributos a serem atualizados, no formato 'tabela(atributo1, atributo2,...)'.
+        - values (tuple): Tupla contendo os novos valores a serem atribuídos aos atributos, na mesma ordem dos atributos na tabela.
+        - id (int): Identificador da ocorrencia que deseja atualiza.
+
+        Exemplo de uso:
+        update("Usuario(nome, cpf)", ("João", 00000000000), 1)
+        """
 
         table = table.split("(")
         table_name = table[0]
@@ -66,4 +98,4 @@ class Model:
             return result
         except Error as er:
             print(er)
-
+            return None
