@@ -1,5 +1,6 @@
 import ttkbootstrap as ttk
 from control.login_control import LoginControl
+from resources.utils import Utils
 from resources.photos import Base64
 from resources.utils import Utils
 from view.user_view.cadastro.cadastro_user import (CadastroUserView)
@@ -59,13 +60,15 @@ class LoginView:
         self.lbl_login.grid(column=0, row=5, columnspan=2, pady=10)
 
     # Restrições básicas para autenticação
-    def validar_campos(self, event):
+    def validar_campos(self, *event):
         cpf = self.ent_username.get().replace(".","").replace("-","")
         senha = self.ent_password.get()
         if len(cpf)==11 and len(senha) >= 8: # CPF tem tamanho 11 e senha maior ou igual 8.
             self.btn_acessar.config(state='enable')
+            return True
         else:
             self.btn_acessar.config(state='disabled')
+            return False
 
     # Abre a janela CadastroUsuarioView
     def abrir_cadastro_usuario(self, event):
