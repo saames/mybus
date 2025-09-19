@@ -54,7 +54,10 @@ class LoginView:
         self.btn_cadastrar.grid(column=0, row=4, columnspan=2, pady=10)
         self.btn_cadastrar.bind('<ButtonRelease-1>', self.abrir_cadastro_usuario)
 
-    
+        #Label Para mostrar que o login tá funcionando *Excluir depois*
+        self.lbl_login = ttk.Label(self.frm_center)
+        self.lbl_login.grid(column=0, row=5, columnspan=2, pady=10)
+
     # Restrições básicas para autenticação
     def validar_campos(self, event):
         cpf = self.ent_username.get().replace(".","").replace("-","")
@@ -76,6 +79,17 @@ class LoginView:
         password = self.ent_password_value.get()
         result = self.login_control.autenticar(f"'{username}'", f"'{password}'")
         if(result):
-            print("Logado")
+            lbl_login_value = (
+                f"Usuario logado id: {result[0]}\n"
+                f"Nome:{result[0]}\n"
+                f"CPF:{result[1]}\n"
+                f"Telefone:{result[2]}\n"
+                f"Papel:{result[4]}\n"
+                f"Status:{result[5]}"
+            )
+            self.lbl_login.config(text=lbl_login_value)
         else:
-            print("Sai daqui")
+            lbl_login_value = (
+                f"Login Invalido"
+            )
+            self.lbl_login.config(text=lbl_login_value)
