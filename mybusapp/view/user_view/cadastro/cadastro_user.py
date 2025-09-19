@@ -1,7 +1,8 @@
 import tkinter as tk
 import ttkbootstrap as ttk
-from resources.utils import Utils
+from mybusapp.resources.utils import Utils
 from tkinter import messagebox
+from mybusapp.control.cadastrar_control import Cadastra_control
 
 class CadastroUserView:
     def __init__(self, master, janela_origem=None):
@@ -11,6 +12,9 @@ class CadastroUserView:
         self.janela.geometry('450x550')
         self.janela.title(" Formulário para Cadastro - MyBus")
         self.janela.resizable(False, False)
+
+        #Cadastrar control para conexão com o banco
+        self.cadastrar_control = Cadastra_control()
 
         # Frame para centralizar os componentes no meio da janela
         self.frm_center = ttk.Frame(self.janela)
@@ -24,14 +28,16 @@ class CadastroUserView:
         # Nome do usuário
         self.lbl_name = ttk.Label(self.frm_center, text='Nome:',font=('TkDefaultFont', 10, 'bold'))
         self.lbl_name.grid(column=0, row=1,sticky='w', pady=(0, 2))
-        self.ent_name = ttk.Entry(self.frm_center)
+        self.ent_name_value = ttk.StringVar()
+        self.ent_name = ttk.Entry(self.frm_center, textvariable=self.ent_name_value)
         self.ent_name.grid(column=0, row=2, sticky='ew', pady=(0,10))
         self.ent_name.bind('<KeyRelease>', self.validar_campos)
 
         # CPF do usuário    
         self.lbl_CPF = ttk.Label(self.frm_center, text='CPF:', font=('TkDefaultFont', 10, 'bold'))
         self.lbl_CPF.grid(column=0, row=3, sticky='w', pady=(0, 2))
-        self.ent_CPF = ttk.Entry(self.frm_center)
+        self.ent_CPF_value = ttk.StringVar()
+        self.ent_CPF = ttk.Entry(self.frm_center, textvariable=self.ent_CPF_value)
         self.ent_CPF.grid(column=0, row=4, sticky='ew', pady=(0, 10))
         self.ent_CPF.bind('<KeyRelease>', self.validar_campos)
         Utils.add_placeholder(self.ent_CPF,'XXX.XXX.XXX-XX')
@@ -39,16 +45,17 @@ class CadastroUserView:
         # Telefone do usuário 
         self.lbl_phone = ttk.Label(self.frm_center, text='Telefone:', font=('TkDefaultFont', 10, 'bold'))
         self.lbl_phone.grid(column=0, row=5, sticky='w', pady=(0, 2))
-        self.ent_phone = ttk.Entry(self.frm_center)
+        self.ent_phone_value = ttk.StringVar()
+        self.ent_phone = ttk.Entry(self.frm_center, textvariable=self.ent_phone_value)
         self.ent_phone.grid(column=0, row=6, sticky='ew', pady=(0, 10))
         self.ent_phone.bind('<KeyRelease>', self.validar_campos)
         Utils.add_placeholder(self.ent_phone, '(XX)XXXXXXXXX')
 
-
         # Senha do usuário
         self.lbl_password = ttk.Label(self.frm_center, text='Senha (mínimo 8 dígitos):', font=('TkDefaultFont', 10, 'bold'))
         self.lbl_password.grid(column=0, row=7, sticky='w', pady=(0, 2))
-        self.ent_password = ttk.Entry(self.frm_center, show='*')
+        self.ent_password_value = ttk.StringVar()
+        self.ent_password = ttk.Entry(self.frm_center, show='*', textvariable=self.ent_password_value)
         self.ent_password.grid(column=0, row=8, sticky='ew', pady=(0, 10))
         self.ent_password.bind('<KeyRelease>', self.validar_campos)
 
@@ -72,7 +79,7 @@ class CadastroUserView:
         # Botão Salvar 
         self.btn_save = ttk.Button(self.frm_buttons, text='SALVAR', bootstyle='success', state='disabled')
         self.btn_save.grid(column=1, row=0, sticky='ew', padx=(5, 0))
-        self.btn_save.bind('<ButtonRelease-1>')
+        self.btn_save.bind('<ButtonRelease-1>', self.cadastrar)
 
 
     def validar_campos(self, event):
@@ -94,3 +101,17 @@ class CadastroUserView:
             self.janela.destroy()
             if self.janela_origem:
                 self.janela_origem.deiconify()
+
+    def cadastrar(self, event):
+        name = self.ent_name_value.get()
+        cpf = self.ent_CPF_value.get()
+        phone = self.ent_phone_value.get()
+        password = self.ent_password_value.get()
+        result = self.cadastrar_control.Cadastrar_usuario(name, cpf, phone, password, "user", "A")
+        if(result):
+            messagebox.showinfo("Informação", "Cadastro realizado com sucesso!")
+            self.janela.destroy()
+            if self.janela_origem:
+                self.janela_origem.deiconify()
+
+

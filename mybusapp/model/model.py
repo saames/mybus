@@ -16,6 +16,7 @@ class Model:
               return result
           except Error as er:
               print(er)
+              return None
 
     def find(self, table, *args):
         sql = f"SELECT * FROM {table} WHERE"
@@ -25,8 +26,6 @@ class Model:
                 sql += f" {args[i]} AND"
             else:
                 sql += f" {args[i]};"
-
-        print(sql)
         try:
             con = self.conexao.get_conexao()
             cursor = con.cursor()
@@ -35,6 +34,7 @@ class Model:
             return result
         except Error as er:
             print(er)
+            return None
 
     def insert(self, table, values):
          sql = f"INSERT INTO {table} VALUES {values};"
@@ -42,11 +42,13 @@ class Model:
              con = self.conexao.get_conexao()
              cursor = con.cursor()
              result = cursor.execute(sql).rowcount
-             con.commit()
-             con.close()
-             return result
+             if(result == 1):
+                 con.commit()
+                 con.close()
+                 return result
          except Error as er:
              print(er)
+             return None
 
     def update(self, table, values, id):
         """
@@ -96,3 +98,4 @@ class Model:
             return result
         except Error as er:
             print(er)
+            return None

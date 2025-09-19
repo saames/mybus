@@ -3,9 +3,6 @@ from sqlite3 import Error
 
 class UsuarioModel(Model):
 
-    def __int__(self):
-        Model()
-
     def delete(self, table, id):
         sql = f"UPDATE Usuario SET status = 'I' where id = {id};"
         try:
