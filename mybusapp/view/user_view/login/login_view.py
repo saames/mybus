@@ -42,8 +42,8 @@ class LoginView:
         # Botão Logar
         self.btn_acessar = ttk.Button(self.frm_center, text='ACESSAR', state='disabled')
         self.btn_acessar.grid(column=0, row=3, columnspan=2, sticky='we', pady=5)
-        self.btn_acessar.bind('<ButtonRelease-1>', LoginControl.autenticar)
-
+        self.btn_acessar.bind('<ButtonRelease-1>', self.acessar)
+        
         # Botão Cadastrar
         self.btn_cadastrar = ttk.Button(self.frm_center, text='Não possuo cadastro', bootstyle='LINK')
         self.btn_cadastrar.grid(column=0, row=4, columnspan=2, pady=10)
@@ -51,14 +51,20 @@ class LoginView:
 
     
     # Restrições básicas para autenticação
-    def validar_campos(self, event):
+    def validar_campos(self, *event):
         cpf = self.ent_username.get().replace(".","").replace("-","")
         senha = self.ent_password.get()
         if len(cpf)==11 and len(senha) >= 8: # CPF tem tamanho 11 e senha maior ou igual 8.
             self.btn_acessar.config(state='enable')
+            return True
         else:
             self.btn_acessar.config(state='disabled')
+            return False
     
+    def acessar(self, event):
+        if self.validar_campos():
+            LoginControl.autenticar()
+
     # Abre a janela CadastroUsuarioView
     def abrir_cadastro_usuario(self, event):
         self.janela.withdraw() # Oculta janela, iconify() para apenas minimizar.
