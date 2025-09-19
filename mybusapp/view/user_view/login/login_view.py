@@ -1,6 +1,9 @@
+import tkinter
+import tkinter.dnd
+
 import ttkbootstrap as ttk
-from control.login_control import LoginControl
-from resources.photos import Base64
+from mybusapp.control.login_control import LoginControl
+from mybusapp.resources.photos import Base64
 
 class LoginView:
     def __init__(self, master):
@@ -9,6 +12,9 @@ class LoginView:
         self.janela.geometry('440x380')
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.pack()
+
+        #Login Control
+        self.login_control = LoginControl()
         
         # Logo MyBus
         self.img_logo = ttk.PhotoImage(data=Base64.myBusLogo128())
@@ -22,7 +28,8 @@ class LoginView:
                                                                    padding=(13,0),
                                                                    font=('TkDefaultFont', 10, 'bold'))
         self.lbl_username.grid(column=0, row=1)
-        self.ent_username = ttk.Entry(self.frm_center)
+        self.ent_username_value = tkinter.StringVar()
+        self.ent_username = ttk.Entry(self.frm_center, textvariable=self.ent_username_value)
         self.ent_username.grid(column=1, row=1)
         self.ent_username.bind('<KeyRelease>', self.validar_campos)
 
@@ -32,14 +39,15 @@ class LoginView:
                                                                      padding=(2,0),
                                                                      font=('TkDefaultFont', 10, 'bold'))
         self.lbl_password.grid(column=0, row=2)
-        self.ent_password = ttk.Entry(self.frm_center, show='*')
+        self.ent_password_value = tkinter.StringVar()
+        self.ent_password = ttk.Entry(self.frm_center, show='*', textvariable=self.ent_password_value)
         self.ent_password.grid(column=1, row=2, pady=5)
         self.ent_password.bind('<KeyRelease>', self.validar_campos)
 
         # Botão Logar
         self.btn_acessar = ttk.Button(self.frm_center, text='ACESSAR', state='disabled')
         self.btn_acessar.grid(column=0, row=3, columnspan=2, sticky='we', pady=5)
-        self.btn_acessar.bind('<ButtonRelease-1>', LoginControl.autenticar)
+        self.btn_acessar.bind('<ButtonRelease-1>', self.pedir_autenticacao)
 
         # Botão Cadastrar
         self.btn_cadastrar = ttk.Button(self.frm_center, text='Não possuo cadastro', bootstyle='LINK')
@@ -55,3 +63,12 @@ class LoginView:
             self.btn_acessar.config(state='enable')
         else:
             self.btn_acessar.config(state='disabled')
+
+    def pedir_autenticacao(self, event):
+        username = self.ent_username_value.get()
+        password = self.ent_password_value.get()
+        result = self.login_control.autenticar(f"'{username}'", f"'{password}'")
+        if(result):
+            print("Logado")
+        else:
+            print("Sai daqui")
