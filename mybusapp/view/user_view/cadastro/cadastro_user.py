@@ -1,8 +1,8 @@
 import tkinter as tk
 import ttkbootstrap as ttk
-from mybusapp.resources.utils import Utils
+from resources.utils import Utils
 from tkinter import messagebox
-from mybusapp.control.cadastrar_control import Cadastra_control
+from control.cadastrar_control import Cadastra_control
 
 class CadastroUserView:
     def __init__(self, master, janela_origem=None):

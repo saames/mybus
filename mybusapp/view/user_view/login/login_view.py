@@ -1,8 +1,8 @@
 import ttkbootstrap as ttk
-from mybusapp.control.login_control import LoginControl
-from mybusapp.resources.photos import Base64
-from mybusapp.resources.utils import Utils
-from mybusapp.view.user_view.cadastro.cadastro_user import (CadastroUserView)
+from control.login_control import LoginControl
+from resources.photos import Base64
+from resources.utils import Utils
+from view.user_view.cadastro.cadastro_user import (CadastroUserView)
 
 class LoginView:
     def __init__(self, master):

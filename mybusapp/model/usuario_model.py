@@ -1,4 +1,4 @@
-from mybusapp.model.model import Model
+from model.model import Model
 from sqlite3 import Error
 
 class UsuarioModel(Model):

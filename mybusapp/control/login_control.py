@@ -1,4 +1,4 @@
-from mybusapp.model.usuario_model import UsuarioModel
+from model.usuario_model import UsuarioModel
 
 class LoginControl:
 
