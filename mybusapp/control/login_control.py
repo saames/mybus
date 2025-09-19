@@ -1,4 +1,4 @@
 
 class LoginControl:
-    def autenticar(self):
+    def autenticar():
         print('Autenticando...')
