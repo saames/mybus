@@ -1,4 +1,4 @@
-from resources.database.conexao import Conexao
+from mybusapp.resources.database.conexao import Conexao
 from sqlite3 import Error
 
 class Model:
@@ -16,6 +16,25 @@ class Model:
               return result
           except Error as er:
               print(er)
+
+    def find(self, table, *args):
+        sql = f"SELECT * FROM {table} WHERE"
+        for i in range(len(args)):
+
+            if i != len(args) - 1:
+                sql += f" {args[i]} AND"
+            else:
+                sql += f" {args[i]};"
+
+        print(sql)
+        try:
+            con = self.conexao.get_conexao()
+            cursor = con.cursor()
+            result = cursor.execute(sql).fetchall()
+            con.close()
+            return result
+        except Error as er:
+            print(er)
 
     def insert(self, table, values):
          sql = f"INSERT INTO {table} VALUES {values};"
@@ -77,4 +96,3 @@ class Model:
             return result
         except Error as er:
             print(er)
-
