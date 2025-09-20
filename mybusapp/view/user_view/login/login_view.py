@@ -2,8 +2,8 @@ import ttkbootstrap as ttk
 from control.login_control import LoginControl
 from resources.utils import Utils
 from resources.photos import Base64
-from resources.utils import Utils
 from view.user_view.cadastro.cadastro_user import (CadastroUserView)
+from control.login_control import LoginControl
 
 class LoginView:
     def __init__(self, master):
