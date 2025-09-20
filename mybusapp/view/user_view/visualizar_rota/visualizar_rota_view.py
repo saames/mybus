@@ -1,14 +1,18 @@
 import ttkbootstrap as ttk
 import tkintermapview as tkmap
+from resources.utils import Utils
 
 class VisualizarRotaView:
     def __init__(self, master):
         self.janela = master
         self.janela.title('Visualizar Rota - MyBus')
         self.janela.geometry('575x500')
-        #self.janela.resizable(False, False)
+        self.janela.resizable(False, False)
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.grid(column=0, row=0, padx=10, pady=10)
+
+        # Criação de Instâncias
+        self.utils = Utils()
 
         # Botão voltar
         self.style = ttk.Style()
@@ -44,3 +48,5 @@ class VisualizarRotaView:
         self.lbl_volta_cor.grid(column=0, row=4, ipadx=8, ipady=0, pady=5)
         self.lbl_volta_nome = ttk.Label(self.frm_center, text=f"{self.nome_destino}/{self.nome_origem}")
         self.lbl_volta_nome.grid(column=1, row=4, sticky='w')
+
+        self.utils.centraliza(self.janela)
