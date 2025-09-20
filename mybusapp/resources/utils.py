@@ -1,8 +1,22 @@
 import ttkbootstrap as ttk
 
 class Utils:
+    # Centraliza janela
+    def centraliza(self, master):
+        """
+        Centraliza uma janela no centro da tela.
+        """
+        largura_monitor = master.winfo_screenwidth()
+        altura_monitor = master.winfo_screenheight()
+        master.update_idletasks()
+        largura_janela = master.winfo_width()
+        altura_janela = master.winfo_height()
+        x = largura_monitor // 2 - largura_janela // 2
+        y = altura_monitor //2 - altura_janela // 2
+        master.geometry(f'{largura_janela}x{altura_janela}+{x}+{y}')
+
     # Placeholder
-    def add_placeholder(entry, texto):
+    def add_placeholder(self, entry, texto):
         """
         Adiciona a funcionalidade de placeholder a uma janela Entry do ttkbootstrap.
         Esta função também configura o estilo 'Placeholder.TEntry' necessário.
