@@ -22,8 +22,8 @@ class CadastroUserView:
         self.frm_center.columnconfigure(0, weight=1)
 
         # Titulo
-        self.lbl_tile = ttk.Label(self.frm_center, text='Crie uma conta',  bootstyle='primary',font=('TkDefaultFont', 14, 'bold'))
-        self.lbl_tile.grid(column=0,row=0, pady=(0,25),sticky='w')
+        self.lbl_title = ttk.Label(self.frm_center, text='Crie uma conta',  bootstyle='primary',font=('TkDefaultFont', 14, 'bold'))
+        self.lbl_title.grid(column=0,row=0, pady=(0,25),sticky='w')
 
         # Nome do usuário
         self.lbl_name = ttk.Label(self.frm_center, text='Nome:',font=('TkDefaultFont', 10, 'bold'))
@@ -91,7 +91,7 @@ class CadastroUserView:
         cpf = self.ent_CPF.get().replace(".","").replace("-","")
         telefone = self.ent_phone.get().replace("(","").replace(")","")
 
-        if len(telefone) >= 11 and nome != "" and len(cpf) == 11 and len(senha) >= 8 and confirmar_senha == senha:
+        if telefone.isdigit() and len(telefone) >= 11 and nome != "" and len(cpf) == 11 and len(senha) >= 8 and confirmar_senha == senha:
             self.btn_save.config(state='enable')
         else:
             self.btn_save.config(state='disabled')
