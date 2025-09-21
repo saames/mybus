@@ -2,19 +2,21 @@ import ttkbootstrap as ttk
 from control.login_control import LoginControl
 from resources.utils import Utils
 from resources.photos import Base64
-from resources.utils import Utils
 from view.user_view.cadastro.cadastro_user import (CadastroUserView)
+from control.login_control import LoginControl
 
 class LoginView:
     def __init__(self, master):
         self.janela = master
         self.janela.title('Login - MyBus')
         self.janela.geometry('440x380')
+        self.janela.resizable(False, False)
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.pack()
 
-        #Login Control
+        # Criação de Instâncias
         self.login_control = LoginControl()
+        self.utils = Utils()
 
         # Logo MyBus
         self.img_logo = ttk.PhotoImage(data=Base64.myBusLogo128())
@@ -32,7 +34,7 @@ class LoginView:
         self.ent_username = ttk.Entry(self.frm_center, textvariable=self.ent_username_value)
         self.ent_username.grid(column=1, row=1)
         self.ent_username.bind('<KeyRelease>', self.validar_campos)
-        Utils.add_placeholder(self.ent_username,'XXX.XXX.XXX-XX')
+        self.utils.add_placeholder(self.ent_username,'XXX.XXX.XXX-XX')
 
         # Senha
         self.lbl_password = ttk.Label(self.frm_center, text='SENHA', bootstyle='inverse-secondary', 
@@ -59,6 +61,8 @@ class LoginView:
         self.lbl_login = ttk.Label(self.frm_center)
         self.lbl_login.grid(column=0, row=5, columnspan=2, pady=10)
 
+        self.utils.centraliza(self.janela)
+
     # Restrições básicas para autenticação
     def validar_campos(self, *event):
         cpf = self.ent_username.get().replace(".","").replace("-","")
@@ -74,8 +78,10 @@ class LoginView:
     def abrir_cadastro_usuario(self, event):
         self.janela.withdraw() # Oculta janela, iconify() para apenas minimizar.
         self.janela_cadastro = ttk.Toplevel(self.janela)
-        self.janela_cadastro.grab_set() # Impede interação com as demais janelas
-        CadastroUserView(self.janela_cadastro, self.janela)
+        #self.janela_cadastro.grab_set() # Impede interação com as demais janelas
+        CadastroUserView(self.janela_cadastro)
+        self.janela.wait_window(self.janela_cadastro) # .wait_window() aguarda o fechamento da janela_cadastro para rodar o deiconify.
+        self.janela.deiconify()
 
     def pedir_autenticacao(self, event):
         username = self.ent_username_value.get()
