@@ -33,7 +33,7 @@ class OnibusForm:
         self.ent_plate = ttk.Entry(self.frm_center)
         self.ent_plate.grid(column=0, row=4, sticky='ew', pady=(0, 10))
         self.ent_plate.bind('<KeyRelease>', self.validar_campos)
-        Utils.add_placeholder(self.ent_plate,'XXXXXXX')
+        Utils.add_placeholder(self.janela, self.ent_plate,'XXXXXXX')
 
 
         # Status do ônibus
