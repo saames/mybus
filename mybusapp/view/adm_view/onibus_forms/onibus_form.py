@@ -106,5 +106,3 @@ class OnibusForm:
         can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro no sistema?')
         if can == 'yes':
             self.janela.destroy()
-            if self.janela_origem:
-                self.janela_origem.deiconify()
