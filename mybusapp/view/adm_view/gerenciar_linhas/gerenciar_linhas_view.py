@@ -16,6 +16,9 @@ class GerenciarLinhasView:
         self.utils = Utils()
         self.gerenciar_linhas_control = GerenciarLinhasControl()
 
+
+        #Pegando
+
         # Botão voltar
         self.style = ttk.Style()
         self.style.configure('large.TButton', font=('TkDefaultFont', 18, 'bold'))
@@ -70,11 +73,6 @@ class GerenciarLinhasView:
         self.btn_rotas = ttk.Button(self.frm_menu, text='Rotas', bootstyle='secondary')
         self.btn_rotas.grid(column=6, row=0, padx=2)
         self.btn_rotas.bind('<ButtonRelease-1>')
-
-
-
-
-
 
         self.utils.centraliza(self.janela)
 
