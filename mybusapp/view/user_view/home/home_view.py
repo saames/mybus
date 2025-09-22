@@ -5,7 +5,7 @@ from resources.utils import Utils
 
 
 class HomeLinhaView:
-    def __init__(self,master,janela_origem=None):
+    def __init__(self,master, janela_origem=None, papel="user"):
         # Ajustes janela
         self.janela_origem = janela_origem
         self.janela = master
@@ -35,26 +35,27 @@ class HomeLinhaView:
         self.janela.grid_rowconfigure(1, weight=1)
         self.frm_center.columnconfigure(0, weight=1)
 
-        
 
-        # Botão Visualizar linhas 
+        # Botão Visualizar linhas
         self.btn_visualizar = ttk.Button(self.frm_center,text="VISUALIZAR LINHAS",bootstyle='primary',width=20)
         self.btn_visualizar.grid(row=0, column=0, padx=10, pady=10, sticky='n')
         self.btn_visualizar.bind('<ButtonRelease-1>', self.sair)
-        # Botão Gerenciar linhas 
-        self.btn_gerenciar_linha = ttk.Button(self.frm_center,text="GERENCIAR LINHAS",bootstyle='primary',width=20)
-        self.btn_gerenciar_linha.grid(row=1, column=0, padx=10, pady=10, sticky='n')
-        self.btn_gerenciar_linha.bind('<ButtonRelease-1>', self.sair)
 
-        # Botão Gerenciar Onibus
-        self.btn_grerenciar_onibus = ttk.Button(self.frm_center,text="GERENCIAR ONIBUS",bootstyle='primary',width=20)
-        self.btn_grerenciar_onibus.grid(row=2, column=0, padx=10, pady=10, sticky='n')
-        self.btn_grerenciar_onibus.bind('<ButtonRelease-1>', self.sair)
+        if (papel == "adm"):
+            # Botão Gerenciar linhas
+            self.btn_gerenciar_linha = ttk.Button(self.frm_center,text="GERENCIAR LINHAS",bootstyle='primary',width=20)
+            self.btn_gerenciar_linha.grid(row=1, column=0, padx=10, pady=10, sticky='n')
+            self.btn_gerenciar_linha.bind('<ButtonRelease-1>', self.sair)
 
-        # Botão Gerenciar Usuario 
-        self.btn_gerenciar_usuario = ttk.Button(self.frm_center,text="GERENCIAR USUARIO",bootstyle='primary',width=20)
-        self.btn_gerenciar_usuario.grid(row=3, column=0, padx=10, pady=10, sticky='n')
-        self.btn_gerenciar_usuario.bind('<ButtonRelease-1>', self.sair)
+            # Botão Gerenciar Onibus
+            self.btn_grerenciar_onibus = ttk.Button(self.frm_center,text="GERENCIAR ONIBUS",bootstyle='primary',width=20)
+            self.btn_grerenciar_onibus.grid(row=2, column=0, padx=10, pady=10, sticky='n')
+            self.btn_grerenciar_onibus.bind('<ButtonRelease-1>', self.sair)
+
+            # Botão Gerenciar Usuario
+            self.btn_gerenciar_usuario = ttk.Button(self.frm_center,text="GERENCIAR USUARIO",bootstyle='primary',width=20)
+            self.btn_gerenciar_usuario.grid(row=3, column=0, padx=10, pady=10, sticky='n')
+            self.btn_gerenciar_usuario.bind('<ButtonRelease-1>', self.sair)
 
 
     
