@@ -80,12 +80,9 @@ class LoginView:
     # Abre a janela CadastroUsuarioView
     def abrir_cadastro_usuario(self, event):
         self.reiniciar_tela()
-        self.janela.withdraw() # Oculta janela, iconify() para apenas minimizar.
         self.tl = ttk.Toplevel(self.janela)
-        #self.janela_cadastro.grab_set() # Impede interação com as demais janelas
         CadastroUserView(self.tl)
-        self.janela.wait_window(self.tl) # .wait_window() aguarda o fechamento da janela_cadastro para rodar o deiconify.
-        self.janela.deiconify()
+        self.utils.call_top_view(self.janela, self.tl)
 
     def pedir_autenticacao(self, event):
         username = self.ent_username_value.get()
@@ -101,12 +98,10 @@ class LoginView:
                 f"Status:{result[5]}"
             )"""
             self.reiniciar_tela()
-            self.janela.withdraw()  # Oculta janela, iconify() para apenas minimizar.
             self.tl = ttk.Toplevel(self.janela)
             HomeLinhaView(self.tl, None, result[4])
-            self.janela.wait_window(
-                self.tl)  # .wait_window() aguarda o fechamento da janela_cadastro para rodar o deiconify.
-            self.janela.deiconify()
+            self.utils.call_top_view(self.janela, self.tl)
+
         else:
             lbl_login_value = (
                 f"Login Invalido"
