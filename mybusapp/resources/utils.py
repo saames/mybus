@@ -42,3 +42,11 @@ class Utils:
         # Associa as funções (event handlers) aos eventos de foco do widget
         entry.bind("<FocusIn>", ativar)
         entry.bind("<FocusOut>", desativar)
+
+
+    def call_top_view(self, master, tl):
+        janela = master
+        janela.withdraw()  # Oculta janela, iconify() para apenas minimizar.
+        janela.wait_window(
+            tl)  # .wait_window() aguarda o fechamento da janela_cadastro para rodar o deiconify.
+        janela.deiconify()
