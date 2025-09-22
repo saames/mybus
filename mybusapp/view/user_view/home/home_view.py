@@ -2,10 +2,13 @@ import tkinter as tk
 import ttkbootstrap as ttk
 from resources.photos import Base64
 from resources.utils import Utils
+from view.user_view.linha.visualizar_linha import VisualizarLinhaView
+from view.adm_view.gerenciar_linhas.gerenciar_linhas_view import GerenciarLinhasView
+from view.adm_view.gerenciar_onibus.gerenciar_onibus_view import GerenciarOnibusView
 
 
 class HomeLinhaView:
-    def __init__(self,master,janela_origem=None):
+    def __init__(self,master, janela_origem=None, papel="adm"):
         # Ajustes janela
         self.janela_origem = janela_origem
         self.janela = master
@@ -13,6 +16,10 @@ class HomeLinhaView:
         self.janela.title('Home Linha')
         self.janela.resizable(False,False)
 
+        #Criando Instancias
+        self.utils = Utils()
+
+        self.utils.centraliza(self.janela)
 
         # Configura as colunas para expandir igualmente
         self.janela.grid_columnconfigure(0, weight=1)
@@ -35,28 +42,46 @@ class HomeLinhaView:
         self.janela.grid_rowconfigure(1, weight=1)
         self.frm_center.columnconfigure(0, weight=1)
 
-        
-
-        # Botão Visualizar linhas 
+        # Botão Visualizar linhas
         self.btn_visualizar = ttk.Button(self.frm_center,text="VISUALIZAR LINHAS",bootstyle='primary',width=20)
         self.btn_visualizar.grid(row=0, column=0, padx=10, pady=10, sticky='n')
-        self.btn_visualizar.bind('<ButtonRelease-1>', self.sair)
-        # Botão Gerenciar linhas 
-        self.btn_gerenciar_linha = ttk.Button(self.frm_center,text="GERENCIAR LINHAS",bootstyle='primary',width=20)
-        self.btn_gerenciar_linha.grid(row=1, column=0, padx=10, pady=10, sticky='n')
-        self.btn_gerenciar_linha.bind('<ButtonRelease-1>', self.sair)
+        self.btn_visualizar.bind('<ButtonRelease-1>', self.visualizar_Linha)
 
-        # Botão Gerenciar Onibus
-        self.btn_grerenciar_onibus = ttk.Button(self.frm_center,text="GERENCIAR ONIBUS",bootstyle='primary',width=20)
-        self.btn_grerenciar_onibus.grid(row=2, column=0, padx=10, pady=10, sticky='n')
-        self.btn_grerenciar_onibus.bind('<ButtonRelease-1>', self.sair)
+        if (papel == "adm"):
+            # Botão Gerenciar linhas
+            self.btn_gerenciar_linha = ttk.Button(self.frm_center,text="GERENCIAR LINHAS",bootstyle='primary',width=20)
+            self.btn_gerenciar_linha.grid(row=1, column=0, padx=10, pady=10, sticky='n')
+            self.btn_gerenciar_linha.bind('<ButtonRelease-1>', self.gerenciar_linha)
 
-        # Botão Gerenciar Usuario 
-        self.btn_gerenciar_usuario = ttk.Button(self.frm_center,text="GERENCIAR USUARIO",bootstyle='primary',width=20)
-        self.btn_gerenciar_usuario.grid(row=3, column=0, padx=10, pady=10, sticky='n')
-        self.btn_gerenciar_usuario.bind('<ButtonRelease-1>', self.sair)
+            # Botão Gerenciar Onibus
+            self.btn_grerenciar_onibus = ttk.Button(self.frm_center,text="GERENCIAR ONIBUS",bootstyle='primary',width=20)
+            self.btn_grerenciar_onibus.grid(row=2, column=0, padx=10, pady=10, sticky='n')
+            self.btn_grerenciar_onibus.bind('<ButtonRelease-1>', self.gereciar_onibus)
+
+            # Botão Gerenciar Usuario
+            self.btn_gerenciar_usuario = ttk.Button(self.frm_center,text="GERENCIAR USUARIO",bootstyle='primary',width=20)
+            self.btn_gerenciar_usuario.grid(row=3, column=0, padx=10, pady=10, sticky='n')
+            self.btn_gerenciar_usuario.bind('<ButtonRelease-1>', self.sair)
 
 
-    
+
+    def visualizar_Linha(self, event):
+        self.tl = ttk.Toplevel(self.janela)
+        VisualizarLinhaView(self.tl)
+        self.utils.call_top_view(self.janela, self.tl)
+
+    def gerenciar_linha(self, event):
+        self.tl = ttk.Toplevel(self.janela)
+        GerenciarLinhasView(self.tl)
+        self.utils.call_top_view(self.janela, self.tl)
+
+
+    def gereciar_onibus(self, event):
+        self.janela.withdraw()  # Oculta janela, iconify() para apenas minimizar.
+        self.tl = ttk.Toplevel(self.janela)
+        GerenciarOnibusView(self.tl)
+        self.utils.call_top_view(self.janela, self.tl)
+
+
     def sair(self, event):
         self.janela.destroy()

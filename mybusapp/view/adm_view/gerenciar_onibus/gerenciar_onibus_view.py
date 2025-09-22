@@ -44,7 +44,7 @@ class GerenciarOnibusView:
         self.tvw.column('numero', anchor='center', width=200, minwidth=100)
         self.tvw.column('placa', anchor='center', width=200, minwidth=200)
         self.tvw.column('status', anchor='center', width=200, minwidth=200)
-        self.tvw.column('linha associada', anchor='center', width=200, minwidth=200)
+        self.tvw.column('linha associada', anchor='center', width=300, minwidth=200)
 
         # Scrollbar da Tabela
         self.brl = ttk.Scrollbar(self.frm_center, command=self.tvw.yview)
@@ -82,24 +82,22 @@ class GerenciarOnibusView:
         for item in dados:
             self.tvw.delete(item)
         tuplas = self.ge_onibus.listar_onibus()
+
         for item in tuplas:
             valores = list(item) # Converte para lista 
             
-            if valores[3] == '1': # Verificando os status, se for 1 é ativo, se for 0 é inativo
+            if valores[3] == 1: # Verificando os status, se for 1 é ativo, se for 0 é inativo
                 valores[3] = 'Ativo'
-            elif valores[3] == '0':
+            elif valores[3] == 0:
                 valores[3] = 'Inativo'
             
-            if valores[4] == 'None': # Verificando se veio alguma linha
+            if valores[4] == None: # Verificando se veio alguma linha
                 valores[4] = 'Nenhuma linha associada'
 
             self.tvw.insert('', 'end', values=valores)
 
      # Abre a janela OnibusForm
     def abrir_cadastro_onibus(self, event):
-        self.janela.withdraw() # Oculta janela, iconify() para apenas minimizar.
-        self.janela_cadastro = ttk.Toplevel(self.janela)
-        #self.janela_cadastro.grab_set() # Impede interação com as demais janelas
-        OnibusForm(self.janela_cadastro)
-        self.janela.wait_window(self.janela_cadastro) # .wait_window() aguarda o fechamento da janela_cadastro para rodar o deiconify.
-        self.janela.deiconify()
+        self.tl = ttk.Toplevel(self.janela)
+        OnibusForm(self.tl)
+        self.utils.call_top_view(self.janela, self.tl)

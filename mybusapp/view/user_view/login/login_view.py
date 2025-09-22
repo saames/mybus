@@ -1,7 +1,10 @@
+from tkinter import mainloop
+
 import ttkbootstrap as ttk
 from control.login_control import LoginControl
 from resources.utils import Utils
 from resources.photos import Base64
+from view.user_view.home.home_view import HomeLinhaView
 from view.user_view.cadastro.cadastro_user import (CadastroUserView)
 from control.login_control import LoginControl
 
@@ -76,29 +79,36 @@ class LoginView:
 
     # Abre a janela CadastroUsuarioView
     def abrir_cadastro_usuario(self, event):
-        self.janela.withdraw() # Oculta janela, iconify() para apenas minimizar.
-        self.janela_cadastro = ttk.Toplevel(self.janela)
-        #self.janela_cadastro.grab_set() # Impede interação com as demais janelas
-        CadastroUserView(self.janela_cadastro)
-        self.janela.wait_window(self.janela_cadastro) # .wait_window() aguarda o fechamento da janela_cadastro para rodar o deiconify.
-        self.janela.deiconify()
+        self.reiniciar_tela()
+        self.tl = ttk.Toplevel(self.janela)
+        CadastroUserView(self.tl)
+        self.utils.call_top_view(self.janela, self.tl)
 
     def pedir_autenticacao(self, event):
         username = self.ent_username_value.get()
         password = self.ent_password_value.get()
         result = self.login_control.autenticar(f"'{username}'", f"'{password}'")
         if(result):
-            lbl_login_value = (
+            """lbl_login_value = (
                 f"Usuario logado id: {result[0]}\n"
                 f"Nome:{result[0]}\n"
                 f"CPF:{result[1]}\n"
                 f"Telefone:{result[2]}\n"
                 f"Papel:{result[4]}\n"
                 f"Status:{result[5]}"
-            )
-            self.lbl_login.config(text=lbl_login_value)
+            )"""
+            self.reiniciar_tela()
+            self.tl = ttk.Toplevel(self.janela)
+            HomeLinhaView(self.tl, None, result[4])
+            self.utils.call_top_view(self.janela, self.tl)
+
         else:
             lbl_login_value = (
                 f"Login Invalido"
             )
             self.lbl_login.config(text=lbl_login_value)
+
+    def reiniciar_tela(self):
+        self.ent_username_value.set("")
+        self.ent_password_value.set("")
+        self.btn_acessar.config(state='disabled')
