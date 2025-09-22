@@ -5,7 +5,7 @@ from resources.utils import Utils
 from view.user_view.linha.visualizar_linha import VisualizarLinhaView
 from view.adm_view.gerenciar_linhas.gerenciar_linhas_view import GerenciarLinhasView
 from view.adm_view.gerenciar_onibus.gerenciar_onibus_view import GerenciarOnibusView
-
+from view.adm_view.gerenciar_usuarios.gerenciar_usuarios_view import GerenciarUsuariosView
 
 class HomeLinhaView:
     def __init__(self,master, janela_origem=None, papel="adm"):
@@ -61,7 +61,7 @@ class HomeLinhaView:
             # Botão Gerenciar Usuario
             self.btn_gerenciar_usuario = ttk.Button(self.frm_center,text="GERENCIAR USUARIO",bootstyle='primary',width=20)
             self.btn_gerenciar_usuario.grid(row=3, column=0, padx=10, pady=10, sticky='n')
-            self.btn_gerenciar_usuario.bind('<ButtonRelease-1>', self.sair)
+            self.btn_gerenciar_usuario.bind('<ButtonRelease-1>', self.gereciar_usuarios)
 
 
 
@@ -82,6 +82,11 @@ class HomeLinhaView:
         GerenciarOnibusView(self.tl)
         self.utils.call_top_view(self.janela, self.tl)
 
+    def gereciar_usuarios(self, event):
+        self.janela.withdraw() 
+        self.tl = ttk.Toplevel(self.janela)
+        GerenciarUsuariosView(self.tl)
+        self.utils.call_top_view(self.janela, self.tl)
 
     def sair(self, event):
         self.janela.destroy()
