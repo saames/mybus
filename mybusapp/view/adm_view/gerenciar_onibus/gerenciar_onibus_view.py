@@ -1,0 +1,105 @@
+import ttkbootstrap as ttk
+import tkintermapview as tkmap
+from control.gerenciar_onibus_control import GerenciarOnibusControl
+from view.adm_view.onibus_forms.onibus_form import OnibusForm
+from resources.utils import Utils
+
+
+class GerenciarOnibusView:
+    def __init__(self,master, janela_origem=None):
+        self.janela = master
+        self.janela.title('Gerenciar Ônibus - MyBus')
+        #self.janela.geometry('700x500')
+        #self.janela.resizable(False, False)
+        self.frm_center = ttk.Frame(self.janela)
+        self.frm_center.grid(column=0, row=0, padx=10, pady=10)
+
+        # Criação de Instâncias
+        self.utils = Utils()
+        self.ge_onibus = GerenciarOnibusControl()
+
+        # Botão voltar
+        self.style = ttk.Style()
+        self.style.configure('large.TButton', font=('TkDefaultFont', 18, 'bold'))
+        self.btn_voltar = ttk.Button(self.frm_center, text='⬅', style='large.TButton')
+        self.btn_voltar.grid(column=0, row=0, sticky='wn')
+        self.btn_voltar.bind('<ButtonRelease-1>')
+
+        # Título da janela
+        self.lbl_titulo = ttk.Label(self.frm_center, text='Gerenciar Ônibus', bootstyle='primary-inverse', padding=(229, 11))
+        self.lbl_titulo.grid(column=0, row=0, columnspan=2)
+
+        # Tabela (cabeçalho + corpo)
+        colunas = ['id', 'numero', 'placa', 'status', 'linha associada']
+        self.tvw = ttk.Treeview(self.frm_center, height=8, columns=colunas, show='headings')
+        self.tvw.heading('id', text='ID')
+        self.tvw.heading('numero', text='NÚMERO')
+        self.tvw.heading('placa', text='PLACA')
+        self.tvw.heading('status', text='STATUS')
+        self.tvw.heading('linha associada', text='LINHA ASSOCIADA')
+        self.tvw.grid(column=0, row=1, columnspan=2, pady=6, sticky='we')
+
+        # Alinha o campo com a coluna
+        self.tvw.column('id', anchor='center', width=200, minwidth=100)
+        self.tvw.column('numero', anchor='center', width=200, minwidth=100)
+        self.tvw.column('placa', anchor='center', width=200, minwidth=200)
+        self.tvw.column('status', anchor='center', width=200, minwidth=200)
+        self.tvw.column('linha associada', anchor='center', width=200, minwidth=200)
+
+        # Scrollbar da Tabela
+        self.brl = ttk.Scrollbar(self.frm_center, command=self.tvw.yview)
+        self.brl.grid(column=2, row=1, sticky='ns', pady=6)
+        self.tvw.configure(yscrollcommand=self.brl.set)
+
+        # Gerando tuplas
+        self.atualizar_tabela()
+
+        # Botões
+        self.frm_menu = ttk.Frame(self.frm_center)
+        self.frm_menu.grid(column=0, row=2, columnspan=3) 
+        
+        self.entr_busca = ttk.Entry(self.frm_menu)
+        self.entr_busca.grid(column=0, row=0, columnspan=2, sticky='ew')
+        self.btn_buscar = ttk.Button(self.frm_menu, text='Buscar')
+        self.btn_buscar.grid(column=2, row=0, padx=(5, 0)) 
+
+        self.btn_cadastrar = ttk.Button(self.frm_menu, text='Cadastrar', bootstyle='success')
+        self.btn_cadastrar.grid(column=0, row=1, padx=2, pady=(10, 0), sticky='ew')
+        self.btn_cadastrar.bind('<ButtonRelease-1>', self.abrir_cadastro_onibus)
+
+        self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning')
+        self.btn_editar.grid(column=1, row=1, padx=2, pady=(10, 0), sticky='ew')
+        self.btn_editar.bind('<ButtonRelease-1>')
+
+        self.btn_excluir = ttk.Button(self.frm_menu, text='Excluir', bootstyle='danger')
+        self.btn_excluir.grid(column=2, row=1, padx=2, pady=(10, 0), sticky='ew')
+        self.btn_excluir.bind('<ButtonRelease-1>')
+
+        self.utils.centraliza(self.janela)
+
+    def atualizar_tabela(self):
+        dados = self.tvw.get_children()
+        for item in dados:
+            self.tvw.delete(item)
+        tuplas = self.ge_onibus.listar_onibus()
+        for item in tuplas:
+            valores = list(item) # Converte para lista 
+            
+            if valores[3] == '1': # Verificando os status, se for 1 é ativo, se for 0 é inativo
+                valores[3] = 'Ativo'
+            elif valores[3] == '0':
+                valores[3] = 'Inativo'
+            
+            if valores[4] == 'None': # Verificando se veio alguma linha
+                valores[4] = 'Nenhuma linha associada'
+
+            self.tvw.insert('', 'end', values=valores)
+
+     # Abre a janela OnibusForm
+    def abrir_cadastro_onibus(self, event):
+        self.janela.withdraw() # Oculta janela, iconify() para apenas minimizar.
+        self.janela_cadastro = ttk.Toplevel(self.janela)
+        #self.janela_cadastro.grab_set() # Impede interação com as demais janelas
+        OnibusForm(self.janela_cadastro)
+        self.janela.wait_window(self.janela_cadastro) # .wait_window() aguarda o fechamento da janela_cadastro para rodar o deiconify.
+        self.janela.deiconify()

@@ -1,0 +1,10 @@
+Remove todos os arquivos 'pycache':
+find . -type d -name "__pycache__" -exec rm -r {} +
+
+Cria um execultável (executar na pasta mybus)
+pyinstaller \
+--name mybus \
+--onefile \
+--windowed \
+--add-data "mybusapp/resources:resources" \
+mybusapp/main.py

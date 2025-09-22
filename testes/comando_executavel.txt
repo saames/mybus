@@ -1,8 +1,0 @@
-Exec na pasta 'mybus':
-
-pyinstaller \
---name mybus \
---onefile \
---windowed \
---add-data "mybusapp/resources:resources" \
-mybusapp/main.py

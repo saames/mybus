@@ -5,16 +5,16 @@ from tkinter import messagebox
 from control.cadastrar_control import Cadastra_control
 
 class CadastroUserView:
-    def __init__(self, master, janela_origem=None):
+    def __init__(self, master):
         # Ajustes na janela
-        self.janela_origem = janela_origem
         self.janela = master 
         self.janela.geometry('450x550')
         self.janela.title(" Formulário para Cadastro - MyBus")
         self.janela.resizable(False, False)
 
-        #Cadastrar control para conexão com o banco
+        # Criação de Instâncias
         self.cadastrar_control = Cadastra_control()
+        self.utils = Utils()
 
         # Frame para centralizar os componentes no meio da janela
         self.frm_center = ttk.Frame(self.janela)
@@ -22,8 +22,8 @@ class CadastroUserView:
         self.frm_center.columnconfigure(0, weight=1)
 
         # Titulo
-        self.lbl_tile = ttk.Label(self.frm_center, text='Crie uma conta',  bootstyle='primary',font=('TkDefaultFont', 14, 'bold'))
-        self.lbl_tile.grid(column=0,row=0, pady=(0,25),sticky='w')
+        self.lbl_title = ttk.Label(self.frm_center, text='Crie uma conta',  bootstyle='primary',font=('TkDefaultFont', 14, 'bold'))
+        self.lbl_title.grid(column=0,row=0, pady=(0,25),sticky='w')
 
         # Nome do usuário
         self.lbl_name = ttk.Label(self.frm_center, text='Nome:',font=('TkDefaultFont', 10, 'bold'))
@@ -40,7 +40,7 @@ class CadastroUserView:
         self.ent_CPF = ttk.Entry(self.frm_center, textvariable=self.ent_CPF_value)
         self.ent_CPF.grid(column=0, row=4, sticky='ew', pady=(0, 10))
         self.ent_CPF.bind('<KeyRelease>', self.validar_campos)
-        Utils.add_placeholder(self.ent_CPF,'XXX.XXX.XXX-XX')
+        self.utils.add_placeholder(self.ent_CPF,'XXX.XXX.XXX-XX')
 
         # Telefone do usuário 
         self.lbl_phone = ttk.Label(self.frm_center, text='Telefone:', font=('TkDefaultFont', 10, 'bold'))
@@ -49,7 +49,7 @@ class CadastroUserView:
         self.ent_phone = ttk.Entry(self.frm_center, textvariable=self.ent_phone_value)
         self.ent_phone.grid(column=0, row=6, sticky='ew', pady=(0, 10))
         self.ent_phone.bind('<KeyRelease>', self.validar_campos)
-        Utils.add_placeholder(self.ent_phone, '(XX)XXXXXXXXX')
+        self.utils.add_placeholder(self.ent_phone, '(XX)XXXXXXXXX')
 
         # Senha do usuário
         self.lbl_password = ttk.Label(self.frm_center, text='Senha (mínimo 8 dígitos):', font=('TkDefaultFont', 10, 'bold'))
@@ -81,6 +81,7 @@ class CadastroUserView:
         self.btn_save.grid(column=1, row=0, sticky='ew', padx=(5, 0))
         self.btn_save.bind('<ButtonRelease-1>', self.cadastrar)
 
+        self.utils.centraliza(self.janela)
 
     def validar_campos(self, event):
         nome = self.ent_name.get()
@@ -90,7 +91,7 @@ class CadastroUserView:
         cpf = self.ent_CPF.get().replace(".","").replace("-","")
         telefone = self.ent_phone.get().replace("(","").replace(")","")
 
-        if len(telefone) >= 11 and nome != "" and len(cpf) == 11 and len(senha) >= 8 and confirmar_senha == senha:
+        if telefone.isdigit() and len(telefone) >= 11 and nome != "" and len(cpf) == 11 and len(senha) >= 8 and confirmar_senha == senha:
             self.btn_save.config(state='enable')
         else:
             self.btn_save.config(state='disabled')
@@ -99,8 +100,6 @@ class CadastroUserView:
         can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro no sistema?')
         if can == 'yes':
             self.janela.destroy()
-            if self.janela_origem:
-                self.janela_origem.deiconify()
 
     def cadastrar(self, event):
         name = self.ent_name_value.get()
@@ -111,7 +110,6 @@ class CadastroUserView:
         if(result):
             messagebox.showinfo("Informação", "Cadastro realizado com sucesso!")
             self.janela.destroy()
-            if self.janela_origem:
-                self.janela_origem.deiconify()
+
 
 
