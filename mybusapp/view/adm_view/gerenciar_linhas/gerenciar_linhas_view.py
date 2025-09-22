@@ -2,6 +2,7 @@ import ttkbootstrap as ttk
 import tkintermapview as tkmap
 from resources.utils import Utils
 from control.gerenciar_linhas_control import GerenciarLinhasControl
+from view.adm_view.criar_linhas.criar_linhas_view import CriarLinhaView
 
 class GerenciarLinhasView:
     def __init__(self, master):
@@ -53,7 +54,7 @@ class GerenciarLinhasView:
 
         self.btn_cadastrar = ttk.Button(self.frm_menu, text='Cadastrar', bootstyle='success')
         self.btn_cadastrar.grid(column=0, row=0, padx=2)
-        self.btn_cadastrar.bind('<ButtonRelease-1>')
+        self.btn_cadastrar.bind('<ButtonRelease-1>', self.criar_linha)
 
         self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning')
         self.btn_editar.grid(column=1, row=0, padx=2)
@@ -83,3 +84,9 @@ class GerenciarLinhasView:
         tuplas = self.gerenciar_linhas_control.listar_linhas()
         for item in tuplas:
             self.tvw.insert('', 'end', values=item)
+
+    def criar_linha(self, event):
+        self.tl = ttk.Toplevel(self.janela)
+        CriarLinhaView(self.tl)
+        self.utils.call_top_view(self.janela, self.tl)
+
