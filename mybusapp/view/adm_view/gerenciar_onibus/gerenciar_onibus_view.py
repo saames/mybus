@@ -58,10 +58,12 @@ class GerenciarOnibusView:
         # Botões
         self.frm_menu = ttk.Frame(self.frm_center)
         self.frm_menu.grid(column=0, row=2, columnspan=3) 
-        
-        self.entr_busca = ttk.Entry(self.frm_menu)
+
+        self.entr_busca_value = ttk.StringVar()
+        self.entr_busca = ttk.Entry(self.frm_menu, textvariable=self.entr_busca_value)
         self.entr_busca.grid(column=0, row=0, columnspan=2, sticky='ew')
         self.btn_buscar = ttk.Button(self.frm_menu, text='Buscar')
+        self.btn_buscar.bind('<ButtonRelease-1>', self.pesquisar_onibus)
         self.btn_buscar.grid(column=2, row=0, padx=(5, 0)) 
 
         self.btn_cadastrar = ttk.Button(self.frm_menu, text='Cadastrar', bootstyle='success')
@@ -78,21 +80,23 @@ class GerenciarOnibusView:
 
         self.utils.centraliza(self.janela)
 
-    def atualizar_tabela(self):
+    def atualizar_tabela(self, tuplas=None):
         dados = self.tvw.get_children()
         for item in dados:
             self.tvw.delete(item)
-        tuplas = self.ge_onibus.listar_onibus()
+
+        if(tuplas == None):
+            tuplas = self.ge_onibus.listar_onibus()
 
         for item in tuplas:
-            valores = list(item) # Converte para lista 
-            
-            if valores[3] == 1: # Verificando os status, se for 1 é ativo, se for 0 é inativo
+            valores = list(item)  # Converte para lista
+
+            if valores[3] == 1:  # Verificando os status, se for 1 é ativo, se for 0 é inativo
                 valores[3] = 'Ativo'
             elif valores[3] == 0:
                 valores[3] = 'Inativo'
-            
-            if valores[4] == None: # Verificando se veio alguma linha
+
+            if valores[4] == None:  # Verificando se veio alguma linha
                 valores[4] = 'Nenhuma linha associada'
 
             self.tvw.insert('', 'end', values=valores)
@@ -112,6 +116,11 @@ class GerenciarOnibusView:
         OnibusForm(self.tl, result)
         self.utils.call_top_view(self.janela, self.tl)
         self.atualizar_tabela()
+
+    def pesquisar_onibus(self, event):
+        texto = self.entr_busca_value.get()
+        result = self.ge_onibus.pesquisar_onibus(texto)
+        self.atualizar_tabela(result)
 
     def excluir_onibus(self, event):
         selection = self.tvw.selection()

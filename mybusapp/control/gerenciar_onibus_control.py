@@ -13,6 +13,10 @@ class GerenciarOnibusControl:
         result = self.model.find("Onibus", f"id = {id}")
         return result
 
+    def pesquisar_onibus(self, termobusca):
+        result = self.model.search(termobusca)
+        return result
+
     def inserir_onibus(self, numero, placa, status, linha_id = None):
 
         if linha_id != None:
