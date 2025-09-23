@@ -30,7 +30,7 @@ class GerenciarOnibusControl:
         if linha_id != None:
             result = self.model.update("Onibus(numero, placa, status, linha_id)", (f"'{numero}'", f"'{placa}'", status, linha_id), id)
         else:
-            result = self.model.update("Onibus(numero, placa, status)", (f"'{numero}'", f"'{placa}'", status), id)
+            result = self.model.update("Onibus(numero, placa, status, linha_id)", (f"'{numero}'", f"'{placa}'", status, "NULL"), id)
 
         if(result):
             return result
