@@ -1,5 +1,6 @@
 import ttkbootstrap as ttk
 import tkintermapview as tkmap
+from tkinter import messagebox
 from control.gerenciar_onibus_control import GerenciarOnibusControl
 from view.adm_view.onibus_forms.onibus_form import OnibusForm
 from resources.utils import Utils
@@ -69,11 +70,11 @@ class GerenciarOnibusView:
 
         self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning')
         self.btn_editar.grid(column=1, row=1, padx=2, pady=(10, 0), sticky='ew')
-        self.btn_editar.bind('<ButtonRelease-1>')
+        self.btn_editar.bind('<ButtonRelease-1>', self.abrir_editar_onibus)
 
         self.btn_excluir = ttk.Button(self.frm_menu, text='Excluir', bootstyle='danger')
         self.btn_excluir.grid(column=2, row=1, padx=2, pady=(10, 0), sticky='ew')
-        self.btn_excluir.bind('<ButtonRelease-1>')
+        self.btn_excluir.bind('<ButtonRelease-1>', self.excluir_onibus)
 
         self.utils.centraliza(self.janela)
 
@@ -101,3 +102,24 @@ class GerenciarOnibusView:
         self.tl = ttk.Toplevel(self.janela)
         OnibusForm(self.tl)
         self.utils.call_top_view(self.janela, self.tl)
+        self.atualizar_tabela()
+
+    def abrir_editar_onibus(self, event):
+        selection = self.tvw.selection()
+        id = self.tvw.item(selection)['values'][0]
+        result = self.ge_onibus.buscar_onibus(id)[0]
+        self.tl = ttk.Toplevel(self.janela)
+        OnibusForm(self.tl, result)
+        self.utils.call_top_view(self.janela, self.tl)
+        self.atualizar_tabela()
+
+    def excluir_onibus(self, event):
+        selection = self.tvw.selection()
+        onibus = self.tvw.item(selection)['values']
+        id = onibus[0]
+        confirmar = messagebox.askquestion(f"Excluir onibus {onibus[1]} - {onibus[4]}", f"Voce Deseja excluir o onibus {onibus[1]} - {onibus[4]}")
+        if confirmar == "yes":
+            result = self.ge_onibus.excluir_onibus(id)
+            if(result):
+                messagebox.showinfo("Informação", "Processo realizado com sucesso")
+                self.atualizar_tabela()

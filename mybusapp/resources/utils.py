@@ -24,8 +24,9 @@ class Utils:
         estilo = ttk.Style()
         estilo.configure('Placeholder.TEntry', foreground='gray')
 
-        entry.insert(0, texto)
-        entry.configure(style='Placeholder.TEntry')
+        if len(entry.get()) == 0:
+            entry.insert(0, texto)
+            entry.configure(style='Placeholder.TEntry')
 
         def ativar(event):
             # Limpa o placeholder quando a entry recebe foco.
