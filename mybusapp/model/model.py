@@ -53,7 +53,6 @@ class Model:
     def search(self, table, *args):
         sql = f"SELECT * FROM {table} WHERE"
         for i in range(len(args)):
-
             if i != len(args) - 1:
                 sql += f" {args[i]} OR"
             else:

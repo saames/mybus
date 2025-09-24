@@ -58,10 +58,12 @@ class GerenciarUsuariosView:
         # Botões
         self.frm_menu = ttk.Frame(self.frm_center)
         self.frm_menu.grid(column=0, row=2, columnspan=3) 
-        
-        self.entr_busca = ttk.Entry(self.frm_menu)
+
+        self.entr_busca_value = ttk.StringVar()
+        self.entr_busca = ttk.Entry(self.frm_menu, textvariable=self.entr_busca_value)
         self.entr_busca.grid(column=0, row=0, columnspan=2, sticky='ew')
         self.btn_buscar = ttk.Button(self.frm_menu, text='Buscar')
+        self.btn_buscar.bind('<ButtonRelease-1>', self.pesquisar_usuario)
         self.btn_buscar.grid(column=2, row=0, padx=(5, 0)) 
 
         self.btn_cadastrar = ttk.Button(self.frm_menu, text='Cadastrar Administrador', bootstyle='success', command=self.cadastrar_adm)
@@ -78,11 +80,12 @@ class GerenciarUsuariosView:
 
         self.utils.centraliza(self.janela)
 
-    def atualizar_tabela(self):
+    def atualizar_tabela(self, tuplas=None):
         dados = self.tvw.get_children()
         for item in dados:
             self.tvw.delete(item)
-        tuplas = self.ge_usuarios.listar_usuarios()
+        if tuplas == None:
+            tuplas = self.ge_usuarios.listar_usuarios()
         for item in tuplas:
             valores = list(item) # Converte para lista
 
@@ -95,7 +98,7 @@ class GerenciarUsuariosView:
                 valores[4] = 'Ativo'
             elif valores[4] == 'I':
                 valores[4] = 'Inativo'
-            
+
 
             self.tvw.insert('', 'end', values=valores)
         
@@ -127,6 +130,10 @@ class GerenciarUsuariosView:
         else:
             messagebox.showwarning('Aviso', 'Selecione 1 usuário')
 
+    def pesquisar_usuario(self, event):
+        termobusca = self.entr_busca_value.get()
+        result = self.ge_usuarios.pesquisar_usuario(termobusca)
+        self.atualizar_tabela(result)
     
     def excluir(self):
         item = self.tvw.selection()
