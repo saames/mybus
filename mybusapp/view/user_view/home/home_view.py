@@ -66,26 +66,28 @@ class HomeLinhaView:
 
 
     def visualizar_Linha(self, event):
+        self.janela.withdraw() 
         self.tl = ttk.Toplevel(self.janela)
-        VisualizarLinhaView(self.tl)
+        VisualizarLinhaView(self.tl,self.janela)
         self.utils.call_top_view(self.janela, self.tl)
 
     def gerenciar_linha(self, event):
+        self.janela.withdraw() 
         self.tl = ttk.Toplevel(self.janela)
-        GerenciarLinhasView(self.tl)
+        GerenciarLinhasView(self.tl, self.janela) 
         self.utils.call_top_view(self.janela, self.tl)
 
 
     def gereciar_onibus(self, event):
-        self.janela.withdraw()  # Oculta janela, iconify() para apenas minimizar.
+        self.janela.withdraw() 
         self.tl = ttk.Toplevel(self.janela)
-        GerenciarOnibusView(self.tl)
+        GerenciarOnibusView(self.tl, self.janela)
         self.utils.call_top_view(self.janela, self.tl)
 
     def gereciar_usuarios(self, event):
         self.janela.withdraw() 
         self.tl = ttk.Toplevel(self.janela)
-        GerenciarUsuariosView(self.tl)
+        GerenciarUsuariosView(self.tl, self.janela)
         self.utils.call_top_view(self.janela, self.tl)
 
     def sair(self, event):

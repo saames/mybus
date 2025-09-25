@@ -7,8 +7,9 @@ from resources.utils import Utils
 
 
 class GerenciarUsuariosView:
-    def __init__(self,master, janela_origem=None):
+    def __init__(self,master, janela_origem):
         self.janela = master
+        self.janela_origem = janela_origem
         self.janela.title('Gerenciar Usuários - MyBus')
         #self.janela.geometry('700x500')
         #self.janela.resizable(False, False)
@@ -22,7 +23,7 @@ class GerenciarUsuariosView:
         # Botão voltar
         self.style = ttk.Style()
         self.style.configure('large.TButton', font=('TkDefaultFont', 18, 'bold'))
-        self.btn_voltar = ttk.Button(self.frm_center, text='⬅', style='large.TButton')
+        self.btn_voltar = ttk.Button(self.frm_center, text='⬅', style='large.TButton', command=self.voltar)
         self.btn_voltar.grid(column=0, row=0, sticky='wn')
         self.btn_voltar.bind('<ButtonRelease-1>')
 
@@ -161,4 +162,8 @@ class GerenciarUsuariosView:
         
         else:
             messagebox.showwarning('Aviso', 'Selecione 1 usuário')
+
+    def voltar(self):
+            self.janela.destroy() 
+            self.janela_origem.deiconify() 
 

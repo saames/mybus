@@ -6,7 +6,7 @@ from control.gerenciar_linhas_control import GerenciarLinhasControl
 from view.user_view.visualizar_rota.visualizar_rota_view import VisualizarRotaView
 
 class VisualizarLinhaView:
-    def __init__(self,master, janela_origem=None):
+    def __init__(self,master, janela_origem):
         # Ajustes janela
         self.janela_origem = janela_origem
         self.janela = master
@@ -18,7 +18,7 @@ class VisualizarLinhaView:
 
         self.style = ttk.Style()
         self.style.configure('large.TButton', font=('TkDefaultFont', 18, 'bold'))
-        self.btn_voltar = ttk.Button(self.janela, text='⬅', style='large.TButton')
+        self.btn_voltar = ttk.Button(self.janela, text='⬅', style='large.TButton', command=self.voltar)
         self.btn_voltar.grid(column=0, row=0, sticky='wn',padx=20,pady=30)
         self.btn_voltar.bind('<ButtonRelease-1>')
 
@@ -100,3 +100,7 @@ class VisualizarLinhaView:
         self.tl = ttk.Toplevel(self.janela)
         VisualizarRotaView(self.tl)
         self.utils.call_top_view(self.janela, self.tl)
+    
+    def voltar(self):
+            self.janela.destroy() 
+            self.janela_origem.deiconify() 

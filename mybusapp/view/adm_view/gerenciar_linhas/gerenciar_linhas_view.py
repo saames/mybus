@@ -5,8 +5,9 @@ from control.gerenciar_linhas_control import GerenciarLinhasControl
 from view.adm_view.criar_linhas.criar_linhas_view import CriarLinhaView
 
 class GerenciarLinhasView:
-    def __init__(self, master):
+    def __init__(self, master, janela_origem):
         self.janela = master
+        self.janela_ori = janela_origem
         self.janela.title('Gerenciar Linhas - MyBus')
         #self.janela.geometry('700x500')
         #self.janela.resizable(False, False)
@@ -23,7 +24,7 @@ class GerenciarLinhasView:
         # Botão voltar
         self.style = ttk.Style()
         self.style.configure('large.TButton', font=('TkDefaultFont', 18, 'bold'))
-        self.btn_voltar = ttk.Button(self.frm_center, text='⬅', style='large.TButton')
+        self.btn_voltar = ttk.Button(self.frm_center, text='⬅', style='large.TButton', command=self.voltar)
         self.btn_voltar.grid(column=0, row=0)
         self.btn_voltar.bind('<ButtonRelease-1>')
 
@@ -90,3 +91,6 @@ class GerenciarLinhasView:
         CriarLinhaView(self.tl)
         self.utils.call_top_view(self.janela, self.tl)
 
+    def voltar(self):
+            self.janela.destroy() 
+            self.janela_ori.deiconify() 
