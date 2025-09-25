@@ -50,6 +50,23 @@ class Model:
              print(er)
              return None
 
+    def search(self, table, *args):
+        sql = f"SELECT * FROM {table} WHERE"
+        for i in range(len(args)):
+            if i != len(args) - 1:
+                sql += f" {args[i]} OR"
+            else:
+                sql += f" {args[i]};"
+        try:
+            con = self.conexao.get_conexao()
+            cursor = con.cursor()
+            result = cursor.execute(sql).fetchall()
+            con.close()
+            return result
+        except Error as er:
+            print(er)
+            return None
+
     def update(self, table, values, id):
         """
         Atualiza um registro em uma tabela no banco de dados.
