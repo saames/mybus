@@ -6,6 +6,6 @@ from view.user_view.home.home_view import HomeLinhaView
 
 app = ttk.Window(themename='mybus')
 #VisualizarLinhaView(app)
-LoginView(app)
-#HomeLinhaView(app)
+#LoginView(app)
+HomeLinhaView(app)
 app.mainloop()

@@ -16,8 +16,11 @@ class VisualizarLinhaView:
 
         self.utils = Utils()
 
-        self.btn_voltar = ttk.Button(self.janela, bootstyle="danger", text="←", width=3,)
-        self.btn_voltar.grid(row=0, column=0, padx=10, pady=10, sticky='nw')
+        self.style = ttk.Style()
+        self.style.configure('large.TButton', font=('TkDefaultFont', 18, 'bold'))
+        self.btn_voltar = ttk.Button(self.janela, text='⬅', style='large.TButton')
+        self.btn_voltar.grid(column=0, row=0, sticky='wn',padx=20,pady=30)
+        self.btn_voltar.bind('<ButtonRelease-1>')
 
         # Pegando as linha do banco de dados
         self.gerenciar_linha = GerenciarLinhasControl()
