@@ -36,7 +36,7 @@ class VisualizarLinhaView:
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.grid(row=2, column=0, padx=40, pady=50)
 
-        colunas = ['id', 'numero', 'nome']
+        colunas = ['id', 'nome', 'numero']
         self.tvw = ttk.Treeview(self.frm_center, height=5,
                                 columns=colunas, show='headings')
         #Configurar o cabaçalho das colunas
@@ -99,10 +99,15 @@ class VisualizarLinhaView:
             self.tvw.insert('', 'end', values=item)
 
     def visualizar_rota(self, event):
-        self.tl = ttk.Toplevel(self.janela)
-        VisualizarRotaView(self.tl)
-        self.utils.call_top_view(self.janela, self.tl)
-    
+        item = self.tvw.selection()
+        if(item):
+            linha = self.tvw.item(item)['values']
+            self.tl = ttk.Toplevel(self.janela)
+            VisualizarRotaView(self.tl, linha)
+            self.utils.call_top_view(self.janela, self.tl)
+        else:
+            messagebox.showwarning("Error", "É necesserio selecionar uma linha.")
+
     def voltar(self):
             self.janela.destroy() 
             self.janela_origem.deiconify() 
