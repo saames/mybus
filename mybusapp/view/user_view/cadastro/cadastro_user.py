@@ -5,11 +5,15 @@ from tkinter import messagebox
 from control.cadastrar_control import Cadastra_control
 
 class CadastroUserView:
-    def __init__(self, master):
+    def __init__(self, master, usuario = None):
         # Ajustes na janela
-        self.janela = master 
+        self.janela = master
+        self.usuario = usuario
         self.janela.geometry('450x550')
-        self.janela.title(" Formulário para Cadastro - MyBus")
+        if(self.usuario == None):
+            self.janela.title(" Formulário para Cadastro - MyBus")
+        else:
+            self.janela.title(" Formulário para edição - MyBus")
         self.janela.resizable(False, False)
 
         # Criação de Instâncias
@@ -22,21 +26,29 @@ class CadastroUserView:
         self.frm_center.columnconfigure(0, weight=1)
 
         # Titulo
-        self.lbl_title = ttk.Label(self.frm_center, text='Crie uma conta',  bootstyle='primary',font=('TkDefaultFont', 14, 'bold'))
+        if(usuario == None):
+            lbl_title_text = "Crie uma conta"
+        else:
+            lbl_title_text = "Edite um usuario"
+        self.lbl_title = ttk.Label(self.frm_center, text=lbl_title_text,  bootstyle='primary',font=('TkDefaultFont', 14, 'bold'))
         self.lbl_title.grid(column=0,row=0, pady=(0,25),sticky='w')
 
         # Nome do usuário
         self.lbl_name = ttk.Label(self.frm_center, text='Nome:',font=('TkDefaultFont', 10, 'bold'))
         self.lbl_name.grid(column=0, row=1,sticky='w', pady=(0, 2))
         self.ent_name_value = ttk.StringVar()
+        if(self.usuario != None):
+            self.ent_name_value.set(self.usuario[1])
         self.ent_name = ttk.Entry(self.frm_center, textvariable=self.ent_name_value)
         self.ent_name.grid(column=0, row=2, sticky='ew', pady=(0,10))
         self.ent_name.bind('<KeyRelease>', self.validar_campos)
 
-        # CPF do usuário    
+        # CPF do usuário
         self.lbl_CPF = ttk.Label(self.frm_center, text='CPF:', font=('TkDefaultFont', 10, 'bold'))
         self.lbl_CPF.grid(column=0, row=3, sticky='w', pady=(0, 2))
         self.ent_CPF_value = ttk.StringVar()
+        if(self.usuario != None):
+            self.ent_CPF_value.set(self.usuario[2])
         self.ent_CPF = ttk.Entry(self.frm_center, textvariable=self.ent_CPF_value)
         self.ent_CPF.grid(column=0, row=4, sticky='ew', pady=(0, 10))
         self.ent_CPF.bind('<KeyRelease>', self.validar_campos)
@@ -46,6 +58,8 @@ class CadastroUserView:
         self.lbl_phone = ttk.Label(self.frm_center, text='Telefone:', font=('TkDefaultFont', 10, 'bold'))
         self.lbl_phone.grid(column=0, row=5, sticky='w', pady=(0, 2))
         self.ent_phone_value = ttk.StringVar()
+        if(self.usuario != None):
+            self.ent_phone_value.set(self.usuario[3])
         self.ent_phone = ttk.Entry(self.frm_center, textvariable=self.ent_phone_value)
         self.ent_phone.grid(column=0, row=6, sticky='ew', pady=(0, 10))
         self.ent_phone.bind('<KeyRelease>', self.validar_campos)
@@ -55,6 +69,8 @@ class CadastroUserView:
         self.lbl_password = ttk.Label(self.frm_center, text='Senha (mínimo 8 dígitos):', font=('TkDefaultFont', 10, 'bold'))
         self.lbl_password.grid(column=0, row=7, sticky='w', pady=(0, 2))
         self.ent_password_value = ttk.StringVar()
+        if(self.usuario != None):
+            self.ent_password_value.set(self.usuario[6])
         self.ent_password = ttk.Entry(self.frm_center, show='*', textvariable=self.ent_password_value)
         self.ent_password.grid(column=0, row=8, sticky='ew', pady=(0, 10))
         self.ent_password.bind('<KeyRelease>', self.validar_campos)
@@ -106,10 +122,14 @@ class CadastroUserView:
         cpf = self.ent_CPF_value.get()
         phone = self.ent_phone_value.get()
         password = self.ent_password_value.get()
-        result = self.cadastrar_control.Cadastrar_usuario(name, cpf, phone, password, "user", "A")
-        if(result):
-            messagebox.showinfo("Informação", "Cadastro realizado com sucesso!")
-            self.janela.destroy()
-
-
+        if(self.usuario == None):
+            result = self.cadastrar_control.Cadastrar_usuario(name, cpf, phone, password, "user", "A")
+            if(result):
+                messagebox.showinfo("Informação", "Cadastro realizado com sucesso!")
+                self.janela.destroy()
+        else:
+            result = self.cadastrar_control.editar_usuario(self.usuario[0], name, cpf, password, phone, self.usuario[4], "A")
+            if(result):
+                messagebox.showinfo("Informação", "Edição realizado com sucesso!")
+                self.janela.destroy()
 

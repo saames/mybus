@@ -4,6 +4,7 @@ import tkintermapview as tkmap
 from control.gerenciar_usuarios_control import GerenciarUsuariosControl
 from view.adm_view.onibus_forms.onibus_form import OnibusForm
 from resources.utils import Utils
+from view.user_view.cadastro.cadastro_user import CadastroUserView
 
 
 class GerenciarUsuariosView:
@@ -73,7 +74,7 @@ class GerenciarUsuariosView:
 
         self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning')
         self.btn_editar.grid(column=1, row=1, padx=2, pady=(10, 0), sticky='ew')
-        self.btn_editar.bind('<ButtonRelease-1>')
+        self.btn_editar.bind('<ButtonRelease-1>', self.editar_usuario)
 
         self.btn_excluir = ttk.Button(self.frm_menu, text='Excluir', bootstyle='danger', command=self.excluir)
         self.btn_excluir.grid(column=2, row=1, padx=2, pady=(10, 0), sticky='ew')
@@ -135,7 +136,20 @@ class GerenciarUsuariosView:
         termobusca = self.entr_busca_value.get()
         result = self.ge_usuarios.pesquisar_usuario(termobusca)
         self.atualizar_tabela(result)
-    
+
+    def editar_usuario(self, event):
+        try:
+            item = self.tvw.selection()[0]
+            usuario_id = self.tvw.item(item)['values'][0]
+            usuario = self.ge_usuarios.buscar_usuario_id(usuario_id)[0]
+            print(usuario)
+            self.tl = ttk.Toplevel(self.janela)
+            CadastroUserView(self.tl, usuario)
+            self.utils.call_top_view(self.janela, self.tl)
+            self.atualizar_tabela()
+        except IndexError:
+                messagebox.showwarning("Error", "Deve possuir um usuario selecionado para realizar a edição.")
+
     def excluir(self):
         item = self.tvw.selection()
         if len(item) == 1:

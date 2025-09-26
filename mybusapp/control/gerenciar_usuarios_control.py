@@ -13,6 +13,10 @@ class GerenciarUsuariosControl:
         result = self.model.search(termobusca)
         return result
 
+    def buscar_usuario_id(self, id):
+        result = self.model.find('Usuario', f'id = {id}')
+        return result
+
     def deletar_usuario(self, id):
         return self.model.delete(id)
 
