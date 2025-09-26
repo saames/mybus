@@ -80,6 +80,8 @@ class VisualizarLinhaView:
         self.frm_center.grid_rowconfigure(0, weight=1)
         self.frm_center.grid_columnconfigure(0, weight=1)
 
+        self.utils.centraliza(self.janela)
+
 
     def RegistrarViagem(self,event):
         self.item_selecionado = self.tvw.selection()
