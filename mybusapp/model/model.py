@@ -21,7 +21,6 @@ class Model:
     def find(self, table, *args):
         sql = f"SELECT * FROM {table} WHERE"
         for i in range(len(args)):
-
             if i != len(args) - 1:
                 sql += f" {args[i]} AND"
             else:
@@ -92,7 +91,6 @@ class Model:
             else:
                 sql += f" {table_atributs[i]} = {values[i]}"
         sql += f" WHERE id = {id};"
-
         try:
             con = self.conexao.get_conexao()
             cursor = con.cursor()
