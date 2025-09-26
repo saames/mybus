@@ -66,3 +66,5 @@ class VisualizarRotaView:
         if(len(result) > 1):
             self.mpv_rota.set_path(result[0], color="#0B67CD", width=5)
             self.mpv_rota.set_path(result[1], color="red", width=4)
+        else:
+            messagebox.showerror("Error", "Essa linha não possui rota cadastrada.")
