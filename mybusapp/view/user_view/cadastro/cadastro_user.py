@@ -3,6 +3,7 @@ import ttkbootstrap as ttk
 from resources.utils import Utils
 from tkinter import messagebox
 from control.cadastrar_control import Cadastra_control
+from validate_docbr import CPF
 
 class CadastroUserView:
     def __init__(self, master, usuario = None):
@@ -19,6 +20,7 @@ class CadastroUserView:
         # Criação de Instâncias
         self.cadastrar_control = Cadastra_control()
         self.utils = Utils()
+        self.cpf_verificar = CPF()
 
         # Frame para centralizar os componentes no meio da janela
         self.frm_center = ttk.Frame(self.janela)
@@ -78,7 +80,10 @@ class CadastroUserView:
         # Confirmar senha
         self.lbl_checker_pass = ttk.Label(self.frm_center, text='Confirmar Senha:', font=('TkDefaultFont', 10, 'bold'))
         self.lbl_checker_pass.grid(column=0, row=9, sticky='w', pady=(0, 2))
-        self.ent_checker_pass = ttk.Entry(self.frm_center, show='*')
+        self.ent_checker_pass_value = ttk.StringVar()
+        if(self.usuario != None):
+            self.ent_checker_pass_value.set(self.usuario[6])
+        self.ent_checker_pass = ttk.Entry(self.frm_center, show='*', textvariable=self.ent_checker_pass_value)
         self.ent_checker_pass.grid(column=0, row=10, sticky='ew', pady=(0, 10))
         self.ent_checker_pass.bind('<KeyRelease>', self.validar_campos)
         
@@ -103,17 +108,25 @@ class CadastroUserView:
         nome = self.ent_name.get()
         senha = self.ent_password.get()
         confirmar_senha = self.ent_checker_pass.get()
+        cpf = self.ent_CPF_value.get()
 
         cpf = self.ent_CPF.get().replace(".","").replace("-","")
         telefone = self.ent_phone.get().replace("(","").replace(")","")
 
-        if telefone.isdigit() and len(telefone) >= 11 and nome != "" and len(cpf) == 11 and len(senha) >= 8 and confirmar_senha == senha:
+        print(self.cpf_verificar.validate(f"{cpf[0:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}"))
+        if (telefone.isdigit() and len(telefone) >= 11 and
+            nome != "" and len(cpf) == 11 and
+            len(senha) >= 8 and confirmar_senha == senha and
+            self.cpf_verificar.validate(f"{cpf[0:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}")):
             self.btn_save.config(state='enable')
         else:
             self.btn_save.config(state='disabled')
     
     def cancelar(self, event):
-        can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro no sistema?')
+        if(self.usuario == None):
+            can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro no sistema?')
+        else:
+            can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de editar usuario no sistema?')
         if can == 'yes':
             self.janela.destroy()
 
