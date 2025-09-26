@@ -7,7 +7,7 @@ from view.adm_view.criar_linhas.criar_linhas_view import CriarLinhaView
 class GerenciarLinhasView:
     def __init__(self, master, janela_origem):
         self.janela = master
-        self.janela_ori = janela_origem
+        self.janela_origem = janela_origem
         self.janela.title('Gerenciar Linhas - MyBus')
         #self.janela.geometry('700x500')
         #self.janela.resizable(False, False)
@@ -88,9 +88,9 @@ class GerenciarLinhasView:
 
     def criar_linha(self, event):
         self.tl = ttk.Toplevel(self.janela)
-        CriarLinhaView(self.tl)
+        CriarLinhaView(self.tl, self.janela)
         self.utils.call_top_view(self.janela, self.tl)
 
     def voltar(self):
             self.janela.destroy() 
-            self.janela_ori.deiconify() 
+            self.janela_origem.deiconify() 
