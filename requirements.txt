@@ -1,3 +1,4 @@
 tkintermapview
 requests
 ttkbootstrap
+validate_docbr
