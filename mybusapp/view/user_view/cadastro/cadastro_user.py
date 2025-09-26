@@ -10,11 +10,11 @@ class CadastroUserView:
         # Ajustes na janela
         self.janela = master
         self.usuario = usuario
-        self.janela.geometry('450x550')
+        #self.janela.geometry('450x550')
         if(self.usuario == None):
             self.janela.title(" Formulário para Cadastro - MyBus")
         else:
-            self.janela.title(" Formulário para edição - MyBus")
+            self.janela.title(" Formulário para Edição - MyBus")
         self.janela.resizable(False, False)
 
         # Criação de Instâncias
@@ -25,81 +25,106 @@ class CadastroUserView:
         # Frame para centralizar os componentes no meio da janela
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.pack(expand=True, padx=10, pady=10)
-        self.frm_center.columnconfigure(0, weight=1)
 
         # Titulo
         if(usuario == None):
-            lbl_title_text = "Crie uma conta"
+            lbl_title_text = " Crie uma conta "
         else:
             lbl_title_text = "Edite um usuario"
-        self.lbl_title = ttk.Label(self.frm_center, text=lbl_title_text,  bootstyle='primary',font=('TkDefaultFont', 14, 'bold'))
-        self.lbl_title.grid(column=0,row=0, pady=(0,25),sticky='w')
+        self.lbl_title = ttk.Label(self.frm_center, text=lbl_title_text, bootstyle='primary-inverse', padding=(162, 11))
+        self.lbl_title.grid(column=0,row=0, columnspan=2, pady=(0,20))
 
-        # Nome do usuário
-        self.lbl_name = ttk.Label(self.frm_center, text='Nome:',font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_name.grid(column=0, row=1,sticky='w', pady=(0, 2))
+        # Nome Completo
+        self.lbl_name = ttk.Label(self.frm_center, text='Nome Completo', bootstyle='inverse-secondary', 
+                                                                         borderwidth=7, 
+                                                                         padding=(11,0),
+                                                                         font=('TkDefaultFont', 10, 'bold'))
+        self.lbl_name.grid(column=0, row=1, sticky='w', pady=(0,5))
         self.ent_name_value = ttk.StringVar()
         if(self.usuario != None):
             self.ent_name_value.set(self.usuario[1])
         self.ent_name = ttk.Entry(self.frm_center, textvariable=self.ent_name_value)
-        self.ent_name.grid(column=0, row=2, sticky='ew', pady=(0,10))
+        self.ent_name.grid(column=1, row=1, sticky='ew', ipadx=50, pady=(0,5))
         self.ent_name.bind('<KeyRelease>', self.validar_campos)
 
-        # CPF do usuário
-        self.lbl_CPF = ttk.Label(self.frm_center, text='CPF:', font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_CPF.grid(column=0, row=3, sticky='w', pady=(0, 2))
+        self.lbl_CPF = ttk.Label(self.frm_center, text='CPF', bootstyle='inverse-secondary', 
+                                                               borderwidth=7, 
+                                                               padding=(56,0),
+                                                               font=('TkDefaultFont', 10, 'bold'))
+        self.lbl_CPF.grid(column=0, row=2, sticky='w', pady=(0,5))
         self.ent_CPF_value = ttk.StringVar()
         if(self.usuario != None):
             self.ent_CPF_value.set(self.usuario[2])
         self.ent_CPF = ttk.Entry(self.frm_center, textvariable=self.ent_CPF_value)
-        self.ent_CPF.grid(column=0, row=4, sticky='ew', pady=(0, 10))
+        self.ent_CPF.grid(column=1, row=2, sticky='ew', pady=(0, 5))
         self.ent_CPF.bind('<KeyRelease>', self.validar_campos)
         self.utils.add_placeholder(self.ent_CPF,'XXX.XXX.XXX-XX')
 
+        # Email do usuário 
+        self.lbl_email = ttk.Label(self.frm_center, text='Email', bootstyle='inverse-secondary', 
+                                                                  borderwidth=7, 
+                                                                  padding=(50,0),
+                                                                  font=('TkDefaultFont', 10, 'bold'))
+        self.lbl_email.grid(column=0, row=3, sticky='w', pady=(0, 5))
+        self.ent_email_value = ttk.StringVar()
+        if(self.usuario != None):
+            self.ent_email_value.set(self.usuario[3])
+        self.ent_email = ttk.Entry(self.frm_center, textvariable=self.ent_email_value)
+        self.ent_email.grid(column=1, row=3, sticky='ew', pady=(0, 5))
+        self.ent_email.bind('<KeyRelease>', self.validar_campos)
+        
         # Telefone do usuário 
-        self.lbl_phone = ttk.Label(self.frm_center, text='Telefone:', font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_phone.grid(column=0, row=5, sticky='w', pady=(0, 2))
+        self.lbl_phone = ttk.Label(self.frm_center, text='Telefone', bootstyle='inverse-secondary', 
+                                                                     borderwidth=7, 
+                                                                     padding=(38,0),
+                                                                     font=('TkDefaultFont', 10, 'bold'))
+        self.lbl_phone.grid(column=0, row=4, sticky='w', pady=(0, 5))
         self.ent_phone_value = ttk.StringVar()
         if(self.usuario != None):
             self.ent_phone_value.set(self.usuario[3])
         self.ent_phone = ttk.Entry(self.frm_center, textvariable=self.ent_phone_value)
-        self.ent_phone.grid(column=0, row=6, sticky='ew', pady=(0, 10))
+        self.ent_phone.grid(column=1, row=4, sticky='ew', pady=(0, 5))
         self.ent_phone.bind('<KeyRelease>', self.validar_campos)
         self.utils.add_placeholder(self.ent_phone, '(XX)XXXXXXXXX')
 
         # Senha do usuário
-        self.lbl_password = ttk.Label(self.frm_center, text='Senha (mínimo 8 dígitos):', font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_password.grid(column=0, row=7, sticky='w', pady=(0, 2))
+        self.lbl_password = ttk.Label(self.frm_center, text='Senha (8 dígitos)', bootstyle='inverse-secondary', 
+                                                                     borderwidth=7, 
+                                                                     padding=(6,0),
+                                                                     font=('TkDefaultFont', 10, 'bold'))
+        self.lbl_password.grid(column=0, row=5, sticky='w', pady=(0, 5))
         self.ent_password_value = ttk.StringVar()
         if(self.usuario != None):
             self.ent_password_value.set(self.usuario[6])
         self.ent_password = ttk.Entry(self.frm_center, show='*', textvariable=self.ent_password_value)
-        self.ent_password.grid(column=0, row=8, sticky='ew', pady=(0, 10))
+        self.ent_password.grid(column=1, row=5, sticky='ew', pady=(0, 5))
         self.ent_password.bind('<KeyRelease>', self.validar_campos)
 
         # Confirmar senha
-        self.lbl_checker_pass = ttk.Label(self.frm_center, text='Confirmar Senha:', font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_checker_pass.grid(column=0, row=9, sticky='w', pady=(0, 2))
+        self.lbl_checker_pass = ttk.Label(self.frm_center, text='Confirmar Senha', bootstyle='inverse-secondary', 
+                                                                                   borderwidth=7, 
+                                                                                   padding=(7,0),
+                                                                                   font=('TkDefaultFont', 10, 'bold'))
+        self.lbl_checker_pass.grid(column=0, row=6, sticky='w', pady=(0, 5))
         self.ent_checker_pass_value = ttk.StringVar()
         if(self.usuario != None):
             self.ent_checker_pass_value.set(self.usuario[6])
         self.ent_checker_pass = ttk.Entry(self.frm_center, show='*', textvariable=self.ent_checker_pass_value)
-        self.ent_checker_pass.grid(column=0, row=10, sticky='ew', pady=(0, 10))
+        self.ent_checker_pass.grid(column=1, row=6, sticky='ew', pady=(0, 5))
         self.ent_checker_pass.bind('<KeyRelease>', self.validar_campos)
         
-        # frame dos botões
+        # Frame dos botões
         self.frm_buttons = ttk.Frame(self.frm_center)
-        self.frm_buttons.grid(column=0, row=11, pady=(25, 0), sticky='ew')
-        self.frm_buttons.columnconfigure((0, 1), weight=1)
+        self.frm_buttons.grid(column=0, row=7, columnspan=2, pady=(25, 0))
 
         # Botão Cancelar 
         self.btn_cancel = ttk.Button(self.frm_buttons, text='CANCELAR', bootstyle='danger')
-        self.btn_cancel.grid(column=0, row=0, sticky='ew', padx=(0, 5))
+        self.btn_cancel.grid(column=0, row=0, padx=(0,5))
         self.btn_cancel.bind('<ButtonRelease-1>', self.cancelar)
 
         # Botão Salvar 
         self.btn_save = ttk.Button(self.frm_buttons, text='SALVAR', bootstyle='success', state='disabled')
-        self.btn_save.grid(column=1, row=0, sticky='ew', padx=(5, 0))
+        self.btn_save.grid(column=1, row=0)
         self.btn_save.bind('<ButtonRelease-1>', self.cadastrar)
 
         self.utils.centraliza(self.janela)
@@ -108,7 +133,7 @@ class CadastroUserView:
         nome = self.ent_name.get()
         senha = self.ent_password.get()
         confirmar_senha = self.ent_checker_pass.get()
-        cpf = self.ent_CPF_value.get()
+        email = self.ent_email.get()
 
         cpf = self.ent_CPF.get().replace(".","").replace("-","")
         telefone = self.ent_phone.get().replace("(","").replace(")","")
@@ -116,6 +141,7 @@ class CadastroUserView:
         if (telefone.isdigit() and len(telefone) >= 11 and
             nome != "" and len(cpf) == 11 and
             len(senha) >= 8 and confirmar_senha == senha and
+            "@" in email and
             self.cpf_verificar.validate(f"{cpf[0:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}")):
             self.btn_save.config(state='enable')
         else:
