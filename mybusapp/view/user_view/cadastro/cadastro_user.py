@@ -113,7 +113,6 @@ class CadastroUserView:
         cpf = self.ent_CPF.get().replace(".","").replace("-","")
         telefone = self.ent_phone.get().replace("(","").replace(")","")
 
-        print(self.cpf_verificar.validate(f"{cpf[0:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}"))
         if (telefone.isdigit() and len(telefone) >= 11 and
             nome != "" and len(cpf) == 11 and
             len(senha) >= 8 and confirmar_senha == senha and
