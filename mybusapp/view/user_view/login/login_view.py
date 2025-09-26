@@ -85,7 +85,7 @@ class LoginView:
         self.utils.call_top_view(self.janela, self.tl)
 
     def pedir_autenticacao(self, event):
-        username = self.ent_username_value.get()
+        username = self.ent_username_value.get().replace(".","").replace("-","")
         password = self.ent_password_value.get()
         result = self.login_control.autenticar(f"'{username}'", f"'{password}'")
         if(result):

@@ -146,13 +146,11 @@ class OnibusForm:
             self.btn_save.config(state='disabled')
             return False
     
-    def cancelar(self, event):
+    def cancelar(self):
         can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro no sistema?')
         if can == 'yes':
             self.janela.destroy()
-            if self.janela_origem:
-                self.janela_origem.deiconify()
-
+ 
     def cadastrar_onibus(self, event):
         number = self.ent_number_value.get()
         plate = self.ent_plate_value.get()
