@@ -25,29 +25,31 @@ class GerenciarUsuariosView:
         self.style = ttk.Style()
         self.style.configure('large.TButton', font=('TkDefaultFont', 18, 'bold'))
         self.btn_voltar = ttk.Button(self.frm_center, text='⬅', style='large.TButton', command=self.voltar)
-        self.btn_voltar.grid(column=0, row=0, sticky='wn')
+        self.btn_voltar.grid(column=0, row=0)
         self.btn_voltar.bind('<ButtonRelease-1>')
 
         # Título da janela
-        self.lbl_titulo = ttk.Label(self.frm_center, text='Gerenciar Usuários', bootstyle='primary-inverse', padding=(229, 11))
-        self.lbl_titulo.grid(column=0, row=0, columnspan=2)
+        self.lbl_titulo = ttk.Label(self.frm_center, text='Gerenciar Usuários', bootstyle='primary-inverse', padding=(339, 11))
+        self.lbl_titulo.grid(column=1, row=0, columnspan=2)
 
         # Tabela (cabeçalho + corpo)
-        colunas = ['id', 'nome', 'telefone', 'papel', 'status']
+        colunas = ['id', 'nome', 'email', 'telefone', 'papel', 'status']
         self.tvw = ttk.Treeview(self.frm_center, height=8, columns=colunas, show='headings')
         self.tvw.heading('id', text='ID')
         self.tvw.heading('nome', text='NOME')
+        self.tvw.heading('email', text='EMAIL')
         self.tvw.heading('telefone', text='TELEFONE')
         self.tvw.heading('papel', text='PAPEL')
         self.tvw.heading('status', text='STATUS')
         self.tvw.grid(column=0, row=1, columnspan=2, pady=6, sticky='we')
 
         # Alinha o campo com a coluna
-        self.tvw.column('id', anchor='center', width=200, minwidth=100)
-        self.tvw.column('nome', anchor='center', width=200, minwidth=100)
-        self.tvw.column('telefone', anchor='center', width=200, minwidth=200)
-        self.tvw.column('papel', anchor='center', width=200, minwidth=200)
-        self.tvw.column('status', anchor='center', width=300, minwidth=200)
+        self.tvw.column('id', anchor='center', width=60, minwidth=60)
+        self.tvw.column('nome', anchor='center', width=180, minwidth=180)
+        self.tvw.column('email', anchor='center', width=225, minwidth=225)
+        self.tvw.column('telefone', anchor='center', width=170, minwidth=170)
+        self.tvw.column('papel', anchor='center', width=100, minwidth=100)
+        self.tvw.column('status', anchor='center', width=100, minwidth=100)
 
         # Scrollbar da Tabela
         self.brl = ttk.Scrollbar(self.frm_center, command=self.tvw.yview)
@@ -68,9 +70,9 @@ class GerenciarUsuariosView:
         self.btn_buscar.bind('<ButtonRelease-1>', self.pesquisar_usuario)
         self.btn_buscar.grid(column=2, row=0, padx=(5, 0)) 
 
-        self.btn_cadastrar = ttk.Button(self.frm_menu, text='Cadastrar Administrador', bootstyle='success', command=self.cadastrar_adm)
-        self.btn_cadastrar.grid(column=0, row=1, padx=2, pady=(10, 0), sticky='ew')
-        self.btn_cadastrar.bind('<ButtonRelease-1>')
+        self.btn_promover = ttk.Button(self.frm_menu, text='Promover Administrador', bootstyle='success', command=self.promover_adm)
+        self.btn_promover.grid(column=0, row=1, padx=2, pady=(10, 0), sticky='ew')
+        self.btn_promover.bind('<ButtonRelease-1>')
 
         self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning')
         self.btn_editar.grid(column=1, row=1, padx=2, pady=(10, 0), sticky='ew')
@@ -104,7 +106,7 @@ class GerenciarUsuariosView:
 
             self.tvw.insert('', 'end', values=valores)
         
-    def cadastrar_adm(self):
+    def promover_adm(self):
         item = self.tvw.selection()
 
         if len(item) == 1:
@@ -124,7 +126,7 @@ class GerenciarUsuariosView:
             if res == 'yes':
                 self.ge_usuarios.promover_usuario(id_use)
                 self.atualizar_tabela()
-                messagebox.showinfo('Informação', 'Usuário foi promovido')
+                messagebox.showinfo('Informação', 'Usuário foi promovido a administrador')
         
         elif len(item) > 0:
             messagebox.showwarning('Aviso', 'Selecione apenas 1 usuário')
