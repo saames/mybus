@@ -24,12 +24,12 @@ class GerenciarOnibusView:
         self.style = ttk.Style()
         self.style.configure('large.TButton', font=('TkDefaultFont', 18, 'bold'))
         self.btn_voltar = ttk.Button(self.frm_center, text='⬅', style='large.TButton', command=self.voltar)
-        self.btn_voltar.grid(column=0, row=0, sticky='wn')
+        self.btn_voltar.grid(column=0, row=0)
         self.btn_voltar.bind('<ButtonRelease-1>')
 
         # Título da janela
-        self.lbl_titulo = ttk.Label(self.frm_center, text='Gerenciar Ônibus', bootstyle='primary-inverse', padding=(229, 11))
-        self.lbl_titulo.grid(column=0, row=0, columnspan=2)
+        self.lbl_titulo = ttk.Label(self.frm_center, text='Gerenciar Ônibus', bootstyle='primary-inverse', padding=(258, 11))
+        self.lbl_titulo.grid(column=1, row=0, columnspan=2)
 
         # Tabela (cabeçalho + corpo)
         colunas = ['id', 'numero', 'placa', 'status', 'linha associada']
@@ -42,11 +42,11 @@ class GerenciarOnibusView:
         self.tvw.grid(column=0, row=1, columnspan=2, pady=6, sticky='we')
 
         # Alinha o campo com a coluna
-        self.tvw.column('id', anchor='center', width=200, minwidth=100)
-        self.tvw.column('numero', anchor='center', width=200, minwidth=100)
-        self.tvw.column('placa', anchor='center', width=200, minwidth=200)
-        self.tvw.column('status', anchor='center', width=200, minwidth=200)
-        self.tvw.column('linha associada', anchor='center', width=300, minwidth=200)
+        self.tvw.column('id', anchor='center', width=60, minwidth=60)
+        self.tvw.column('numero', anchor='center', width=100, minwidth=100)
+        self.tvw.column('placa', anchor='center', width=100, minwidth=100)
+        self.tvw.column('status', anchor='center', width=100, minwidth=100)
+        self.tvw.column('linha associada', anchor='center', width=300, minwidth=300)
 
         # Scrollbar da Tabela
         self.brl = ttk.Scrollbar(self.frm_center, command=self.tvw.yview)
