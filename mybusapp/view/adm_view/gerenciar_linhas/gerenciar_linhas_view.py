@@ -29,20 +29,18 @@ class GerenciarLinhasView:
         self.btn_voltar.bind('<ButtonRelease-1>')
 
         # Título da janela
-        self.lbl_titulo = ttk.Label(self.frm_center, text='Gerenciar Linhas', bootstyle='primary-inverse', padding=(229, 11))
+        self.lbl_titulo = ttk.Label(self.frm_center, text='Gerenciar Linhas', bootstyle='primary-inverse', padding=(129, 11))
         self.lbl_titulo.grid(column=1, row=0, columnspan=2)
 
         # Tabela (cabeçalho + corpo)
-        colunas = ['id', 'numero', 'nome']
+        colunas = ['nome', 'numero']
         self.tvw = ttk.Treeview(self.frm_center, height=8, columns=colunas, show='headings')
-        self.tvw.heading('id', text='ID')
-        self.tvw.heading('numero', text='NÚMERO')
         self.tvw.heading('nome', text='NOME')
+        self.tvw.heading('numero', text='NÚMERO')
         self.tvw.grid(column=0, row=1, columnspan=2, pady=6, sticky='we')
         # Alinha o campo com a coluna
-        self.tvw.column('id', anchor='center', width=200, minwidth=100)
-        self.tvw.column('numero', anchor='center', width=200, minwidth=100)
-        self.tvw.column('nome', anchor='center', width=200, minwidth=200)
+        self.tvw.column('nome', anchor='center', width=300, minwidth=300)
+        self.tvw.column('numero', anchor='center', width=100, minwidth=100)
         # Scrollbar da Tabela
         self.brl = ttk.Scrollbar(self.frm_center, command=self.tvw.yview)
         self.brl.grid(column=2, row=1, sticky='ns', pady=6)
@@ -51,7 +49,7 @@ class GerenciarLinhasView:
         self.atualizar_tabela()
 
         self.frm_menu = ttk.Frame(self.frm_center)
-        self.frm_menu.grid(column=0, row=2, columnspan=3)
+        self.frm_menu.grid(column=0, row=2, columnspan=2)
 
         self.btn_cadastrar = ttk.Button(self.frm_menu, text='Cadastrar', bootstyle='success')
         self.btn_cadastrar.grid(column=0, row=0, padx=2)
@@ -84,7 +82,7 @@ class GerenciarLinhasView:
             self.tvw.delete(item)
         tuplas = self.gerenciar_linhas_control.listar_linhas()
         for item in tuplas:
-            self.tvw.insert('', 'end', values=item)
+            self.tvw.insert('', 'end', values=item[1:])
 
     def criar_linha(self, event):
         self.tl = ttk.Toplevel(self.janela)
