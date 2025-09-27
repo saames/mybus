@@ -65,8 +65,8 @@ class GerenciarLinhasView:
         self.btn_excluir.grid(column=3, row=0, padx=2)
         self.btn_excluir.bind('<ButtonRelease-1>')
 
-        self.lbl_espacador = ttk.Label(self.frm_menu)
-        self.lbl_espacador.grid(column=4, row=0, padx=117)
+        #self.lbl_espacador = ttk.Label(self.frm_menu)
+        #self.lbl_espacador.grid(column=4, row=0, padx=117)
 
         self.btn_horarios = ttk.Button(self.frm_menu, text='Horários', bootstyle='secondary')
         self.btn_horarios.grid(column=5, row=0, padx=2)
