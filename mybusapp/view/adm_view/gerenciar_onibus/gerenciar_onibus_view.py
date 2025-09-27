@@ -33,7 +33,7 @@ class GerenciarOnibusView:
 
         # Tabela (cabeçalho + corpo)
         colunas = ['id', 'numero', 'placa', 'status', 'linha associada']
-        self.tvw = ttk.Treeview(self.frm_center, height=8, columns=colunas, show='headings')
+        self.tvw = ttk.Treeview(self.frm_center, height=8, columns=colunas, show='headings', selectmode='browse')
         self.tvw.heading('id', text='ID')
         self.tvw.heading('numero', text='NÚMERO')
         self.tvw.heading('placa', text='PLACA')
@@ -47,6 +47,10 @@ class GerenciarOnibusView:
         self.tvw.column('placa', anchor='center', width=100, minwidth=100)
         self.tvw.column('status', anchor='center', width=100, minwidth=100)
         self.tvw.column('linha associada', anchor='center', width=300, minwidth=300)
+
+        # Configura cor para status
+        self.tvw.tag_configure("ativo", background="#002B5C")
+        self.tvw.tag_configure("inativo", background="#001F44")
 
         # Scrollbar da Tabela
         self.brl = ttk.Scrollbar(self.frm_center, command=self.tvw.yview)
@@ -91,16 +95,20 @@ class GerenciarOnibusView:
 
         for item in tuplas:
             valores = list(item)  # Converte para lista
+            tag_inativo = tuple()
+            tag_ativo = tuple()
 
             if valores[3] == 1:  # Verificando os status, se for 1 é ativo, se for 0 é inativo
                 valores[3] = 'Ativo'
+                tag_ativo = ('ativo',)
             elif valores[3] == 0:
                 valores[3] = 'Inativo'
+                tag_inativo = ('inativo',)
 
             if valores[4] == None:  # Verificando se veio alguma linha
                 valores[4] = 'Nenhuma linha associada'
-
-            self.tvw.insert('', 'end', values=valores)
+            
+            self.tvw.insert('', 'end', values=valores, tags=[tag_inativo, tag_ativo])
 
      # Abre a janela OnibusForm
     def abrir_cadastro_onibus(self, event):

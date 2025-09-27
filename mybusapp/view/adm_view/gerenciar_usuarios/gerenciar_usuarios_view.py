@@ -34,7 +34,7 @@ class GerenciarUsuariosView:
 
         # Tabela (cabeçalho + corpo)
         colunas = ['id', 'nome', 'email', 'telefone', 'papel', 'status']
-        self.tvw = ttk.Treeview(self.frm_center, height=8, columns=colunas, show='headings')
+        self.tvw = ttk.Treeview(self.frm_center, height=8, columns=colunas, show='headings', selectmode='browse')
         self.tvw.heading('id', text='ID')
         self.tvw.heading('nome', text='NOME')
         self.tvw.heading('email', text='EMAIL')
@@ -50,6 +50,10 @@ class GerenciarUsuariosView:
         self.tvw.column('telefone', anchor='center', width=170, minwidth=170)
         self.tvw.column('papel', anchor='center', width=100, minwidth=100)
         self.tvw.column('status', anchor='center', width=100, minwidth=100)
+
+        # Configura cor para status
+        self.tvw.tag_configure("ativo", background="#002B5C")
+        self.tvw.tag_configure("inativo", background="#001F44")
 
         # Scrollbar da Tabela
         self.brl = ttk.Scrollbar(self.frm_center, command=self.tvw.yview)
@@ -78,7 +82,7 @@ class GerenciarUsuariosView:
         self.btn_editar.grid(column=1, row=1, padx=2, pady=(10, 0), sticky='ew')
         self.btn_editar.bind('<ButtonRelease-1>', self.editar_usuario)
 
-        self.btn_excluir = ttk.Button(self.frm_menu, text='Excluir', bootstyle='danger', command=self.excluir)
+        self.btn_excluir = ttk.Button(self.frm_menu, text='Inativar', bootstyle='danger', command=self.excluir)
         self.btn_excluir.grid(column=2, row=1, padx=2, pady=(10, 0), sticky='ew')
         self.btn_excluir.bind('<ButtonRelease-1>')
 
@@ -92,6 +96,8 @@ class GerenciarUsuariosView:
             tuplas = self.ge_usuarios.listar_usuarios()
         for item in tuplas:
             valores = list(item) # Converte para lista
+            tag_inativo = tuple()
+            tag_ativo = tuple()
 
             if valores[3] == 'adm':
                 valores[3] = 'Administrador'
@@ -100,11 +106,13 @@ class GerenciarUsuariosView:
 
             if valores[4] == 'A':
                 valores[4] = 'Ativo'
+                tag_ativo = ('ativo',)
             elif valores[4] == 'I':
                 valores[4] = 'Inativo'
+                tag_inativo = ('inativo',)
 
 
-            self.tvw.insert('', 'end', values=valores)
+            self.tvw.insert('', 'end', values=valores, tags=[tag_inativo, tag_ativo])
         
     def promover_adm(self):
         item = self.tvw.selection()
@@ -128,11 +136,11 @@ class GerenciarUsuariosView:
                 self.atualizar_tabela()
                 messagebox.showinfo('Informação', 'Usuário foi promovido a administrador')
         
-        elif len(item) > 0:
-            messagebox.showwarning('Aviso', 'Selecione apenas 1 usuário')
+        # elif len(item) > 0:
+        #     messagebox.showwarning('Aviso', 'Selecione apenas 1 usuário')
         
-        else:
-            messagebox.showwarning('Aviso', 'Selecione 1 usuário')
+        # else:
+        #     messagebox.showwarning('Aviso', 'Selecione 1 usuário')
 
     def pesquisar_usuario(self, event):
         termobusca = self.entr_busca_value.get()
@@ -163,21 +171,21 @@ class GerenciarUsuariosView:
             status_atual = dados_linha[4]
             
             if status_atual == 'Inativo':
-                 messagebox.showinfo('Informação', f'O usuário {nome_use} já esta inativo')
+                 messagebox.showinfo('Informação', f'O usuário {nome_use} já esta inativo.')
                  return
             
-            res = messagebox.askquestion('Confirmar', f'Tem certeza da exclusão do usuário {nome_use}?')
+            res = messagebox.askquestion('Confirmar', f'Tem certeza que deseja tornar o usuário {nome_use} inativo?')
             
             if res == 'yes':
                 self.ge_usuarios.deletar_usuario(id_use)
                 self.atualizar_tabela()
-                messagebox.showinfo('Informação', 'Usuário está inativo')
+                messagebox.showinfo('Informação', 'Usuário inativado com sucesso!')
         
-        elif len(item) > 0:
-            messagebox.showwarning('Aviso', 'Selecione apenas 1 usuário')
+        # elif len(item) > 0:
+        #     messagebox.showwarning('Aviso', 'Selecione apenas 1 usuário')
         
-        else:
-            messagebox.showwarning('Aviso', 'Selecione 1 usuário')
+        # else:
+        #     messagebox.showwarning('Aviso', 'Selecione 1 usuário')
 
     def voltar(self):
             self.janela.destroy() 

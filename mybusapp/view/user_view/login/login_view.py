@@ -64,6 +64,10 @@ class LoginView:
         self.lbl_login = ttk.Label(self.frm_center)
         self.lbl_login.grid(column=0, row=5, columnspan=2, pady=10)
 
+        # Comandos de navegação
+        self.janela.bind('<Return>', self.pedir_autenticacao)
+        self.janela.bind('<Escape>', self.fechar_janela)
+
         self.utils.centraliza(self.janela)
 
     # Restrições básicas para autenticação
@@ -112,3 +116,6 @@ class LoginView:
         self.ent_username_value.set("")
         self.ent_password_value.set("")
         self.btn_acessar.config(state='disabled')
+
+    def fechar_janela(self, event):
+        self.janela.destroy()

@@ -53,6 +53,9 @@ class HomeLinhaView:
         self.btn_sair.grid(row=6, column=0, sticky='ew', pady=(0,10))
         self.btn_sair.bind('<ButtonRelease-1>', self.sair)
 
+        # Comandos de navegação
+        self.janela.bind('<Escape>', self.sair)
+
         self.utils.centraliza(self.janela)
 
     def visualizar_Linha(self, event):

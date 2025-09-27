@@ -29,18 +29,24 @@ class GerenciarLinhasView:
         self.btn_voltar.bind('<ButtonRelease-1>')
 
         # Título da janela
-        self.lbl_titulo = ttk.Label(self.frm_center, text='Gerenciar Linhas', bootstyle='primary-inverse', padding=(129, 11))
+        self.lbl_titulo = ttk.Label(self.frm_center, text='Gerenciar Linhas', bootstyle='primary-inverse', padding=(159, 11))
         self.lbl_titulo.grid(column=1, row=0, columnspan=2)
 
         # Tabela (cabeçalho + corpo)
-        colunas = ['nome', 'numero']
-        self.tvw = ttk.Treeview(self.frm_center, height=8, columns=colunas, show='headings')
+        colunas = ['id', 'nome', 'numero']
+        self.tvw = ttk.Treeview(self.frm_center, height=8, columns=colunas, show='headings', selectmode='browse')
+        self.tvw.heading('id', text='ID')
         self.tvw.heading('nome', text='NOME')
         self.tvw.heading('numero', text='NÚMERO')
         self.tvw.grid(column=0, row=1, columnspan=2, pady=6, sticky='we')
         # Alinha o campo com a coluna
+        self.tvw.column('id', anchor='center', width=60, minwidth=60)
         self.tvw.column('nome', anchor='center', width=300, minwidth=300)
         self.tvw.column('numero', anchor='center', width=100, minwidth=100)
+
+        # Configura cor para status
+        self.tvw.tag_configure("geral", background="#002B5C")
+
         # Scrollbar da Tabela
         self.brl = ttk.Scrollbar(self.frm_center, command=self.tvw.yview)
         self.brl.grid(column=2, row=1, sticky='ns', pady=6)
@@ -74,6 +80,9 @@ class GerenciarLinhasView:
         self.btn_rotas.grid(column=6, row=0, padx=2)
         self.btn_rotas.bind('<ButtonRelease-1>')
 
+        # Comandos de navegação
+        self.janela.bind('<Escape>', self.voltar)
+
         self.utils.centraliza(self.janela)
 
     def atualizar_tabela(self):
@@ -82,13 +91,15 @@ class GerenciarLinhasView:
             self.tvw.delete(item)
         tuplas = self.gerenciar_linhas_control.listar_linhas()
         for item in tuplas:
-            self.tvw.insert('', 'end', values=item[1:])
+            tag_geral = tuple()
+            tag_geral = ('geral',)
+            self.tvw.insert('', 'end', values=item, tags=tag_geral)
 
     def criar_linha(self, event):
         self.tl = ttk.Toplevel(self.janela)
         CriarLinhaView(self.tl, self.janela)
         self.utils.call_top_view(self.janela, self.tl)
 
-    def voltar(self):
+    def voltar(self, event=None):
             self.janela.destroy() 
             self.janela_origem.deiconify() 

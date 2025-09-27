@@ -127,6 +127,9 @@ class CadastroUserView:
         self.btn_save.grid(column=1, row=0)
         self.btn_save.bind('<ButtonRelease-1>', self.cadastrar)
 
+        # Comandos de navegação
+        self.janela.bind('<Escape>', self.cancelar)
+
         self.utils.centraliza(self.janela)
 
     def validar_campos(self, event):
