@@ -39,12 +39,12 @@ class HomeLinhaView:
             self.btn_gerenciar_linha.bind('<ButtonRelease-1>', self.gerenciar_linha)
 
             # Botão Gerenciar Onibus
-            self.btn_grerenciar_onibus = ttk.Button(self.frm_center,text="GERENCIAR ONIBUS", bootstyle='secondary')
+            self.btn_grerenciar_onibus = ttk.Button(self.frm_center,text="GERENCIAR ÔNIBUS", bootstyle='secondary')
             self.btn_grerenciar_onibus.grid(row=4, column=0, sticky='ew', pady=(0,10))
             self.btn_grerenciar_onibus.bind('<ButtonRelease-1>', self.gereciar_onibus)
 
             # Botão Gerenciar Usuario
-            self.btn_gerenciar_usuario = ttk.Button(self.frm_center,text="GERENCIAR USUARIO", bootstyle='secondary')
+            self.btn_gerenciar_usuario = ttk.Button(self.frm_center,text="GERENCIAR USUÁRIO", bootstyle='secondary')
             self.btn_gerenciar_usuario.grid(row=5, column=0, sticky='ew', pady=(0,10))
             self.btn_gerenciar_usuario.bind('<ButtonRelease-1>', self.gereciar_usuarios)
 

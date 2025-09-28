@@ -152,15 +152,16 @@ class CadastroUserView:
     
     def cancelar(self, event):
         if(self.usuario == None):
-            can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro no sistema?')
+            can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar a operação de cadastro de usuário?')
         else:
-            can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de editar usuario no sistema?')
+            can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar a operação de edição de usuário?')
         if can == 'yes':
             self.janela.destroy()
 
     def cadastrar(self, event):
         name = self.ent_name_value.get()
         cpf = self.ent_CPF_value.get()
+        email = self.ent_email.get()
         phone = self.ent_phone_value.get()
         password = self.ent_password_value.get()
         if(self.usuario == None):
@@ -171,6 +172,6 @@ class CadastroUserView:
         else:
             result = self.cadastrar_control.editar_usuario(self.usuario[0], name, cpf, password, phone, self.usuario[4], "A")
             if(result):
-                messagebox.showinfo("Informação", "Edição realizado com sucesso!")
+                messagebox.showinfo("Informação", "Edição realizada com sucesso!")
                 self.janela.destroy()
 

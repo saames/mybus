@@ -54,6 +54,10 @@ class GerenciarLinhasView:
         # Gerando tuplas
         self.atualizar_tabela()
 
+        # Verifica se existe uma linha selecionada
+        self.tvw.bind('<KeyRelease>', self.validar_botoes)
+        self.tvw.bind('<ButtonRelease-1>', self.validar_botoes)
+
         self.frm_menu = ttk.Frame(self.frm_center)
         self.frm_menu.grid(column=0, row=2, columnspan=2)
 
@@ -61,22 +65,22 @@ class GerenciarLinhasView:
         self.btn_cadastrar.grid(column=0, row=0, padx=2)
         self.btn_cadastrar.bind('<ButtonRelease-1>', self.criar_linha)
 
-        self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning')
+        self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning', state='disabled')
         self.btn_editar.grid(column=1, row=0, padx=2)
         self.btn_editar.bind('<ButtonRelease-1>')
 
-        self.btn_excluir = ttk.Button(self.frm_menu, text='Excluir', bootstyle='danger')
+        self.btn_excluir = ttk.Button(self.frm_menu, text='Excluir', bootstyle='danger', state='disabled')
         self.btn_excluir.grid(column=3, row=0, padx=2)
         self.btn_excluir.bind('<ButtonRelease-1>')
 
         #self.lbl_espacador = ttk.Label(self.frm_menu)
         #self.lbl_espacador.grid(column=4, row=0, padx=117)
 
-        self.btn_horarios = ttk.Button(self.frm_menu, text='Horários', bootstyle='secondary')
+        self.btn_horarios = ttk.Button(self.frm_menu, text='Horários', bootstyle='secondary', state='disabled')
         self.btn_horarios.grid(column=5, row=0, padx=2)
         self.btn_horarios.bind('<ButtonRelease-1>')
 
-        self.btn_rotas = ttk.Button(self.frm_menu, text='Rotas', bootstyle='secondary')
+        self.btn_rotas = ttk.Button(self.frm_menu, text='Rotas', bootstyle='secondary', state='disabled')
         self.btn_rotas.grid(column=6, row=0, padx=2)
         self.btn_rotas.bind('<ButtonRelease-1>')
 
@@ -84,6 +88,21 @@ class GerenciarLinhasView:
         self.janela.bind('<Escape>', self.voltar)
 
         self.utils.centraliza(self.janela)
+
+    def validar_botoes(self, *event):
+        linha = item = self.tvw.selection()
+        if linha: # Se uma linha for selecionada
+            self.btn_editar.config(state='enable')
+            self.btn_excluir.config(state='enable')
+            self.btn_horarios.config(state='enable')
+            self.btn_rotas.config(state='enable')
+            return True
+        else:
+            self.btn_editar.config(state='disabled')
+            self.btn_excluir.config(state='disabled')
+            self.btn_horarios.config(state='disabled')
+            self.btn_rotas.config(state='disabled')
+            return False
 
     def atualizar_tabela(self):
         dados = self.tvw.get_children()

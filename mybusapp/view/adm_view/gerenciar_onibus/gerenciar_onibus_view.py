@@ -60,6 +60,10 @@ class GerenciarOnibusView:
         # Gerando tuplas
         self.atualizar_tabela()
 
+        # Verifica se existe uma linha selecionada
+        self.tvw.bind('<KeyRelease>', self.validar_botoes)
+        self.tvw.bind('<ButtonRelease-1>', self.validar_botoes)
+
         # Botões
         self.frm_menu = ttk.Frame(self.frm_center)
         self.frm_menu.grid(column=0, row=2, columnspan=3) 
@@ -75,15 +79,26 @@ class GerenciarOnibusView:
         self.btn_cadastrar.grid(column=0, row=1, padx=2, pady=(10, 0), sticky='ew')
         self.btn_cadastrar.bind('<ButtonRelease-1>', self.abrir_cadastro_onibus)
 
-        self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning')
+        self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning', state='disabled')
         self.btn_editar.grid(column=1, row=1, padx=2, pady=(10, 0), sticky='ew')
         self.btn_editar.bind('<ButtonRelease-1>', self.abrir_editar_onibus)
 
-        self.btn_excluir = ttk.Button(self.frm_menu, text='Excluir', bootstyle='danger')
+        self.btn_excluir = ttk.Button(self.frm_menu, text='Excluir', bootstyle='danger', state='disabled')
         self.btn_excluir.grid(column=2, row=1, padx=2, pady=(10, 0), sticky='ew')
         self.btn_excluir.bind('<ButtonRelease-1>', self.excluir_onibus)
 
         self.utils.centraliza(self.janela)
+
+    def validar_botoes(self, *event):
+        linha = item = self.tvw.selection()
+        if linha: # Se uma linha for selecionada
+            self.btn_editar.config(state='enable')
+            self.btn_excluir.config(state='enable')
+            return True
+        else:
+            self.btn_editar.config(state='disabled')
+            self.btn_excluir.config(state='disabled')
+            return False
 
     def atualizar_tabela(self, tuplas=None):
         dados = self.tvw.get_children()

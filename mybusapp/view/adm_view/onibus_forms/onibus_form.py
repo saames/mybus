@@ -9,13 +9,16 @@ class OnibusForm:
     def __init__(self, master, *args):
         # Ajustes na janela
         # self.janela_origem = janela_origem
-
         self.janela = master
-        self.janela.geometry('450x550')
-        self.janela.title(" Formulário para Cadastrar um novo Ônibus - MyBus")
+        #self.janela.geometry('450x550')
+        self.janela.title("Cadastrar ônibus - MyBus")
         self.janela.resizable(False, False)
 
+        self.frm_center = ttk.Frame(self.janela)
+        self.frm_center.pack(expand=True, padx=10, pady=10)
+
         #Pegando as linha do banco de dados
+        self.utils = Utils()
         self.gereciar_linha = GerenciarLinhasControl()
         self.gereciar_onibus = GerenciarOnibusControl()
 
@@ -25,59 +28,75 @@ class OnibusForm:
         else:
             self.onibus_editar = None
 
-        # Frame para centralizar os componentes no meio da janela
-        self.frm_center = ttk.Frame(self.janela)
-        self.frm_center.pack(expand=True, padx=10, pady=10)
-        self.frm_center.columnconfigure(0, weight=1)
-
         # Titulo
-        self.lbl_tile = ttk.Label(self.frm_center, text='Adicione um novo ônibus',  bootstyle='primary',font=('TkDefaultFont', 14, 'bold'))
-        self.lbl_tile.grid(column=0,row=0, pady=(0,25),sticky='w')
+        self.lbl_title = ttk.Label(self.frm_center, text='Cadastrar ônibus', bootstyle='primary-inverse', padding=(120, 11))
+        self.lbl_title.grid(column=0,row=0, columnspan=2, pady=(0,20))
 
         # Número do ônibus
-        self.lbl_number = ttk.Label(self.frm_center, text='Número (obrigatório):',font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_number.grid(column=0, row=1,sticky='w', pady=(0, 2))
-        self.ent_number_value = ttk.StringVar()
-        if self.onibus_editar:
-            self.ent_number_value.set(self.onibus_editar[1])
-        self.ent_number = ttk.Entry(self.frm_center, textvariable=self.ent_number_value)
-        self.ent_number.grid(column=0, row=2, sticky='ew', pady=(0,10))
-        self.ent_number.bind('<KeyRelease>', self.validar_campos)
+        self.lbl_number = ttk.Label(self.frm_center, text='Número',bootstyle='inverse-secondary', 
+                                                                                  borderwidth=7, 
+                                                                                  padding=(36,0),
+                                                                                  font=('TkDefaultFont', 10, 'bold'))
+        self.lbl_number.grid(column=0, row=1, sticky='w', pady=(0,5))
+        
+        self.spb_number_value = ttk.IntVar(value=1)
+        self.spb_number = ttk.Spinbox(self.frm_center, textvariable=self.spb_number_value, from_=1, to=999, format='%03.0f')
+        self.spb_number.set(f"{self.spb_number_value.get():03d}") # Solução para o número começar com 3 casas antes da vírgula.
+        self.spb_number.grid(column=1, row=1, sticky='ew', pady=(0, 5))
+        self.spb_number.bind('<KeyRelease>', self.validar_campos)
+        self.spb_number.bind('<ButtonRelease>', self.validar_campos)
+        
+        # self.ent_number_value = ttk.StringVar()
+        # if self.onibus_editar:
+        #     self.ent_number_value.set(self.onibus_editar[1])
+        # self.ent_number = ttk.Entry(self.frm_center, textvariable=self.ent_number_value)
+        # self.ent_number.grid(column=1, row=1, sticky='ew', ipadx=60, pady=(0,5))
+        # self.ent_number.bind('<KeyRelease>', self.validar_campos)
 
         # Placa do ônibus    
-        self.lbl_plate = ttk.Label(self.frm_center, text='Placa (obrigatório):', font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_plate.grid(column=0, row=3, sticky='w', pady=(0, 2))
+        self.lbl_plate = ttk.Label(self.frm_center, text='Placa', bootstyle='inverse-secondary', 
+                                                                  borderwidth=7, 
+                                                                  padding=(45,0),
+                                                                  font=('TkDefaultFont', 10, 'bold'))
+        self.lbl_plate.grid(column=0, row=2, sticky='w', pady=(0,5))
         self.ent_plate_value = ttk.StringVar()
         if self.onibus_editar:
             self.ent_plate_value.set(self.onibus_editar[2])
         self.ent_plate = ttk.Entry(self.frm_center, textvariable=self.ent_plate_value)
-        self.ent_plate.grid(column=0, row=4, sticky='ew', pady=(0, 10))
+        self.ent_plate.grid(column=1, row=2, sticky='ew', pady=(0, 5))
         self.ent_plate.bind('<KeyRelease>', self.validar_campos)
-        Utils.add_placeholder(self.janela, self.ent_plate, 'XXXXXXX')
-
+        Utils.add_placeholder(self.janela, self.ent_plate, 'XXX-XXXX')
 
         # Status do ônibus
-        self.lbl_status = ttk.Label(self.frm_center, text='Status:', font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_status.grid(column=0, row=5, sticky='w', pady=(0, 2))
+        self.lbl_status = ttk.Label(self.frm_center, text='Status', bootstyle='inverse-secondary', 
+                                                                    borderwidth=7, 
+                                                                    padding=(42,0),
+                                                                    font=('TkDefaultFont', 10, 'bold'))
+        self.lbl_status.grid(column=0, row=3, sticky='w', pady=(0,5))
 
         # frame pros radios
         self.frm_radios = ttk.Frame(self.frm_center)
-        self.frm_radios.grid(column=0, row=6, sticky='ew')
+        self.frm_radios.grid(column=1, row=3, sticky='ew', pady=(0, 5))
 
         d = {0:'Inativo', 1:'Ativo'}
         self.var_rbt = ttk.IntVar(value=0) # O valor padrão dele vai ser inativo
         if self.onibus_editar:
             self.var_rbt.set(self.onibus_editar[3])
+        cont = 0
         for chave, valor in d.items():
             rbt = ttk.Radiobutton(self.frm_radios, 
                                   text=valor, 
                                   value=chave, 
                                   variable=self.var_rbt )
-            rbt.pack(side='left',padx=5, pady=(0,10))
+            rbt.grid(row=0, column=cont, padx=5)
+            cont += 1
 
         # Linha Associada ao ônibus
-        self.lbl_line = ttk.Label(self.frm_center, text='Linha Associada:', font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_line.grid(column=0, row=7, sticky='w', pady=(0, 2))
+        self.lbl_line = ttk.Label(self.frm_center, text='Linha Associada', bootstyle='inverse-secondary', 
+                                                                           borderwidth=7, 
+                                                                           padding=(5,0),
+                                                                           font=('TkDefaultFont', 10, 'bold'))
+        self.lbl_line.grid(column=0, row=4, sticky='w', pady=(0,5))
 
         self.linha = ttk.StringVar()
         self.linha_id = 0
@@ -86,14 +105,13 @@ class OnibusForm:
                                      textvariable=self.linha,
                                      state='readonly')
     
-        self.cbx_line.grid(column=0, row=8, sticky='ew', pady=(0, 10))
+        self.cbx_line.grid(column=1, row=4, sticky='ew', pady=(0, 5))
         self.carrega_linhas()
         self.cbx_line.bind('<<ComboboxSelected>>', self.escolhendo_linha)
 
         # frame dos botões
         self.frm_buttons = ttk.Frame(self.frm_center)
-        self.frm_buttons.grid(column=0, row=11, pady=(25, 0), sticky='ew')
-        self.frm_buttons.columnconfigure((0, 1), weight=1)
+        self.frm_buttons.grid(column=0, row=5, columnspan=2, pady=(25, 0))
 
         # Botão Cancelar 
         self.btn_cancel = ttk.Button(self.frm_buttons, text='CANCELAR', bootstyle='danger')
@@ -102,8 +120,11 @@ class OnibusForm:
 
         # Botão Salvar 
         self.btn_save = ttk.Button(self.frm_buttons, text='SALVAR', bootstyle='success', state='disabled')
-        self.btn_save.grid(column=1, row=0, sticky='ew', padx=(5, 0))
+        self.btn_save.grid(column=1, row=0, sticky='ew')
         self.btn_save.bind('<ButtonRelease-1>', self.cadastrar_onibus)
+
+        self.utils.centraliza(self.janela)
+
 
 
     def carrega_linhas(self):
@@ -113,7 +134,7 @@ class OnibusForm:
 
         for i in result:
             self.keys.append(i[0])
-            self.values.append(f"{i[2]} : {i[1]}") # colocar os dados do banco aqui, vou so fazer uma coisa estatica por enquanto
+            self.values.append(f"{i[2]} : {i[1]}")
 
         self.keys.append(None)
         self.values.append("Nenhuma linha associada.")
@@ -136,10 +157,10 @@ class OnibusForm:
         self.linha_id = self.keys[self.values.index(linha)]
 
     def validar_campos(self, event):
-        numero = self.ent_number.get()
-        placa = self.ent_plate.get()
+        numero = self.spb_number.get()
+        placa = self.ent_plate.get().replace("-","")
 
-        if len(placa) == 8 and numero != "" and placa != 'XXXXXXX':
+        if len(placa) == 7 and numero:
             self.btn_save.config(state='enable')
             return True
         else:
@@ -152,8 +173,8 @@ class OnibusForm:
             self.janela.destroy()
  
     def cadastrar_onibus(self, event):
-        number = self.ent_number_value.get()
-        plate = self.ent_plate_value.get()
+        number = self.spb_number_value.get()
+        plate = self.ent_plate_value.get().replace("-","")
         status = self.var_rbt.get()
         linha_id = self.linha_id
         if not self.onibus_editar:
