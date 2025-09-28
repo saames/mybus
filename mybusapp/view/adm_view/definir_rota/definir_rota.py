@@ -5,8 +5,6 @@ from resources.utils import Utils
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderServiceError
 
-
-
 class DefinirRotaView:
     def __init__(self, master, janela_origem):
         self.janela = master
@@ -19,8 +17,8 @@ class DefinirRotaView:
         self.utils = Utils()
 
         # Variáveis para armazenar os dados da rota
-        self.ponto_origem = None
-        self.ponto_destino = None
+        self.ponto_origem = {}
+        self.ponto_destino = {}
 
         # Título
         self.lbl_title = ttk.Label(self.frm_center, text='Definir Rota de ida',  bootstyle='primary', font=('TkDefaultFont', 14, 'bold'))
@@ -84,11 +82,17 @@ class DefinirRotaView:
         # Se o botão ainda diz "Salvar Origem", estamos definindo a origem.
         if self.btn_continuar.cget('text') == 'Salvar Origem':
             origem_texto = self.ent_origem.get()
-            if not origem_texto:
+            lat_texto = self.ent_latitude.get()
+            lon_texto = self.ent_longitude.get()
+            if not origem_texto or not lat_texto or not lon_texto:
                 messagebox.showwarning("Campo Vazio", "Por favor, preencha a origem antes de continuar.")
                 return
             
-            self.ponto_origem = origem_texto
+            self.ponto_origem = {
+                "nome": origem_texto,
+                "lat":float(lat_texto),
+                "lon": float(lon_texto)
+            }
             print(f"Origem salvo: {self.ponto_origem}")
 
             # Esconde os widgets de origem
@@ -105,16 +109,23 @@ class DefinirRotaView:
             self.mpv_rota.delete_all_marker()
 
             # Atualiza os textos da UI
-            self.btn_continuar.config(text='Salvar Destino', bootstyle='primary')
+            self.btn_continuar.config(text='Salvar Destino', bootstyle='success')
 
         # Se o botão já foi alterado para "Salvar Destino", estamos definindo o destino.
         else:
+
             destino_texto = self.ent_destino.get()
-            if not destino_texto:
+            lat_texto = self.ent_latitude.get()
+            lon_texto = self.ent_longitude.get()
+            if not destino_texto or not lat_texto and not lon_texto:
                 messagebox.showwarning("Campo Vazio", "Por favor, preencha o Destino antes de salvar.")
                 return
 
-            self.ponto_destino = destino_texto
+            self.ponto_destino = {
+                "nome": destino_texto,
+                "lat": float(lat_texto),
+                "lon": float(lon_texto)
+            }
             print(f"Destino salvo: {self.ponto_destino}")
         
             
@@ -179,18 +190,31 @@ class DefinirRotaView:
         if self.btn_continuar.cget('text') == 'Salvar Destino':
             self.lbl_destino.grid_remove()
             self.ent_destino.grid_remove()
-            self.lbl_origem.grid()
-            self.ent_origem.grid()
+      
 
             self.ent_destino.delete(0, 'end')
             self.ent_longitude.delete(0, 'end')
             self.ent_latitude.delete(0, 'end')
             self.mpv_rota.delete_all_marker()
             
-            # Restaura o valor do campo de origem e o foco
+            self.lbl_origem.grid()
+            self.ent_origem.grid()
+
+            # Restaura o valor do campo de origem
             self.ent_origem.delete(0, 'end')
             if self.ponto_origem:
-                self.ent_origem.insert(0, self.ponto_origem)
+                nome_origem = self.ponto_origem.get("nome", "")
+                lat_origem = self.ponto_origem.get("lat")
+                lon_origem = self.ponto_origem.get("lon")
+
+                self.ent_origem.insert(0, nome_origem)
+                self.ent_latitude.insert(0, str(lat_origem))
+                self.ent_longitude.insert(0, str(lon_origem))
+
+                if lat_origem is not None and lon_origem is not None:
+                    self.mpv_rota.set_marker(lat_origem, lon_origem, text=nome_origem)
+                    self.mpv_rota.set_position(lat_origem, lon_origem)
+                    
             self.ent_origem.focus_set()
             
             self.btn_continuar.config(text='Salvar Origem', bootstyle='success')
