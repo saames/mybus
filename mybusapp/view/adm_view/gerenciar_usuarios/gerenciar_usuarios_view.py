@@ -131,27 +131,29 @@ class GerenciarUsuariosView:
 
             self.tvw.insert('', 'end', values=valores, tags=[tag_inativo, tag_ativo])
         
-    def promover_adm(self):
+    def promover_adm(self, event):
         item = self.tvw.selection()
-
-        if len(item) == 1:
-            item_id = item[0] 
-            
-            dados_linha = self.tvw.item(item_id, 'values') # Pegando todos os dados da linha
-            nome_use = dados_linha[1]
-            id_use = dados_linha[0]
-            papel_atual = dados_linha[3]
-            
-            if papel_atual == 'Administrador':
-                 messagebox.showinfo('Informação', f'O usuário {nome_use} já é administrador')
-                 return
-            
-            res = messagebox.askquestion('Confirmar', f'Tem certeza da promoção do usuário {nome_use}, para o papel de administrador?')
-            
-            if res == 'yes':
-                self.ge_usuarios.promover_usuario(id_use)
-                self.atualizar_tabela()
-                messagebox.showinfo('Informação', 'Usuário foi promovido a administrador')
+        if item:
+            if len(item) == 1:
+                item_id = item[0] 
+                
+                dados_linha = self.tvw.item(item_id, 'values') # Pegando todos os dados da linha
+                nome_use = dados_linha[1]
+                id_use = dados_linha[0]
+                papel_atual = dados_linha[3]
+                
+                if papel_atual == 'Administrador':
+                    messagebox.showinfo('Informação', f'O usuário {nome_use} já é administrador')
+                    return
+                
+                res = messagebox.askquestion('Confirmar', f'Tem certeza da promoção do usuário {nome_use}, para o papel de administrador?')
+                
+                if res == 'yes':
+                    self.ge_usuarios.promover_usuario(id_use)
+                    self.atualizar_tabela()
+                    messagebox.showinfo('Informação', 'Usuário foi promovido a administrador')
+        else:
+            messagebox.showerror('Erro','Selecione um usuário para promover a administrador.')
         
         # elif len(item) > 0:
         #     messagebox.showwarning('Aviso', 'Selecione apenas 1 usuário')
@@ -165,21 +167,20 @@ class GerenciarUsuariosView:
         self.atualizar_tabela(result)
 
     def editar_usuario(self, event):
-        try:
-            item = self.tvw.selection()[0]
+        item = self.tvw.selection()
+        if self.tvw.selection():
             usuario_id = self.tvw.item(item)['values'][0]
             usuario = self.ge_usuarios.buscar_usuario_id(usuario_id)[0]
-            print(usuario)
             self.tl = ttk.Toplevel(self.janela)
             CadastroUserView(self.tl, usuario)
             self.utils.call_top_view(self.janela, self.tl)
             self.atualizar_tabela()
-        except IndexError:
-                messagebox.showwarning("Error", "Deve possuir um usuario selecionado para realizar a edição.")
+        else:
+            messagebox.showwarning("Error", "Selecione um usuário para editar.")
 
-    def excluir(self):
+    def excluir(self, event):
         item = self.tvw.selection()
-        if len(item) == 1:
+        if item:
             item_id = item[0] 
             
             dados_linha = self.tvw.item(item_id, 'values') #pegando todos os dados da linha
@@ -197,7 +198,8 @@ class GerenciarUsuariosView:
                 self.ge_usuarios.deletar_usuario(id_use)
                 self.atualizar_tabela()
                 messagebox.showinfo('Informação', 'Usuário inativado com sucesso!')
-        
+        else:
+            messagebox.showwarning("Error", "Selecione um usuário para inativar.")
         # elif len(item) > 0:
         #     messagebox.showwarning('Aviso', 'Selecione apenas 1 usuário')
         
