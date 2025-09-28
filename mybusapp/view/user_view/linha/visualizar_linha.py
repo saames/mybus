@@ -72,7 +72,7 @@ class VisualizarLinhaView:
         # Botão Horário
         self.btn_horario= ttk.Button(self.frm_botoes, text="Horários", bootstyle='primary', state='disabled')
         self.btn_horario.grid(row=0, column=1, padx=2)
-        self.btn_horario.bind('<Button-1>', self)
+        self.btn_horario.bind('<Button-1>')
 
         # Registrar Viagem
         self.btn_registrar_viagem = ttk.Button(self.frm_botoes, text="Registrar Viagem", bootstyle='secondary', state='disabled')
@@ -82,7 +82,7 @@ class VisualizarLinhaView:
         # Favoritar Linha
         self.btn_favoritar_linha = ttk.Button(self.frm_botoes, text="Favoritar Linha", bootstyle='secondary', state='disabled')
         self.btn_favoritar_linha.grid(row=0, column=3, padx=2)
-        self.btn_favoritar_linha.bind('<Button-1>', self)
+        self.btn_favoritar_linha.bind('<Button-1>')
 
         # self.frm_center.grid_rowconfigure(0, weight=1)
         # self.frm_center.grid_columnconfigure(0, weight=1)
@@ -90,7 +90,7 @@ class VisualizarLinhaView:
         self.utils.centraliza(self.janela)
 
     def validar_botoes(self, *event):
-        linha = item = self.tvw.selection()
+        linha = self.tvw.selection()
         if linha: # Se uma linha for selecionada
             self.btn_rota.config(state='enable')
             self.btn_horario.config(state='enable')
@@ -107,7 +107,7 @@ class VisualizarLinhaView:
     def RegistrarViagem(self,event):
         self.item_selecionado = self.tvw.selection()
         if len(self.item_selecionado) != 1:
-            messagebox.showwarning('Aviso', 'Selecione um item')
+            messagebox.showerror('Erro', 'Selecione uma linha para favoritar.')
         elif len(self.item_selecionado) == 1:
             messagebox.askyesno('Confirmação','Confirma Registro de Viagem ?')
 
@@ -123,13 +123,13 @@ class VisualizarLinhaView:
 
     def visualizar_rota(self, event):
         item = self.tvw.selection()
-        if(item):
+        if item:
             linha = self.tvw.item(item)['values']
             self.tl = ttk.Toplevel(self.janela)
             VisualizarRotaView(self.tl, linha)
             self.utils.call_top_view(self.janela, self.tl)
         else:
-            messagebox.showwarning("Error", "É necesserio selecionar uma linha.")
+            messagebox.showerror("Erro", "É necessário selecionar uma linha.")
 
     def voltar(self):
             self.janela.destroy() 

@@ -132,23 +132,24 @@ class CadastroUserView:
 
         self.utils.centraliza(self.janela)
 
-    def validar_campos(self, event):
+    def validar_campos(self, *event):
         nome = self.ent_name.get()
         senha = self.ent_password.get()
         confirmar_senha = self.ent_checker_pass.get()
         email = self.ent_email.get()
-
         cpf = self.ent_CPF.get().replace(".","").replace("-","")
-        telefone = self.ent_phone.get().replace("(","").replace(")","")
-
-        if (telefone.isdigit() and len(telefone) >= 11 and
+        telefone = self.ent_phone.get().replace("(","").replace(")","").replace("-","")
+        
+        if (telefone.isdigit() and len(telefone) == 11 and
             nome != "" and len(cpf) == 11 and
             len(senha) >= 8 and confirmar_senha == senha and
             "@" in email and
             self.cpf_verificar.validate(f"{cpf[0:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}")):
             self.btn_save.config(state='enable')
+            return True
         else:
             self.btn_save.config(state='disabled')
+            return False
     
     def cancelar(self, event):
         if(self.usuario == None):
@@ -159,19 +160,22 @@ class CadastroUserView:
             self.janela.destroy()
 
     def cadastrar(self, event):
-        name = self.ent_name_value.get()
-        cpf = self.ent_CPF_value.get()
-        email = self.ent_email.get()
-        phone = self.ent_phone_value.get()
-        password = self.ent_password_value.get()
-        if(self.usuario == None):
-            result = self.cadastrar_control.Cadastrar_usuario(name, cpf, phone, password, "user", "A")
-            if(result):
-                messagebox.showinfo("Informação", "Cadastro realizado com sucesso!")
-                self.janela.destroy()
+        if self.validar_campos():
+            name = self.ent_name_value.get()
+            cpf = self.ent_CPF_value.get()
+            email = self.ent_email.get()
+            phone = self.ent_phone_value.get()
+            password = self.ent_password_value.get()
+            if(self.usuario == None):
+                result = self.cadastrar_control.Cadastrar_usuario(name, cpf, phone, password, "user", "A")
+                if(result):
+                    messagebox.showinfo("Informação", "Cadastro realizado com sucesso!")
+                    self.janela.destroy()
+            else:
+                result = self.cadastrar_control.editar_usuario(self.usuario[0], name, cpf, password, phone, self.usuario[4], "A")
+                if(result):
+                    messagebox.showinfo("Informação", "Edição realizada com sucesso!")
+                    self.janela.destroy()
         else:
-            result = self.cadastrar_control.editar_usuario(self.usuario[0], name, cpf, password, phone, self.usuario[4], "A")
-            if(result):
-                messagebox.showinfo("Informação", "Edição realizada com sucesso!")
-                self.janela.destroy()
+            messagebox.showerror('Erro', 'Preencha todos os campos corretamente.')
 
