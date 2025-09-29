@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b14e26e5-cdcd-43e2-88e2-a78c5084a563" name="Changes" comment="refact: arrumando o merge e tirando o print." />
+    <list default="true" id="b14e26e5-cdcd-43e2-88e2-a78c5084a563" name="Changes" comment=".">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybusapp/control/user_linha_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/mybusapp/control/user_linha_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybusapp/model/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/mybusapp/model/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybusapp/resources/database/mybusDB.db" beforeDir="false" afterPath="$PROJECT_DIR$/mybusapp/resources/database/mybusDB.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mybusapp/view/user_view/linha/visualizar_linha.py" beforeDir="false" afterPath="$PROJECT_DIR$/mybusapp/view/user_view/linha/visualizar_linha.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,7 +72,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "joaoVitor",
     "last_opened_file_path": "/home/vitor/PycharmProjects/mybus",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
@@ -488,7 +494,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759159442719</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary=".">
+      <option name="closed" value="true" />
+      <created>1759182449741</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1759182449741</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -548,7 +562,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refact: Adicionando exemplos de onibus e linha no banco de dados." />
     <MESSAGE value="feat: Conectando a tela de login com a home." />
     <MESSAGE value="feat: Adicionando a função call_top_view para fazer a chamada de um top_view." />
     <MESSAGE value="feat: Conectando a pagina de gerenciar linha ao banco de dados." />
@@ -573,6 +586,7 @@
     <MESSAGE value="feat: Menssagem caso não haja um rota relacionada com a linha." />
     <MESSAGE value="feat: Função de contar a quantidade de uso de uma linha por um usuario." />
     <MESSAGE value="refact: arrumando o merge e tirando o print." />
-    <option name="LAST_COMMIT_MESSAGE" value="refact: arrumando o merge e tirando o print." />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
 </project>

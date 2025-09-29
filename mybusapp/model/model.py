@@ -87,9 +87,9 @@ class Model:
 
         for i in range(num_atributs):
             if(i < num_atributs - 1):
-                sql += f" {table_atributs[i]} = {values[i]},"
+                    sql += f" {table_atributs[i]} = {values[i]},"
             else:
-                sql += f" {table_atributs[i]} = {values[i]}"
+                    sql += f" {table_atributs[i]} = {values[i]}"
         sql += f" WHERE id = {id};"
         try:
             con = self.conexao.get_conexao()
