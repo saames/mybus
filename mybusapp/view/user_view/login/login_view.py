@@ -94,7 +94,8 @@ class LoginView:
         result = self.login_control.autenticar(f"'{username}'", f"'{password}'")
         if(result):
             """lbl_login_value = (
-                f"Usuario logado id: {result[0]}\n"
+                f"Usuario logado
+                id: {result[0]}\n"
                 f"Nome:{result[0]}\n"
                 f"CPF:{result[1]}\n"
                 f"Telefone:{result[2]}\n"
@@ -103,7 +104,7 @@ class LoginView:
             )"""
             self.reiniciar_tela()
             self.tl = ttk.Toplevel(self.janela)
-            HomeLinhaView(self.tl, None, result[4])
+            HomeLinhaView(self.tl, None, result[4], result[0])
             self.utils.call_top_view(self.janela, self.tl)
 
         else:

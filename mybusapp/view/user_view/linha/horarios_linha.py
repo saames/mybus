@@ -2,10 +2,12 @@ import ttkbootstrap as ttk
 from resources.utils import Utils
 
 class HorariosLinhaView:
-    def __init__(self,master,janela_origem):
+    def __init__(self,master,janela_origem,linha):
         # Ajustes janela
         self.janela = master
         self.janela_origem = janela_origem
+        self.nome_linha = linha[0]
+        self.numero_linha = linha[1]
         #self.janela.geometry('700x550')
         self.janela.title('Visualizar Linha - MyBus')
         self.janela.resizable(False,False)
@@ -22,8 +24,8 @@ class HorariosLinhaView:
         self.btn_voltar.grid(column=0, row=0)
         self.btn_voltar.bind('<ButtonRelease-1>',self.voltar)
 
-        self.nome_linha = self.janela_origem[0]
-        self.numero_linha = self.janela_origem[1]
+        
+        
 
  
 
@@ -83,10 +85,6 @@ class HorariosLinhaView:
     def voltar(self,event):
         self.janela.destroy() 
         self.janela_origem.deiconify()
-""""
-        
-
-        """
     
     
     

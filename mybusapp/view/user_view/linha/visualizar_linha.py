@@ -4,9 +4,10 @@ from resources.photos import Base64
 from resources.utils import Utils
 from control.gerenciar_linhas_control import GerenciarLinhasControl
 from view.user_view.visualizar_rota.visualizar_rota_view import VisualizarRotaView
+from control.user_linha_control import UserLinhaControl
 from view.user_view.linha.horarios_linha import HorariosLinhaView
 class VisualizarLinhaView:
-    def __init__(self,master, janela_origem):
+    def __init__(self,master, janela_origem, user_id=1):
         # Ajustes janela
         self.janela_origem = janela_origem
         self.janela = master
@@ -16,9 +17,12 @@ class VisualizarLinhaView:
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.grid(column=0, row=0, padx=10, pady=10)
 
+        self.user_id = user_id
+
         # Criação de Instâncias
         self.utils = Utils()
         self.gerenciar_linha = GerenciarLinhasControl()
+        self.userLinha = UserLinhaControl()
 
         # Botão Voltar
         self.style = ttk.Style()
@@ -106,17 +110,24 @@ class VisualizarLinhaView:
 
     def RegistrarViagem(self,event):
         self.item_selecionado = self.tvw.selection()
+        linha_tvw_id = int("".join(self.item_selecionado).strip("I"))
+        linha_id = self.tuplas[linha_tvw_id-1][0]
         if len(self.item_selecionado) != 1:
             messagebox.showerror('Erro', 'Selecione uma linha para favoritar.')
         elif len(self.item_selecionado) == 1:
-            messagebox.askyesno('Confirmação','Confirma Registro de Viagem ?')
+            result = messagebox.askyesno('Confirmação','Confirma Registro de Viagem ?')
+            if(result):
+                self.userLinha.registrar_viajem(self.user_id, linha_id)
+                self.atualizar_tabela()
 
     def atualizar_tabela(self):
         dados = self.tvw.get_children()
         for item in dados:
             self.tvw.delete(item)
-        tuplas = self.gerenciar_linha.listar_linhas()
-        for item in tuplas:
+        self.tuplas = self.gerenciar_linha.listar_linhas()
+        user_linha = sorted(self.userLinha.buscar_linhas_do_usuario(self.user_id), key=lambda x: x[2])
+        conta = 0
+        for item in self.tuplas:
             tag_geral = tuple()
             tag_geral = ('geral',)
             self.tvw.insert('', 'end', values=item[1:], tags=tag_geral)
@@ -136,7 +147,7 @@ class VisualizarLinhaView:
         if item:
             linha = self.tvw.item(item)['values']
             self.tl = ttk.Toplevel(self.janela)
-            HorariosLinhaView(self.tl,linha)
+            HorariosLinhaView(self.tl,self.janela,linha)
             self.utils.call_top_view(self.janela,self.tl)
         else:
             messagebox.showerror("Erro", "É necessário selecionar uma linha.")
