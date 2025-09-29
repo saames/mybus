@@ -8,7 +8,7 @@ from view.adm_view.gerenciar_onibus.gerenciar_onibus_view import GerenciarOnibus
 from view.adm_view.gerenciar_usuarios.gerenciar_usuarios_view import GerenciarUsuariosView
 
 class HomeLinhaView:
-    def __init__(self,master, janela_origem=None, papel="adm"):
+    def __init__(self,master, janela_origem=None, papel="adm", id = None):
         # Ajustes janela
         self.janela_origem = janela_origem
         self.janela = master
@@ -16,9 +16,10 @@ class HomeLinhaView:
         self.janela.title('Home Linha')
         self.janela.resizable(False,False)
 
+        self.user_id = id
+
         #Criando Instancias
         self.utils = Utils()
-
         self.utils.centraliza(self.janela)
 
         # Configura as colunas para expandir igualmente
@@ -68,7 +69,7 @@ class HomeLinhaView:
     def visualizar_Linha(self, event):
         self.janela.withdraw() 
         self.tl = ttk.Toplevel(self.janela)
-        VisualizarLinhaView(self.tl,self.janela)
+        VisualizarLinhaView(self.tl,self.janela, self.user_id)
         self.utils.call_top_view(self.janela, self.tl)
 
     def gerenciar_linha(self, event):

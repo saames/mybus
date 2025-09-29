@@ -4,17 +4,21 @@ from resources.photos import Base64
 from resources.utils import Utils
 from control.gerenciar_linhas_control import GerenciarLinhasControl
 from view.user_view.visualizar_rota.visualizar_rota_view import VisualizarRotaView
+from control.user_linha_control import UserLinhaControl
 
 class VisualizarLinhaView:
-    def __init__(self,master, janela_origem):
+    def __init__(self,master, janela_origem, user_id=1):
         # Ajustes janela
         self.janela_origem = janela_origem
         self.janela = master
-        self.janela.geometry('700x550')
+        self.janela.geometry('900x550')
         self.janela.title('Visualizar Linha')
         self.janela.resizable(False,False)
 
+        self.user_id = user_id
+
         self.utils = Utils()
+        self.userLinha = UserLinhaControl()
 
         self.style = ttk.Style()
         self.style.configure('large.TButton', font=('TkDefaultFont', 18, 'bold'))
@@ -36,19 +40,21 @@ class VisualizarLinhaView:
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.grid(row=2, column=0, padx=40, pady=50)
 
-        colunas = ['id', 'nome', 'numero']
+        colunas = ['id', 'nome', 'numero', 'quantidade']
         self.tvw = ttk.Treeview(self.frm_center, height=5,
                                 columns=colunas, show='headings')
         #Configurar o cabaçalho das colunas
         self.tvw.heading('id', text='ID')
         self.tvw.heading('numero', text='NÚMERO')
         self.tvw.heading('nome', text='NOME')
+        self.tvw.heading('quantidade', text='QUANTIDADE')
         self.tvw.grid(row=0, column=0,sticky='nsew')
 
         # Centralizar os valores das células
         self.tvw.column('id', anchor='center')
         self.tvw.column('numero', anchor='center')
         self.tvw.column('nome', anchor='center')
+        self.tvw.column('quantidade', anchor='center')
 
         self.tvw.grid(row=0, column=0, sticky='nsew')
 
@@ -85,17 +91,35 @@ class VisualizarLinhaView:
 
     def RegistrarViagem(self,event):
         self.item_selecionado = self.tvw.selection()
+        linha = self.tvw.item(self.item_selecionado)["values"]
         if len(self.item_selecionado) != 1:
             messagebox.showwarning('Aviso', 'Selecione um item')
         elif len(self.item_selecionado) == 1:
-            messagebox.askyesno('Confirmação','Confirma Registro de Viagem ?')
+            result = messagebox.askyesno('Confirmação','Confirma Registro de Viagem ?')
+            if(result):
+                self.userLinha.registrar_viajem(self.user_id, linha[0])
+                self.atualizar_tabela()
 
     def atualizar_tabela(self):
         dados = self.tvw.get_children()
         for item in dados:
             self.tvw.delete(item)
         tuplas = self.gerenciar_linha.listar_linhas()
+        user_linha = sorted(self.userLinha.buscar_linhas_do_usuario(self.user_id), key=lambda x: x[2])
+        conta = 0
+        print(tuplas)
+        print(user_linha)
         for item in tuplas:
+            item = list(item)
+            if(len(user_linha) > 0) and (conta < len(user_linha)):
+                if(item[0] == user_linha[conta][2]):
+                    item.append(user_linha[conta][3])
+                    conta += 1
+                else:
+                    item.append(0)
+            else:
+                item.append(0)
+            item = tuple(item)
             self.tvw.insert('', 'end', values=item)
 
     def visualizar_rota(self, event):
