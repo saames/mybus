@@ -4,7 +4,7 @@ from resources.photos import Base64
 from resources.utils import Utils
 from control.gerenciar_linhas_control import GerenciarLinhasControl
 from view.user_view.visualizar_rota.visualizar_rota_view import VisualizarRotaView
-
+from view.user_view.linha.horarios_linha import HorariosLinhaView
 class VisualizarLinhaView:
     def __init__(self,master, janela_origem):
         # Ajustes janela
@@ -72,7 +72,7 @@ class VisualizarLinhaView:
         # Botão Horário
         self.btn_horario= ttk.Button(self.frm_botoes, text="Horários", bootstyle='primary', state='disabled')
         self.btn_horario.grid(row=0, column=1, padx=2)
-        self.btn_horario.bind('<Button-1>')
+        self.btn_horario.bind('<Button-1>',self.visualizar_horario)
 
         # Registrar Viagem
         self.btn_registrar_viagem = ttk.Button(self.frm_botoes, text="Registrar Viagem", bootstyle='secondary', state='disabled')
@@ -128,6 +128,16 @@ class VisualizarLinhaView:
             self.tl = ttk.Toplevel(self.janela)
             VisualizarRotaView(self.tl, linha)
             self.utils.call_top_view(self.janela, self.tl)
+        else:
+            messagebox.showerror("Erro", "É necessário selecionar uma linha.")
+
+    def visualizar_horario(self,event):
+        item = self.tvw.selection()
+        if item:
+            linha = self.tvw.item(item)['values']
+            self.tl = ttk.Toplevel(self.janela)
+            HorariosLinhaView(self.tl,linha)
+            self.utils.call_top_view(self.janela,self.tl)
         else:
             messagebox.showerror("Erro", "É necessário selecionar uma linha.")
 
