@@ -91,8 +91,6 @@ class Model:
             else:
                 sql += f" {table_atributs[i]} = {values[i]}"
         sql += f" WHERE id = {id};"
-
-        print(sql)
         try:
             con = self.conexao.get_conexao()
             cursor = con.cursor()

@@ -15,7 +15,6 @@ class UserLinhaControl:
 
     def registrar_viajem(self, user_id, linha_id):
         find_result = self.model.find("UserLinha", f"usuario_id = {user_id}", f"linha_id = {linha_id}")
-        print(find_result)
         if(find_result):
             quantidade = find_result[0][3] + 1
             result = self.model.update("UserLinha(quantidadeUso)", (quantidade,), find_result[0][0])

@@ -110,39 +110,27 @@ class VisualizarLinhaView:
 
     def RegistrarViagem(self,event):
         self.item_selecionado = self.tvw.selection()
-        linha = self.tvw.item(self.item_selecionado)["values"]
+        linha_tvw_id = int("".join(self.item_selecionado).strip("I"))
+        linha_id = self.tuplas[linha_tvw_id-1][0]
         if len(self.item_selecionado) != 1:
             messagebox.showerror('Erro', 'Selecione uma linha para favoritar.')
         elif len(self.item_selecionado) == 1:
             result = messagebox.askyesno('Confirmação','Confirma Registro de Viagem ?')
             if(result):
-                self.userLinha.registrar_viajem(self.user_id, linha[0])
+                self.userLinha.registrar_viajem(self.user_id, linha_id)
                 self.atualizar_tabela()
 
     def atualizar_tabela(self):
         dados = self.tvw.get_children()
         for item in dados:
             self.tvw.delete(item)
-        tuplas = self.gerenciar_linha.listar_linhas()
+        self.tuplas = self.gerenciar_linha.listar_linhas()
         user_linha = sorted(self.userLinha.buscar_linhas_do_usuario(self.user_id), key=lambda x: x[2])
         conta = 0
-        print(tuplas)
-        print(user_linha)
-        for item in tuplas:
+        for item in self.tuplas:
             tag_geral = tuple()
             tag_geral = ('geral',)
             self.tvw.insert('', 'end', values=item[1:], tags=tag_geral)
-            item = list(item)
-            if(len(user_linha) > 0) and (conta < len(user_linha)):
-                if(item[0] == user_linha[conta][2]):
-                    item.append(user_linha[conta][3])
-                    conta += 1
-                else:
-                    item.append(0)
-            else:
-                item.append(0)
-            item = tuple(item)
-            self.tvw.insert('', 'end', values=item)
 
     def visualizar_rota(self, event):
         item = self.tvw.selection()
