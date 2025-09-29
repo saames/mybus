@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b14e26e5-cdcd-43e2-88e2-a78c5084a563" name="Changes" comment="refact: arrumando o merge e tirando o print." />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="UML Use Case" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="joaoVitor" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
+    <option name="SWAP_SIDES_IN_COMPARE_BRANCHES" value="true" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/saames/mybus.git&quot;,
+    &quot;accountId&quot;: &quot;1c76435c-c6db-49b1-9d51-f5c883595576&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="32n5mFn7F8WRYBclDd4NrfsAbWg" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "DefaultPlantUmlFileTemplate": "UML Use Case",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.cadastro_user.executor": "Run",
+    "Python.conexao.executor": "Run",
+    "Python.estilo.executor": "Run",
+    "Python.login_control.executor": "Run",
+    "Python.login_view.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.model.executor": "Run",
+    "Python.osrm.executor": "Run",
+    "Python.photos.executor": "Run",
+    "Python.rota_control.executor": "Run",
+    "Python.teste.executor": "Run",
+    "Python.teste2.executor": "Run",
+    "Python.usuario_model.executor": "Run",
+    "Python.visualizar_rota_view.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/vitor/PycharmProjects/mybus",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/mybusapp/view/adm_view" />
+      <recent name="$PROJECT_DIR$/mybusapp/resources" />
+      <recent name="$PROJECT_DIR$/mybusapp/view" />
+      <recent name="$PROJECT_DIR$/mybusapp/view/user_view" />
+      <recent name="$PROJECT_DIR$/mybusapp/control" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/mybusapp/control" />
+      <recent name="$PROJECT_DIR$/mybusapp/resources" />
+      <recent name="$PROJECT_DIR$/mybusapp/resources/database" />
+      <recent name="$PROJECT_DIR$/mybusapp/model" />
+      <recent name="$PROJECT_DIR$/testes" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="pip install -r requirements.txt" />
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="mybus" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (mybus)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/mybusapp/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-8753aad8314d-d902c0275401-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-252.25557.178" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b14e26e5-cdcd-43e2-88e2-a78c5084a563" name="Changes" comment="" />
+      <created>1758043657294</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1758043657294</updated>
+      <workItem from="1758043659083" duration="55000" />
+      <workItem from="1758044020360" duration="36000" />
+    </task>
+    <task id="LOCAL-00001" summary="feat: Deixando os testes em um diretorio unico.">
+      <option name="closed" value="true" />
+      <created>1758122847912</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1758122847912</updated>
+    </task>
+    <task id="LOCAL-00002" summary="update: colocando &quot;../&quot; no caminho da imagem para garantir que o programa pegue o caminho.">
+      <option name="closed" value="true" />
+      <created>1758122898721</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1758122898721</updated>
+    </task>
+    <task id="LOCAL-00003" summary="feat: Deixando os testes em um unico diretorio.">
+      <option name="closed" value="true" />
+      <created>1758123594011</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1758123594011</updated>
+    </task>
+    <task id="LOCAL-00004" summary="update: Colocando &quot;../&quot; no caminho da imagem para garantir que o caminho será encontrado.">
+      <option name="closed" value="true" />
+      <created>1758123645872</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1758123645872</updated>
+    </task>
+    <task id="LOCAL-00005" summary="refactor: Mudando o diretorio da conexão com o banco de dados.">
+      <option name="closed" value="true" />
+      <created>1758208136935</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1758208136935</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: Adicionando as funções de getAll(), update(), delete() -incompleto-.">
+      <option name="closed" value="true" />
+      <created>1758208222852</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1758208222852</updated>
+    </task>
+    <task id="LOCAL-00007" summary="remove: removendo a instacia da classe model.">
+      <option name="closed" value="true" />
+      <created>1758208368819</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1758208368819</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: Adicionando um comentario para explicar como funciona o updata do model.py">
+      <option name="closed" value="true" />
+      <created>1758211470031</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1758211470031</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: Criando o model de usuario para que assim quando o o metodo delete seja chamado para a tabela usuario, o usuario não seja deletado mas que apenas o seu status mude de ativo para inativo.">
+      <option name="closed" value="true" />
+      <created>1758293547647</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1758293547647</updated>
+    </task>
+    <task id="LOCAL-00010" summary="refact: Tentando garantir que o caminho do banco de dados seja encontrado independete da maquina ao qual o programa tá rodando.">
+      <option name="closed" value="true" />
+      <created>1758293612348</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1758293612348</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat: criando o metodo find() para se quando quer pesquisar algum atributo especifico.">
+      <option name="closed" value="true" />
+      <created>1758293696903</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1758293696903</updated>
+    </task>
+    <task id="LOCAL-00012" summary="refact: adicionando senha na tabela usuario.">
+      <option name="closed" value="true" />
+      <created>1758293720122</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1758293720122</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat: Login pacialmente feito.">
+      <option name="closed" value="true" />
+      <created>1758293742988</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1758293742988</updated>
+    </task>
+    <task id="LOCAL-00014" summary="feat: Adicionando o cadatrar_control para poder realizar o cadastro de usuarios.">
+      <option name="closed" value="true" />
+      <created>1758305198010</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1758305198010</updated>
+    </task>
+    <task id="LOCAL-00015" summary="refact: Alguns ajuste no caminho dos imports.">
+      <option name="closed" value="true" />
+      <created>1758305271689</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1758305271689</updated>
+    </task>
+    <task id="LOCAL-00016" summary="feat: Realizando cadastro de usuarios.">
+      <option name="closed" value="true" />
+      <created>1758305300771</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1758305300771</updated>
+    </task>
+    <task id="LOCAL-00017" summary="feat: Tetando arrumar o problema dos imports com __init__.py">
+      <option name="closed" value="true" />
+      <created>1758321332678</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1758321332678</updated>
+    </task>
+    <task id="LOCAL-00018" summary="feat: Finalizando o login, transitando para a tela Home, e adicionando ou não o widgets dependendo do papel do usuario logado.">
+      <option name="closed" value="true" />
+      <created>1758549511643</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1758549511643</updated>
+    </task>
+    <task id="LOCAL-00019" summary="refact: Adicionando exemplos de onibus e linha no banco de dados.">
+      <option name="closed" value="true" />
+      <created>1758555774691</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1758555774691</updated>
+    </task>
+    <task id="LOCAL-00020" summary="feat: Conectando a tela de login com a home.">
+      <option name="closed" value="true" />
+      <created>1758556012979</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1758556012979</updated>
+    </task>
+    <task id="LOCAL-00021" summary="feat: Adicionando a função call_top_view para fazer a chamada de um top_view.">
+      <option name="closed" value="true" />
+      <created>1758556041588</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1758556041588</updated>
+    </task>
+    <task id="LOCAL-00022" summary="feat: Conectando a pagina de gerenciar linha ao banco de dados.">
+      <option name="closed" value="true" />
+      <created>1758556105606</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1758556105606</updated>
+    </task>
+    <task id="LOCAL-00023" summary="feat: Conectando a pagina de gerenciar onibus ao banco de dados juntamente com o onibus_model.py para pegar todos os onibus juntamente com a linha associada.">
+      <option name="closed" value="true" />
+      <created>1758556147066</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1758556147066</updated>
+    </task>
+    <task id="LOCAL-00024" summary="feat: __init__.py">
+      <option name="closed" value="true" />
+      <created>1758556160886</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1758556160886</updated>
+    </task>
+    <task id="LOCAL-00025" summary="feat: Ligando a tela de gerenciar linhas com a tela de criar linha.">
+      <option name="closed" value="true" />
+      <created>1758557653168</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1758557653168</updated>
+    </task>
+    <task id="LOCAL-00026" summary="feat: permitindo a adição, edição e deletar um onibus da aplicação.">
+      <option name="closed" value="true" />
+      <created>1758650617195</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1758650617195</updated>
+    </task>
+    <task id="LOCAL-00027" summary="refact: modificando para não bugar na edição.">
+      <option name="closed" value="true" />
+      <created>1758650654071</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1758650654071</updated>
+    </task>
+    <task id="LOCAL-00028" summary="update: modificando para passar NULL quando não houver uma linha associada à um onibus">
+      <option name="closed" value="true" />
+      <created>1758651314591</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1758651314591</updated>
+    </task>
+    <task id="LOCAL-00029" summary="feat: adicionando a função de pesquisar por onibus">
+      <option name="closed" value="true" />
+      <created>1758654494371</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1758654494371</updated>
+    </task>
+    <task id="LOCAL-00030" summary="feat: pesquisa da tela de gerenciar usuarios.">
+      <option name="closed" value="true" />
+      <created>1758724995962</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1758724995962</updated>
+    </task>
+    <task id="LOCAL-00031" summary="feat: Editar Usuario.">
+      <option name="closed" value="true" />
+      <created>1758895536509</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1758895536509</updated>
+    </task>
+    <task id="LOCAL-00032" summary="feat: Centralizando visualizar_linha.">
+      <option name="closed" value="true" />
+      <created>1758895657692</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1758895657692</updated>
+    </task>
+    <task id="LOCAL-00033" summary="feat: Editar usuario.">
+      <option name="closed" value="true" />
+      <created>1758895675789</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1758895675789</updated>
+    </task>
+    <task id="LOCAL-00034" summary="feat: O cpf tem que ser valido para poder cadastrar.">
+      <option name="closed" value="true" />
+      <created>1758904650143</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1758904650143</updated>
+    </task>
+    <task id="LOCAL-00035" summary="remove: removendo o print do validar_campos">
+      <option name="closed" value="true" />
+      <created>1758904919968</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1758904919968</updated>
+    </task>
+    <task id="LOCAL-00036" summary="feat: Adicionando a biblioteca validate_docbr.">
+      <option name="closed" value="true" />
+      <created>1758907148379</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1758907148379</updated>
+    </task>
+    <task id="LOCAL-00037" summary="feat: Criando a classe OSRM para acessar a api necessaria para traçar a rota.">
+      <option name="closed" value="true" />
+      <created>1758917124987</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1758917124987</updated>
+    </task>
+    <task id="LOCAL-00038" summary="feat: Adicionando uma rota com o banco de dados.">
+      <option name="closed" value="true" />
+      <created>1758917145358</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1758917145358</updated>
+    </task>
+    <task id="LOCAL-00039" summary="refact: Trocando o nome com o numero do treeview.">
+      <option name="closed" value="true" />
+      <created>1758917175294</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1758917175294</updated>
+    </task>
+    <task id="LOCAL-00040" summary="feat: Conectando o visualizar rota com o banco de dados.">
+      <option name="closed" value="true" />
+      <created>1758917198773</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1758917198773</updated>
+    </task>
+    <task id="LOCAL-00041" summary="feat: Menssagem caso não haja um rota relacionada com a linha.">
+      <option name="closed" value="true" />
+      <created>1758917261570</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1758917261570</updated>
+    </task>
+    <task id="LOCAL-00042" summary="feat: Menssagem caso não haja um rota relacionada com a linha.">
+      <option name="closed" value="true" />
+      <created>1758918072023</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1758918072023</updated>
+    </task>
+    <task id="LOCAL-00043" summary="feat: Função de contar a quantidade de uso de uma linha por um usuario.">
+      <option name="closed" value="true" />
+      <created>1759157447094</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1759157447094</updated>
+    </task>
+    <task id="LOCAL-00044" summary="refact: arrumando o merge e tirando o print.">
+      <option name="closed" value="true" />
+      <created>1759159442719</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1759159442719</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="marquinhos" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="joaoVitor" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/marquinhos" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="refact: Adicionando exemplos de onibus e linha no banco de dados." />
+    <MESSAGE value="feat: Conectando a tela de login com a home." />
+    <MESSAGE value="feat: Adicionando a função call_top_view para fazer a chamada de um top_view." />
+    <MESSAGE value="feat: Conectando a pagina de gerenciar linha ao banco de dados." />
+    <MESSAGE value="feat: Conectando a pagina de gerenciar onibus ao banco de dados juntamente com o onibus_model.py para pegar todos os onibus juntamente com a linha associada." />
+    <MESSAGE value="feat: __init__.py" />
+    <MESSAGE value="feat: Ligando a tela de gerenciar linhas com a tela de criar linha." />
+    <MESSAGE value="feat: permitindo a adição, edição e deletar um onibus da aplicação." />
+    <MESSAGE value="refact: modificando para não bugar na edição." />
+    <MESSAGE value="update: modificando para passar NULL quando não houver uma linha associada à um onibus" />
+    <MESSAGE value="feat: adicionando a função de pesquisar por onibus" />
+    <MESSAGE value="feat: pesquisa da tela de gerenciar usuarios." />
+    <MESSAGE value="feat: Editar Usuario." />
+    <MESSAGE value="feat: Centralizando visualizar_linha." />
+    <MESSAGE value="feat: Editar usuario." />
+    <MESSAGE value="feat: O cpf tem que ser valido para poder cadastrar." />
+    <MESSAGE value="remove: removendo o print do validar_campos" />
+    <MESSAGE value="feat: Adicionando a biblioteca validate_docbr." />
+    <MESSAGE value="feat: Criando a classe OSRM para acessar a api necessaria para traçar a rota." />
+    <MESSAGE value="feat: Adicionando uma rota com o banco de dados." />
+    <MESSAGE value="refact: Trocando o nome com o numero do treeview." />
+    <MESSAGE value="feat: Conectando o visualizar rota com o banco de dados." />
+    <MESSAGE value="feat: Menssagem caso não haja um rota relacionada com a linha." />
+    <MESSAGE value="feat: Função de contar a quantidade de uso de uma linha por um usuario." />
+    <MESSAGE value="refact: arrumando o merge e tirando o print." />
+    <option name="LAST_COMMIT_MESSAGE" value="refact: arrumando o merge e tirando o print." />
+  </component>
+</project>
