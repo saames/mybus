@@ -9,7 +9,7 @@ class HorariosLinhaView:
         self.nome_linha = linha[0]
         self.numero_linha = linha[1]
         #self.janela.geometry('700x550')
-        self.janela.title('Visualizar Linha - MyBus')
+        self.janela.title('Horários - MyBus')
         self.janela.resizable(False,False)
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.grid(column=0, row=0, padx=10, pady=10)
