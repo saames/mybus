@@ -4,9 +4,10 @@ from resources.photos import Base64
 from resources.utils import Utils
 from control.gerenciar_linhas_control import GerenciarLinhasControl
 from view.user_view.visualizar_rota.visualizar_rota_view import VisualizarRotaView
+from control.user_linha_control import UserLinhaControl
 
 class VisualizarLinhaView:
-    def __init__(self,master, janela_origem):
+    def __init__(self,master, janela_origem, user_id=1):
         # Ajustes janela
         self.janela_origem = janela_origem
         self.janela = master
@@ -16,9 +17,12 @@ class VisualizarLinhaView:
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.grid(column=0, row=0, padx=10, pady=10)
 
+        self.user_id = user_id
+
         # Criação de Instâncias
         self.utils = Utils()
         self.gerenciar_linha = GerenciarLinhasControl()
+        self.userLinha = UserLinhaControl()
 
         # Botão Voltar
         self.style = ttk.Style()
@@ -106,20 +110,39 @@ class VisualizarLinhaView:
 
     def RegistrarViagem(self,event):
         self.item_selecionado = self.tvw.selection()
+        linha = self.tvw.item(self.item_selecionado)["values"]
         if len(self.item_selecionado) != 1:
             messagebox.showerror('Erro', 'Selecione uma linha para favoritar.')
         elif len(self.item_selecionado) == 1:
-            messagebox.askyesno('Confirmação','Confirma Registro de Viagem ?')
+            result = messagebox.askyesno('Confirmação','Confirma Registro de Viagem ?')
+            if(result):
+                self.userLinha.registrar_viajem(self.user_id, linha[0])
+                self.atualizar_tabela()
 
     def atualizar_tabela(self):
         dados = self.tvw.get_children()
         for item in dados:
             self.tvw.delete(item)
         tuplas = self.gerenciar_linha.listar_linhas()
+        user_linha = sorted(self.userLinha.buscar_linhas_do_usuario(self.user_id), key=lambda x: x[2])
+        conta = 0
+        print(tuplas)
+        print(user_linha)
         for item in tuplas:
             tag_geral = tuple()
             tag_geral = ('geral',)
             self.tvw.insert('', 'end', values=item[1:], tags=tag_geral)
+            item = list(item)
+            if(len(user_linha) > 0) and (conta < len(user_linha)):
+                if(item[0] == user_linha[conta][2]):
+                    item.append(user_linha[conta][3])
+                    conta += 1
+                else:
+                    item.append(0)
+            else:
+                item.append(0)
+            item = tuple(item)
+            self.tvw.insert('', 'end', values=item)
 
     def visualizar_rota(self, event):
         item = self.tvw.selection()
