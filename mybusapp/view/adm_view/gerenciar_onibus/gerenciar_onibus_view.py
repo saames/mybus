@@ -134,12 +134,16 @@ class GerenciarOnibusView:
 
     def abrir_editar_onibus(self, event):
         selection = self.tvw.selection()
-        id = self.tvw.item(selection)['values'][0]
-        result = self.ge_onibus.buscar_onibus(id)[0]
-        self.tl = ttk.Toplevel(self.janela)
-        OnibusForm(self.tl, result)
-        self.utils.call_top_view(self.janela, self.tl)
-        self.atualizar_tabela()
+        if selection:
+            id = self.tvw.item(selection)['values'][0]
+            result = self.ge_onibus.buscar_onibus(id)[0]
+            self.tl = ttk.Toplevel(self.janela)
+            OnibusForm(self.tl, result)
+            self.utils.call_top_view(self.janela, self.tl)
+            self.atualizar_tabela()
+            self.validar_botoes()
+        else:
+            messagebox.showerror('Erro', 'Selecione um ônibus para editar.')
 
     def pesquisar_onibus(self, event):
         texto = self.entr_busca_value.get()
@@ -148,14 +152,19 @@ class GerenciarOnibusView:
 
     def excluir_onibus(self, event):
         selection = self.tvw.selection()
-        onibus = self.tvw.item(selection)['values']
-        id = onibus[0]
-        confirmar = messagebox.askquestion(f"Excluir onibus {onibus[1]} - {onibus[4]}", f"Voce Deseja excluir o onibus {onibus[1]} - {onibus[4]}")
-        if confirmar == "yes":
-            result = self.ge_onibus.excluir_onibus(id)
-            if(result):
-                messagebox.showinfo("Informação", "Processo realizado com sucesso")
-                self.atualizar_tabela()
+        if selection:
+            onibus = self.tvw.item(selection)['values']
+            id = onibus[0]
+            confirmar = messagebox.askquestion(f"Excluir onibus {onibus[1]} - {onibus[4]}", f"Voce Deseja excluir o onibus {onibus[1]} - {onibus[4]}")
+            if confirmar == "yes":
+                result = self.ge_onibus.excluir_onibus(id)
+                if(result):
+                    messagebox.showinfo("Informação", "Processo realizado com sucesso")
+                    self.atualizar_tabela()
+                    self.validar_botoes()
+        else:
+            messagebox.showerror('Erro', 'Selecione um ônibus para excluir.')
+            
                 
     def voltar(self):
             self.janela.destroy() 

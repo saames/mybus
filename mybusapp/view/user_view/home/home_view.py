@@ -8,7 +8,7 @@ from view.adm_view.gerenciar_onibus.gerenciar_onibus_view import GerenciarOnibus
 from view.adm_view.gerenciar_usuarios.gerenciar_usuarios_view import GerenciarUsuariosView
 
 class HomeLinhaView:
-    def __init__(self,master, janela_origem=None, papel="usuario"):
+    def __init__(self,master, janela_origem=None, papel="usuario", id = None):
         # Ajustes janela
         self.janela_origem = janela_origem
         self.janela = master
@@ -17,6 +17,8 @@ class HomeLinhaView:
         self.janela.resizable(False,False)
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.pack(padx=20, pady=20)
+
+        self.user_id = id
 
         #Criando Instancias
         self.utils = Utils()
