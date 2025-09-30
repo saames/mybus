@@ -15,29 +15,19 @@ class DefinirRotaView:
         self.frm_center.pack(fill='both', expand=True)
 
         self.utils = Utils()
-
-        # Variáveis para armazenar os dados da rota
-        self.ponto_origem = {}
-        self.ponto_destino = {}
+        
+        self.ponto = {}
 
         # Título
-        self.lbl_title = ttk.Label(self.frm_center, text='Definir Rota de ida',  bootstyle='primary', font=('TkDefaultFont', 14, 'bold'))
+        self.lbl_title = ttk.Label(self.frm_center, text='Definir Parada',  bootstyle='primary', font=('TkDefaultFont', 14, 'bold'))
         self.lbl_title.grid(column=0, row=0, sticky='w', pady=(0, 15), columnspan=2)
 
-        # Origem
-        self.lbl_origem = ttk.Label(self.frm_center, text='Origem', bootstyle='secondary-inverse')
-        self.lbl_origem.grid(column=0, row=3, columnspan=2, sticky='we', ipady=5)
-        self.ent_origem = ttk.Entry(self.frm_center, bootstyle='primary')
-        self.ent_origem.grid(column=0, row=4, columnspan=2, sticky='we', pady=(0,20))
+        # Ponto
+        self.lbl_ponto = ttk.Label(self.frm_center, text='Ponto', bootstyle='secondary-inverse')
+        self.lbl_ponto.grid(column=0, row=3, columnspan=2, sticky='we', ipady=5)
+        self.ent_ponto = ttk.Entry(self.frm_center, bootstyle='primary')
+        self.ent_ponto.grid(column=0, row=4, columnspan=2, sticky='we', pady=(0,20))
 
-        # Destino (escondido no início)
-        self.lbl_destino = ttk.Label(self.frm_center, text='Destino', bootstyle='secondary-inverse')
-        self.lbl_destino.grid(column=0, row=3, columnspan=2, sticky='we', ipady=5)
-        self.ent_destino = ttk.Entry(self.frm_center, bootstyle='primary')
-        self.ent_destino.grid(column=0, row=4, columnspan=2, sticky='we', pady=(0, 20))
-        # Escondemos os widgets de destino
-        self.lbl_destino.grid_remove()
-        self.ent_destino.grid_remove()
 
         # Longitude
         self.lbl_longitude = ttk.Label(self.frm_center, text=' Longitude', bootstyle='secondary-inverse')
@@ -67,80 +57,34 @@ class DefinirRotaView:
         self.btn_voltar = ttk.Button(self.frm_center, text='Voltar', bootstyle='secondary',command=self.voltar)
         self.btn_voltar.grid(column=0, row=8, pady=(40,0), sticky='w')
 
-        # Botão Salvar Origem/Salvar
-        self.btn_continuar = ttk.Button(self.frm_center, text='Salvar Origem', bootstyle='success', command=self.proxima_etapa)
+        # Botão Salvar Ponto
+        self.btn_continuar = ttk.Button(self.frm_center, text='Salvar Ponto', bootstyle='success', command=self.salvar_ponto)
         self.btn_continuar.grid(column=2, row=8, pady=(40,0), sticky='e')
 
         self.utils.centraliza(self.janela)
 
-    def proxima_etapa(self):
-        """
-        Define o estado atual da janela de acordo com qual botão está.
-        Se estiver em "Salvar Origem", será definido a Origem, deixando oculto a entry do Destino.
-        Se estiver em "Salvar Rota", será definido o Destino
-        """
-        # Se o botão ainda diz "Salvar Origem", estamos definindo a origem.
-        if self.btn_continuar.cget('text') == 'Salvar Origem':
-            origem_texto = self.ent_origem.get()
+    def salvar_ponto(self):
+            nome_ponto = self.ent_origem.get()
             lat_texto = self.ent_latitude.get()
             lon_texto = self.ent_longitude.get()
-            if not origem_texto or not lat_texto or not lon_texto:
+            if not nome_ponto or not lat_texto or not lon_texto:
                 messagebox.showwarning("Campo Vazio", "Por favor, preencha a origem antes de continuar.")
                 return
             
-            self.ponto_origem = {
-                "nome": origem_texto,
+            self.ponto = {
+                "nome": nome_ponto,
                 "lat":float(lat_texto),
                 "lon": float(lon_texto)
             }
-            print(f"Origem salvo: {self.ponto_origem}")
+            print(f"Ponto salvo: {self.ponto}")
 
-            # Esconde os widgets de origem
-            self.lbl_origem.grid_remove()
-            self.ent_origem.grid_remove()
-
-            # Mostra os widgets de destino
-            self.lbl_destino.grid()
-            self.ent_destino.grid()
-            self.ent_destino.focus_set()
-
-            self.ent_longitude.delete(0, 'end')
-            self.ent_latitude.delete(0, 'end')
-            self.mpv_rota.delete_all_marker()
-
-            # Atualiza os textos da UI
-            self.btn_continuar.config(text='Salvar Destino', bootstyle='success')
-
-        # Se o botão já foi alterado para "Salvar Destino", estamos definindo o destino.
-        else:
-
-            destino_texto = self.ent_destino.get()
-            lat_texto = self.ent_latitude.get()
-            lon_texto = self.ent_longitude.get()
-            if not destino_texto or not lat_texto and not lon_texto:
-                messagebox.showwarning("Campo Vazio", "Por favor, preencha o Destino antes de salvar.")
-                return
-
-            self.ponto_destino = {
-                "nome": destino_texto,
-                "lat": float(lat_texto),
-                "lon": float(lon_texto)
-            }
-            print(f"Destino salvo: {self.ponto_destino}")
-        
             
     def buscar_e_marcar_no_mapa(self):
             """
             Busca as coordenadas e adiciona um marcador no mapa.
-            Verifica qual campo está visível (Origem ou Destino).
             Usa geopy.Nominatim com user_agent personalizado (isso evita um erro na requisição).
             """
-            # Verifica qual campo de texto está ativo para usar como referência
-            if self.ent_origem.winfo_viewable():
-                texto_referencia = self.ent_origem.get().strip()
-            else:
-                texto_referencia = self.ent_destino.get().strip()
-
+            texto_referencia = self.ent_ponto.get().strip()
             longitude_texto = self.ent_longitude.get().strip()
             latitude_texto = self.ent_latitude.get().strip()
 
@@ -186,39 +130,5 @@ class DefinirRotaView:
             messagebox.showwarning("Faltam Dados", "Preencha o campo de endereço ou as coordenadas.")
     
     def voltar(self):
-        # Verifica se estamos na tela de Destino
-        if self.btn_continuar.cget('text') == 'Salvar Destino':
-            self.lbl_destino.grid_remove()
-            self.ent_destino.grid_remove()
-      
-
-            self.ent_destino.delete(0, 'end')
-            self.ent_longitude.delete(0, 'end')
-            self.ent_latitude.delete(0, 'end')
-            self.mpv_rota.delete_all_marker()
-            
-            self.lbl_origem.grid()
-            self.ent_origem.grid()
-
-            # Restaura o valor do campo de origem
-            self.ent_origem.delete(0, 'end')
-            if self.ponto_origem:
-                nome_origem = self.ponto_origem.get("nome", "")
-                lat_origem = self.ponto_origem.get("lat")
-                lon_origem = self.ponto_origem.get("lon")
-
-                self.ent_origem.insert(0, nome_origem)
-                self.ent_latitude.insert(0, str(lat_origem))
-                self.ent_longitude.insert(0, str(lon_origem))
-
-                if lat_origem is not None and lon_origem is not None:
-                    self.mpv_rota.set_marker(lat_origem, lon_origem, text=nome_origem)
-                    self.mpv_rota.set_position(lat_origem, lon_origem)
-                    
-            self.ent_origem.focus_set()
-            
-            self.btn_continuar.config(text='Salvar Origem', bootstyle='success')
-        else:
-            # Voltar para a janela anterior
             self.janela.destroy() 
             self.janela_origem.deiconify()
