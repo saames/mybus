@@ -2,7 +2,7 @@ import ttkbootstrap as ttk
 from resources.utils import Utils
 
 class HorariosLinhaView:
-    def __init__(self,master,janela_origem,linha):
+    def __init__(self,master,janela_origem=None,linha=None):
         # Ajustes janela
         self.janela = master
         self.janela_origem = janela_origem
