@@ -74,7 +74,7 @@ class LoginView:
     def validar_campos(self, *event):
         cpf = self.ent_username.get().replace(".","").replace("-","")
         senha = self.ent_password.get()
-        if len(cpf)==11 and len(senha) >= 8: # CPF tem tamanho 11 e senha maior ou igual 8.
+        if len(cpf)==11 and len(senha) >= 8 and cpf != "XXX.XXX.XXX-XX": # CPF tem tamanho 11 e senha maior ou igual 8.
             self.btn_acessar.config(state='enable')
             return True
         else:
