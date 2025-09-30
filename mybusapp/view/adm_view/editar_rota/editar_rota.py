@@ -2,8 +2,9 @@ import ttkbootstrap as ttk
 import tkintermapview as tkmap
 
 class EditarRotaView:
-    def __init__(self, master):
+    def __init__(self, master, janela_origem):
         self.janela = master
+        self.janela_origem = janela_origem
         self.janela.title('Editar Rota - MyBus')
         self.janela.resizable(False, False)
         self.frm_center = ttk.Frame(self.janela, padding=(20,20))
