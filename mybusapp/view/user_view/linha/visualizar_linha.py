@@ -32,7 +32,7 @@ class VisualizarLinhaView:
         self.btn_voltar.bind('<ButtonRelease-1>')
 
         # Título da janela
-        self.lbl_titulo = ttk.Label(self.frm_center, text='Visualizar Linhas', bootstyle='primary-inverse', padding=(134, 11))
+        self.lbl_titulo = ttk.Label(self.frm_center, text='Visualizar Linhas', bootstyle='primary-inverse', padding=(148, 11))
         self.lbl_titulo.grid(column=1, row=0, columnspan=2)
 
         # Logo MyBus no canto superior esquerdo
@@ -86,7 +86,7 @@ class VisualizarLinhaView:
 
         # Favoritar Linha
         self.btn_favoritar_linha = ttk.Button(self.frm_botoes, text="Favoritar Linha", bootstyle='secondary', state='disabled',)
-        self.btn_favoritar_linha.grid(row=0, column=3, padx=2)
+        self.btn_favoritar_linha.grid(row=0, column=3, padx=2, ipadx=14)
         self.btn_favoritar_linha.bind('<Button-1>', self.favoritarLinha)
 
         # self.frm_center.grid_rowconfigure(0, weight=1)
@@ -138,8 +138,10 @@ class VisualizarLinhaView:
         if(len(self.fav) > 0):
             if(self.fav[linha_id-1] == "S"):
                 self.btn_favoritar_linha.config(text="Desmarcar favorito")
+                self.btn_favoritar_linha.grid(ipadx=0)
             else:
                 self.btn_favoritar_linha.config(text="Favoritar Linha")
+                self.btn_favoritar_linha.grid(ipadx=14)
 
 
 
