@@ -64,6 +64,7 @@ class VisualizarLinhaView:
         # Verifica se existe uma linha selecionada
         self.tvw.bind('<KeyRelease>', self.validar_botoes)
         self.tvw.bind('<ButtonRelease-1>', self.validar_botoes)
+        self.tvw.bind("<<TreeviewSelect>>", self.verificar_favorito)
 
         self.frm_botoes = ttk.Frame(self.frm_center)
         self.frm_botoes.grid(column=0, row=2, columnspan=2)
@@ -84,7 +85,7 @@ class VisualizarLinhaView:
         self.btn_registrar_viagem.bind('<Button-1>', self.RegistrarViagem)
 
         # Favoritar Linha
-        self.btn_favoritar_linha = ttk.Button(self.frm_botoes, text="Favoritar Linha", bootstyle='secondary', state='disabled')
+        self.btn_favoritar_linha = ttk.Button(self.frm_botoes, text="Favoritar Linha", bootstyle='secondary', state='disabled',)
         self.btn_favoritar_linha.grid(row=0, column=3, padx=2)
         self.btn_favoritar_linha.bind('<Button-1>', self.favoritarLinha)
 
@@ -121,10 +122,8 @@ class VisualizarLinhaView:
     def favoritarLinha(self, event):
         linha_id = self.selecionado()
         if linha_id:
-            result = messagebox.askyesno('Confirmação','Confirma?')
-            if(result):
-                self.userLinha.favoritar_linha(self.user_id, linha_id)
-                self.atualizar_tabela()
+            self.userLinha.favoritar_linha(self.user_id, linha_id)
+            self.atualizar_tabela()
         else:
             messagebox.showerror('Erro', 'Selecione uma linha para Favoritar.')
 
@@ -134,41 +133,56 @@ class VisualizarLinhaView:
         if(linha_id):
             return linha_id
 
+    def verificar_favorito(self, event):
+        linha_id = int(self.tvw.selection()[0])
+        if(len(self.fav) > 0):
+            if(self.fav[linha_id-1] == "S"):
+                self.btn_favoritar_linha.config(text="Desmarcar favorito")
+            else:
+                self.btn_favoritar_linha.config(text="Favoritar Linha")
+
+
+
     def atualizar_tabela(self):
         dados = self.tvw.get_children()
         for item in dados:
             self.tvw.delete(item)
         self.tuplas = self.gerenciar_linha.listar_linhas()
         user_linha = sorted(self.userLinha.buscar_linhas_do_usuario(self.user_id), key=lambda x: x[2])
-        fav = []
+        self.fav = []
         conta = 0
         poss = 0
         for i in self.tuplas:
-            fav.append("N")
+            self.fav.append("N")
         for i in range(len(self.tuplas)):
             if(conta < len(user_linha)):
                 if self.tuplas[i][0] == user_linha[conta][2]:
                     if user_linha[conta][4]:
                         save = self.tuplas.pop(i)
                         self.tuplas.insert(poss, save)
-                        fav[poss] = "S"
+                        self.fav[poss] = "S"
                         poss += 1
                     conta += 1
 
         self.tvw.tag_configure('linha_destacada', background='#FFA500', foreground='black')
         self.tvw.tag_configure('geral', background='#002B5C')
 
+        m = 0
         for item in self.tuplas:
-            if fav.pop(0) == "S":
+            if self.fav[m] == "S":
                 self.tvw.insert('', 'end', iid=item[0], values=item[1:], tags=('linha_destacada',))
             else:
                 self.tvw.insert('', 'end', iid=item[0], values=item[1:], tags=('geral',))
+            m += 1
             conta += 1
 
     def visualizar_rota(self, event):
         item = self.tvw.selection()
         if item:
             linha = self.tvw.item(item)['values']
+            linha = list(linha)
+            linha.insert(0, int(item[0]))
+            linha = tuple(linha)
             self.tl = ttk.Toplevel(self.janela)
             VisualizarRotaView(self.tl, linha)
             self.utils.call_top_view(self.janela, self.tl)

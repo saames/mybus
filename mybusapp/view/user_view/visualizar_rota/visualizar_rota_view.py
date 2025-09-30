@@ -14,6 +14,7 @@ class VisualizarRotaView:
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.grid(column=0, row=0, padx=10, pady=10)
 
+        print(linha)
         self.nome_completo = linha[1]
         self.linha_id = linha[0]
 
@@ -29,7 +30,7 @@ class VisualizarRotaView:
         self.btn_voltar.bind('<ButtonRelease-1>')
 
         # Nome da rota
-        self.nome_rota = f'Rota: {linha[2]} {self.nome_completo}'
+        self.nome_rota = f'Rota: {linha[0]} {self.nome_completo}'
         self.lbl_nome_rota = ttk.Label(self.frm_center, text=self.nome_rota, bootstyle='primary-inverse', padding=(150, 11))
         self.lbl_nome_rota.grid(column=1, row=0)
 
