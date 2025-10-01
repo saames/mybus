@@ -7,6 +7,7 @@ from resources.photos import Base64
 from view.user_view.home.home_view import HomeLinhaView
 from view.user_view.cadastro.cadastro_user import (CadastroUserView)
 from control.login_control import LoginControl
+from view.user_view.redefinir_senha.solicitar_redefinir_senha_view import SolicitarRedefinirSenhaView
 
 class LoginView:
     def __init__(self, master):
@@ -93,7 +94,10 @@ class LoginView:
             return False
 
     def abrir_redefinir_senha(self, event):
-        pass
+        self.reiniciar_tela()
+        self.tl = ttk.Toplevel(self.janela)
+        SolicitarRedefinirSenhaView(self.tl)
+        self.utils.call_top_view(self.janela, self.tl)
 
     # Abre a janela CadastroUsuarioView
     def abrir_cadastro_usuario(self, event):

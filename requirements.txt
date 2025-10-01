@@ -3,3 +3,5 @@ requests
 ttkbootstrap
 validate_docbr
 geopy
+yagmail
+keyring

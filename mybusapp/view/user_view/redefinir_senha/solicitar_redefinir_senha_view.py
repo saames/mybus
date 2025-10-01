@@ -1,5 +1,7 @@
+from tkinter import messagebox
 import ttkbootstrap as ttk
 from resources.utils import Utils
+from view.user_view.redefinir_senha.codigo_seguranca_view import CodigoSegurancaView
 
 class SolicitarRedefinirSenhaView:
     def __init__(self, master):
@@ -42,19 +44,31 @@ class SolicitarRedefinirSenhaView:
         self.btn_continuar.grid(column=1, row=0)
         self.btn_continuar.bind('<ButtonRelease-1>', self.continuar)
 
-        self.utils.centraliza(self.janela)
+        # Comandos de navegação
+        self.janela.bind('<Return>', self.continuar)
+        self.janela.bind('<Escape>', self.cancelar)
 
+        self.utils.centraliza(self.janela)
+    
 
     
-    def validar_campos(self, event):
+    def validar_campos(self, *event):
         cpf = self.ent_CPF.get().replace(".","").replace("-","")
-        if len(cpf) == 11:
+        if len(cpf) == 11 and cpf != "XXXXXXXXXXX":
             self.btn_continuar.config(state='enable')
+            return True
         else:
             self.btn_continuar.config(state='disabled')
+            return False
 
-    def cancelar(self, event):
-        pass
+    def cancelar(self, *event):
+        self.janela.destroy()
 
     def continuar(self, event):
-        pass
+        if self.validar_campos():
+            self.janela.withdraw() 
+            self.tl = ttk.Toplevel(self.janela)
+            CodigoSegurancaView(self.tl, self.janela) 
+            self.utils.call_top_view(self.janela, self.tl)
+        else:
+            messagebox.showerror('Erro', 'Preencha o campo CPF.')
