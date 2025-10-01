@@ -24,7 +24,6 @@ class OnibusForm:
 
         #Pegando as informações de um onibus caso queira editar
         if args:
-            print(args)
             self.onibus_editar = args[0]
         else:
             self.onibus_editar = None
@@ -122,6 +121,9 @@ class OnibusForm:
         self.btn_save.grid(column=1, row=0, sticky='ew')
         self.btn_save.bind('<ButtonRelease-1>', self.cadastrar_onibus)
 
+        # Comandos para navegação
+        self.janela.bind('<Escape>', self.cancelar)
+
         self.utils.centraliza(self.janela)
 
 
@@ -141,12 +143,18 @@ class OnibusForm:
         self.cbx_line['values'] = self.values
 
         if self.onibus_editar:
-            if(self.onibus_editar[4]):
-                self.cbx_line.current(self.onibus_editar[4])
-                self.linha_id = self.onibus_editar[4]
+            linha_onibus_id = self.onibus_editar[4]
+            # Verifica se o ID da linha do ônibus existe na lista 'keys'
+            if linha_onibus_id in self.keys:
+                # Caso sim, busca o índice do ID na lista
+                index = self.keys.index(linha_onibus_id)
+                self.cbx_line.current(index)
+                self.linha_id = linha_onibus_id
             else:
-                self.cbx_line.current(len(self.keys) - 1)
-                self.linha_id = len(self.keys) - 1
+                # Caso não, o ID seleciona "Nenhuma linha associada" e define o linha_id como None.
+                index_nenhuma_linha = self.values.index("Nenhuma linha associada.")
+                self.cbx_line.current(index_nenhuma_linha)
+                self.linha_id = None
         else:
             self.cbx_line.current(0)
 
@@ -170,6 +178,7 @@ class OnibusForm:
         
         # Verifica se os campos foram alterados em uma edição.
         if self.onibus_editar:
+            # Debug
             print(f'numero: {numero} | self.onibus_editar[1]: {self.onibus_editar[1]}')
             print(f'placa: {placa} | self.onibus_editar[2]: {self.onibus_editar[2]}')
             print(f'status: {status} | self.onibus_editar[3]: {self.onibus_editar[3]}')

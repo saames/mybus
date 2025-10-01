@@ -14,7 +14,7 @@ class VisualizarRotaView:
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.grid(column=0, row=0, padx=10, pady=10)
 
-        print(linha)
+        #print(linha)
         self.nome_completo = linha[1]
         self.linha_id = linha[0]
 
@@ -27,7 +27,7 @@ class VisualizarRotaView:
         self.style.configure('large.TButton', font=('TkDefaultFont', 18, 'bold'))
         self.btn_voltar = ttk.Button(self.frm_center, text='⬅', style='large.TButton')
         self.btn_voltar.grid(column=0, row=0)
-        self.btn_voltar.bind('<ButtonRelease-1>')
+        self.btn_voltar.bind('<ButtonRelease-1>', self.voltar)
 
         # Nome da rota
         self.nome_rota = f'Rota: {linha[0]} {self.nome_completo}'
@@ -35,6 +35,9 @@ class VisualizarRotaView:
         self.lbl_nome_rota.grid(column=1, row=0)
 
         self.traçar_rota()
+
+        # Comandos para navegação
+        self.janela.bind('<Escape>', self.voltar)
 
         self.utils.centraliza(self.janela)
 
@@ -53,7 +56,6 @@ class VisualizarRotaView:
             self.lbl_legenda = ttk.Label(self.frm_center, text=' Legenda: ', bootstyle='primary-inverse')
             self.lbl_legenda.grid(column=0, row=2, columnspan=2 , sticky='we', pady=8)
 
-
             self.nome_completo = self.nome_completo.split("–")
             self.nome_origem = self.nome_completo[0].strip()
             self.nome_destino = self.nome_completo[1].strip()
@@ -70,3 +72,7 @@ class VisualizarRotaView:
             
         else:
             messagebox.showerror("Error", "Essa linha não possui rota cadastrada.")
+
+    def voltar(self, *event):
+        self.janela.destroy() 
+        
