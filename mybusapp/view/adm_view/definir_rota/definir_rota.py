@@ -31,13 +31,13 @@ class DefinirRotaView:
 
         # Longitude
         self.lbl_longitude = ttk.Label(self.frm_center, text=' Longitude', bootstyle='secondary-inverse')
-        self.lbl_longitude.grid(column=0, row=5, sticky='we', ipady=5)
+        self.lbl_longitude.grid(column=0, row=5, sticky='we', ipady=5, padx=(0, 5))
         self.ent_longitude = ttk.Entry(self.frm_center, bootstyle='primary')
         self.ent_longitude.grid(column=0, row=6, sticky='we', padx=(0, 5))
 
         # Latitude
         self.lbl_latitude = ttk.Label(self.frm_center, text=' Latitude', bootstyle='secondary-inverse')
-        self.lbl_latitude.grid(column=1, row=5, sticky='we', ipady=5)
+        self.lbl_latitude.grid(column=1, row=5, sticky='we', ipady=5, padx=(5, 0))
         self.ent_latitude = ttk.Entry(self.frm_center, bootstyle='primary')
         self.ent_latitude.grid(column=1, row=6, sticky='we', padx=(5, 0))
 

@@ -1,6 +1,6 @@
 from tkinter import messagebox
 import ttkbootstrap as ttk
-from view.adm_view.definir_rota.definir_rota import DefinirRotaView
+from view.adm_view.definir_origem_destino.definir_origem_destino import DefinirOrigemDestinoView
 from resources.utils import Utils
 
 class CriarLinhaView:
@@ -72,7 +72,7 @@ class CriarLinhaView:
     
     def continuar(self):
         self.tl = ttk.Toplevel(self.janela)
-        DefinirRotaView(self.tl, self.janela)
+        DefinirOrigemDestinoView(self.tl, self.janela)
         self.utils.call_top_view(self.janela, self.tl)
     
     def cancelar(self):
