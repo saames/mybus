@@ -163,7 +163,8 @@ class OnibusForm:
         linha_id = self.linha_id
 
         # Verifica se os campos estão corretamente inseridos.
-        insercao_campos = (len(placa) == 7 
+        insercao_campos = (len(placa) == 7
+                           and placa !="XXXXXXX"
                            and numero 
                            and linha_id != "") # Evita que o usuário escolha "Selecione" no combobox
         
@@ -188,8 +189,11 @@ class OnibusForm:
             self.btn_save.config(state='disabled')
             return False
     
-    def cancelar(self):
-        can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro no sistema?')
+    def cancelar(self, event):
+        if self.onibus_editar:
+            can = messagebox.askquestion('Cancelar edição', 'Deseja cancelar o processo de edição de ônibus?')
+        else:
+            can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro ônibus?')
         if can == 'yes':
             self.janela.destroy()
  
