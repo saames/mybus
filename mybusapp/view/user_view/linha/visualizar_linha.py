@@ -1,3 +1,5 @@
+from traceback import print_tb
+
 import ttkbootstrap as ttk
 from tkinter import messagebox
 from resources.photos import Base64
@@ -134,14 +136,16 @@ class VisualizarLinhaView:
             return linha_id
 
     def verificar_favorito(self, event):
-        linha_id = int(self.tvw.selection()[0])
-        if(len(self.fav) > 0):
-            if(self.fav[linha_id-1] == "S"):
-                self.btn_favoritar_linha.config(text="Desmarcar favorito")
-                self.btn_favoritar_linha.grid(ipadx=0)
-            else:
-                self.btn_favoritar_linha.config(text="Favoritar Linha")
-                self.btn_favoritar_linha.grid(ipadx=14)
+        if(len(self.tvw.selection()) > 0):
+            linha_id = int(self.tvw.selection()[0])
+            linha_tag = self.tvw.item(linha_id)["tags"]
+            if(len(self.fav) > 0):
+                if(linha_tag[0] == "linha_destacada"):
+                    self.btn_favoritar_linha.config(text="Desmarcar favorito")
+                    self.btn_favoritar_linha.grid(ipadx=0)
+                else:
+                    self.btn_favoritar_linha.config(text="Favoritar Linha")
+                    self.btn_favoritar_linha.grid(ipadx=14)
 
 
 
