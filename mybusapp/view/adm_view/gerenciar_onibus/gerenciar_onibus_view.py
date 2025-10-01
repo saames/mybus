@@ -87,6 +87,9 @@ class GerenciarOnibusView:
         self.btn_excluir.grid(column=2, row=1, padx=2, pady=(10, 0), sticky='ew')
         self.btn_excluir.bind('<ButtonRelease-1>', self.excluir_onibus)
 
+        # Comandos para navegação
+        self.janela.bind('<Escape>', self.voltar)
+
         self.utils.centraliza(self.janela)
 
     def validar_botoes(self, *event):
@@ -166,6 +169,6 @@ class GerenciarOnibusView:
             messagebox.showerror('Erro', 'Selecione um ônibus para excluir.')
             
                 
-    def voltar(self):
+    def voltar(self, *event):
             self.janela.destroy() 
             self.janela_origem.deiconify() 

@@ -1,6 +1,6 @@
 from tkinter import messagebox
 import ttkbootstrap as ttk
-from view.adm_view.definir_rota.definir_rota import DefinirRotaView
+from view.adm_view.definir_origem_destino.definir_origem_destino import DefinirOrigemDestinoView
 from resources.utils import Utils
 
 class CriarLinhaView:
@@ -59,6 +59,9 @@ class CriarLinhaView:
         self.btn_continue.grid(column=1, row=0, sticky='ew')
         self.btn_continue.bind('<ButtonRelease-1>')
 
+        # Comandos para navegação
+        self.janela.bind('<Escape>', self.cancelar)
+
         self.utils.centraliza(self.janela)
 
     
@@ -72,10 +75,10 @@ class CriarLinhaView:
     
     def continuar(self):
         self.tl = ttk.Toplevel(self.janela)
-        DefinirRotaView(self.tl, self.janela)
+        DefinirOrigemDestinoView(self.tl, self.janela)
         self.utils.call_top_view(self.janela, self.tl)
     
-    def cancelar(self):
-        can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro no sistema?')
+    def cancelar(self, *event):
+        can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro de linha?')
         if can == 'yes':
             self.janela.destroy()

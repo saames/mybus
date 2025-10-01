@@ -39,21 +39,17 @@ class OnibusForm:
                                                                                   font=('TkDefaultFont', 10, 'bold'))
         self.lbl_number.grid(column=0, row=1, sticky='w', pady=(0,5))
         
+
         self.spb_number_value = ttk.IntVar(value=1)
+        if self.onibus_editar:
+            self.spb_number_value.set(self.onibus_editar[1])
+
         self.spb_number = ttk.Spinbox(self.frm_center, textvariable=self.spb_number_value, from_=1, to=999, format='%03.0f')
-        self.spb_number.set(f"{self.spb_number_value.get():03d}") # Solução para o número começar com 3 casas antes da vírgula.
         self.spb_number.grid(column=1, row=1, sticky='ew', pady=(0, 5))
         self.spb_number.bind('<KeyRelease>', self.validar_campos)
         self.spb_number.bind('<ButtonRelease>', self.validar_campos)
         
-        # self.ent_number_value = ttk.StringVar()
-        # if self.onibus_editar:
-        #     self.ent_number_value.set(self.onibus_editar[1])
-        # self.ent_number = ttk.Entry(self.frm_center, textvariable=self.ent_number_value)
-        # self.ent_number.grid(column=1, row=1, sticky='ew', ipadx=60, pady=(0,5))
-        # self.ent_number.bind('<KeyRelease>', self.validar_campos)
-
-        # Placa do ônibus    
+        # Placa do ônibus
         self.lbl_plate = ttk.Label(self.frm_center, text='Placa', bootstyle='inverse-secondary', 
                                                                   borderwidth=7, 
                                                                   padding=(45,0),
@@ -87,8 +83,10 @@ class OnibusForm:
             rbt = ttk.Radiobutton(self.frm_radios, 
                                   text=valor, 
                                   value=chave, 
-                                  variable=self.var_rbt )
+                                  variable=self.var_rbt,
+                                  command=self.validar_campos)
             rbt.grid(row=0, column=cont, padx=5)
+            #rbt.bind('<ButtonRelease-1>', ) # Vincular a cada radiobutton
             cont += 1
 
         # Linha Associada ao ônibus
@@ -123,6 +121,9 @@ class OnibusForm:
         self.btn_save.grid(column=1, row=0, sticky='ew')
         self.btn_save.bind('<ButtonRelease-1>', self.cadastrar_onibus)
 
+        # Comandos para navegação
+        self.janela.bind('<Escape>', self.cancelar)
+
         self.utils.centraliza(self.janela)
 
 
@@ -142,12 +143,18 @@ class OnibusForm:
         self.cbx_line['values'] = self.values
 
         if self.onibus_editar:
-            if(self.onibus_editar[4]):
-                self.cbx_line.current(self.onibus_editar[4])
-                self.linha_id = self.onibus_editar[4]
+            linha_onibus_id = self.onibus_editar[4]
+            # Verifica se o ID da linha do ônibus existe na lista 'keys'
+            if linha_onibus_id in self.keys:
+                # Caso sim, busca o índice do ID na lista
+                index = self.keys.index(linha_onibus_id)
+                self.cbx_line.current(index)
+                self.linha_id = linha_onibus_id
             else:
-                self.cbx_line.current(len(self.keys) - 1)
-                self.linha_id = len(self.keys) - 1
+                # Caso não, o ID seleciona "Nenhuma linha associada" e define o linha_id como None.
+                index_nenhuma_linha = self.values.index("Nenhuma linha associada.")
+                self.cbx_line.current(index_nenhuma_linha)
+                self.linha_id = None
         else:
             self.cbx_line.current(0)
 
@@ -155,35 +162,68 @@ class OnibusForm:
     def escolhendo_linha(self, event):
         linha = self.linha.get()
         self.linha_id = self.keys[self.values.index(linha)]
+        self.validar_campos()
 
-    def validar_campos(self, event):
+    def validar_campos(self, *event):
         numero = self.spb_number.get()
         placa = self.ent_plate.get().replace("-","")
+        status = self.var_rbt.get()
+        linha_id = self.linha_id
 
-        if len(placa) == 7 and numero:
-            self.btn_save.config(state='enable')
+        # Verifica se os campos estão corretamente inseridos.
+        insercao_campos = (len(placa) == 7
+                           and placa !="XXXXXXX"
+                           and numero 
+                           and linha_id != "") # Evita que o usuário escolha "Selecione" no combobox
+        
+        # Verifica se os campos foram alterados em uma edição.
+        if self.onibus_editar:
+            # Debug
+            print(f'numero: {numero} | self.onibus_editar[1]: {self.onibus_editar[1]}')
+            print(f'placa: {placa} | self.onibus_editar[2]: {self.onibus_editar[2]}')
+            print(f'status: {status} | self.onibus_editar[3]: {self.onibus_editar[3]}')
+            print(f'linha_id: {linha_id} | self.onibus_editar[4]: {self.onibus_editar[4]}')
+            sem_alteracoes_campos = (numero == self.onibus_editar[1] 
+                                and placa == self.onibus_editar[2]
+                                and status == self.onibus_editar[3] 
+                                and linha_id == self.onibus_editar[4])
+            if insercao_campos and sem_alteracoes_campos:
+                self.btn_save.config(state='disabled')
+                return False
+
+        if insercao_campos:
+            self.btn_save.config(state='normal')
             return True
         else:
             self.btn_save.config(state='disabled')
             return False
     
-    def cancelar(self):
-        can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro no sistema?')
+    def cancelar(self, event):
+        if self.onibus_editar:
+            can = messagebox.askquestion('Cancelar edição', 'Deseja cancelar o processo de edição de ônibus?')
+        else:
+            can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro ônibus?')
         if can == 'yes':
             self.janela.destroy()
  
     def cadastrar_onibus(self, event):
-        number = self.spb_number_value.get()
-        plate = self.ent_plate_value.get().replace("-","")
+        number = self.spb_number.get()
+        plate = self.ent_plate.get().replace("-","")
         status = self.var_rbt.get()
         linha_id = self.linha_id
         if not self.onibus_editar:
-            result = self.gereciar_onibus.inserir_onibus(number, plate, status, linha_id)
-            if result:
-                messagebox.showinfo("Informação", "Cadastro realizado com sucesso!")
-                self.janela.destroy()
+            if self.validar_campos():
+                result = self.gereciar_onibus.inserir_onibus(number, plate, status, linha_id)
+                if result:
+                    messagebox.showinfo("Informação", "Cadastro realizado com sucesso!")
+                    self.janela.destroy()
+            else:
+                messagebox.showerror('Erro', 'Insira os dados corretamente.')
         else:
-            result = self.gereciar_onibus.editar_onibus(self.onibus_editar[0], number, plate, status, linha_id)
-            if result:
-                messagebox.showinfo("Informação", "Edição realizada com sucesso!")
-                self.janela.destroy()
+            if self.validar_campos():
+                result = self.gereciar_onibus.editar_onibus(self.onibus_editar[0], number, plate, status, linha_id)
+                if result:
+                    messagebox.showinfo("Informação", "Edição realizada com sucesso!")
+                    self.janela.destroy()
+            else:
+                messagebox.showwarning('Aviso', 'É necessário alterar dados para salvar uma edição.')

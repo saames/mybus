@@ -88,9 +88,9 @@ class VisualizarLinhaView:
         self.btn_favoritar_linha = ttk.Button(self.frm_botoes, text="Favoritar Linha", bootstyle='secondary', state='disabled',)
         self.btn_favoritar_linha.grid(row=0, column=3, padx=2, ipadx=14)
         self.btn_favoritar_linha.bind('<Button-1>', self.favoritarLinha)
-
-        # self.frm_center.grid_rowconfigure(0, weight=1)
-        # self.frm_center.grid_columnconfigure(0, weight=1)
+        
+        # Comandos para navegação
+        self.janela.bind('<Escape>', self.voltar)
 
         self.utils.centraliza(self.janela)
 
@@ -201,6 +201,6 @@ class VisualizarLinhaView:
         else:
             messagebox.showerror("Erro", "É necessário selecionar uma linha.")
 
-    def voltar(self):
+    def voltar(self, *event):
             self.janela.destroy() 
             self.janela_origem.deiconify() 

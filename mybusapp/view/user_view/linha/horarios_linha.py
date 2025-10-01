@@ -24,12 +24,6 @@ class HorariosLinhaView:
         self.btn_voltar.grid(column=0, row=0)
         self.btn_voltar.bind('<ButtonRelease-1>',self.voltar)
 
-        
-        
-
- 
-
-
         # Título da janela
         self.lbl_titulo = ttk.Label(self.frm_center, text=f'Linha-{self.numero_linha} {self.nome_linha}', bootstyle='primary-inverse', width=46,padding=(0,11),anchor='center')
         self.lbl_titulo.grid(column=1, row=0, columnspan=2,pady=4)
@@ -37,7 +31,6 @@ class HorariosLinhaView:
         #tiulo treeview dia util
         self.lbl_treeview_dia_util = ttk.Label(self.frm_center,text='Dias Uteis',bootstyle='primary-inverse', padding=(0, 11),width=51,anchor='center')
         self.lbl_treeview_dia_util.grid(column=0,row=1,columnspan=3)
-
 
         # Tabela (cabeçalho + corpo)
         colunas = ['turb', 'tufac']
@@ -80,9 +73,12 @@ class HorariosLinhaView:
         self.brl_dias_n_uteis.grid(column=2, row=4, sticky='ns', pady=6)
         self.tvw_dias_n_uteis.configure(yscrollcommand=self.brl_dias_n_uteis.set)
 
+        # Comandos para navegação
+        self.janela.bind('<Escape>', self.voltar)
 
         self.utils.centraliza(self.janela)
-    def voltar(self,event):
+        
+    def voltar(self, *event):
         self.janela.destroy() 
         self.janela_origem.deiconify()
     
