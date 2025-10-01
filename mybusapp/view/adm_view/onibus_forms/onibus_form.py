@@ -40,23 +40,16 @@ class OnibusForm:
                                                                                   font=('TkDefaultFont', 10, 'bold'))
         self.lbl_number.grid(column=0, row=1, sticky='w', pady=(0,5))
         
+
         self.spb_number_value = ttk.IntVar(value=1)
         if self.onibus_editar:
             self.spb_number_value.set(self.onibus_editar[1])
 
         self.spb_number = ttk.Spinbox(self.frm_center, textvariable=self.spb_number_value, from_=1, to=999, format='%03.0f')
-        #self.spb_number.set(f"{self.spb_number_value.get():03d}") # Solução para o número começar com 3 casas antes da vírgula.
         self.spb_number.grid(column=1, row=1, sticky='ew', pady=(0, 5))
         self.spb_number.bind('<KeyRelease>', self.validar_campos)
         self.spb_number.bind('<ButtonRelease>', self.validar_campos)
         
-        # self.ent_number_value = ttk.StringVar()
-        # if self.onibus_editar:
-        #     self.ent_number_value.set(self.onibus_editar[1])
-        # self.ent_number = ttk.Entry(self.frm_center, textvariable=self.ent_number_value)
-        # self.ent_number.grid(column=1, row=1, sticky='ew', ipadx=60, pady=(0,5))
-        # self.ent_number.bind('<KeyRelease>', self.validar_campos)
-
         # Placa do ônibus
         self.lbl_plate = ttk.Label(self.frm_center, text='Placa', bootstyle='inverse-secondary', 
                                                                   borderwidth=7, 
@@ -201,8 +194,8 @@ class OnibusForm:
             self.janela.destroy()
  
     def cadastrar_onibus(self, event):
-        number = self.spb_number_value.get()
-        plate = self.ent_plate_value.get().replace("-","")
+        number = self.spb_number.get()
+        plate = self.ent_plate.get().replace("-","")
         status = self.var_rbt.get()
         linha_id = self.linha_id
         if not self.onibus_editar:
