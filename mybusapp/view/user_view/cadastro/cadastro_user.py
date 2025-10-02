@@ -68,7 +68,7 @@ class CadastroUserView:
         self.lbl_email.grid(column=0, row=3, sticky='w', pady=(0, 5))
         self.ent_email_value = ttk.StringVar()
         if(self.usuario != None):
-            self.ent_email_value.set(self.usuario[3])
+            self.ent_email_value.set(self.usuario[7])
         self.ent_email = ttk.Entry(self.frm_center, textvariable=self.ent_email_value)
         self.ent_email.grid(column=1, row=3, sticky='ew', pady=(0, 5))
         self.ent_email.bind('<KeyRelease>', self.validar_campos)
