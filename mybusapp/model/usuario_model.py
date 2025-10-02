@@ -31,7 +31,7 @@ class UsuarioModel(Model):
             print(er)
 
     def getAll(self):
-        sql = f"SELECT Usuario.id, Usuario.nome, Usuario.telefone, Usuario.papel, Usuario.status FROM Usuario"
+        sql = f"SELECT Usuario.id, Usuario.nome, Usuario.email, Usuario.telefone, Usuario.papel, Usuario.status FROM Usuario"
         try:
             con = self.conexao.get_conexao()
             cursor = con.cursor()
