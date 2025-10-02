@@ -154,11 +154,11 @@ class DefinirOrigemDestinoView:
     """ 
     def carregar_pontos(self):
         self.pontos = {
-            "Terminal de integração da UFAC": (-9.95071040598376, -67.86371719462299),
-            "Terminal Urbano": (-9.971671959478842, -67.8048260268782),
-            "Terminal de Integração Adalberto Sena": (-9.9326045871159, -67.82572278877791),
-            "Terminal De Integração Da Baixada": (-9.998975997618398, -67.84323394436174),
-            "Terminal de Integração CIDADE DO POVO": (-10.014614344306484, -67.75301749318005),
+            "Terminal Urbano": (-9.972261086504293, -67.80508215454091),
+            "Terminal de Integração da UFAC": (-9.951996973380488, -67.86377218887112),
+            "Terminal de Integração Adalberto Sena": (-9.933183185350993, -67.82624716099492),
+            "Terminal De Integração Da Baixada": (-10.006097506472686, -67.84569171741323),
+            "Terminal de Integração Cidade do Povo": (-10.015813456823548, -67.75233354029393),
         }
 
         nomes = ["Selecione"] + list(self.pontos.keys())
