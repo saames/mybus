@@ -10,6 +10,7 @@ class CadastroUserView:
         # Ajustes na janela
         self.janela = master
         self.usuario = usuario
+        print(usuario)
         #self.janela.geometry('450x550')
         if(self.usuario == None):
             self.janela.title(" Formulário para Cadastro - MyBus")
@@ -140,12 +141,30 @@ class CadastroUserView:
         cpf = self.ent_CPF.get().replace(".","").replace("-","")
         telefone = self.ent_phone.get().replace("(","").replace(")","").replace("-","")
         
-        if (telefone.isdigit() and len(telefone) == 11 and
-            nome != "" and len(cpf) == 11 and
-            len(senha) >= 8 and confirmar_senha == senha and
-            "@" in email and
-            self.cpf_verificar.validate(f"{cpf[0:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}")):
-            self.btn_save.config(state='enable')
+        # Verifica se os campos estão corretamente inseridos.
+        insercao_campos = (telefone.isdigit() and len(telefone)==11
+                           and nome != ""
+                           and len(cpf) == 11
+                           and len(senha) >= 8
+                           and confirmar_senha == senha
+                           and "@" in email
+                           and self.cpf_verificar.validate(f"{cpf[0:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}")
+                           )
+
+        # Verifica se os campos foram alterados em uma edição.
+        if self.usuario:
+            sem_alteracoes_campos = (nome == self.usuario[1]
+                                     and cpf == self.usuario[2]
+                                     and telefone == self.usuario[3]
+                                     and senha == self.usuario[6]
+                                     and email == self.usuario[7]
+                                     )
+            if insercao_campos and sem_alteracoes_campos:
+                self.btn_save.config(state='disabled')
+                return False
+
+        if insercao_campos:
+            self.btn_save.config(state='normal')
             return True
         else:
             self.btn_save.config(state='disabled')
