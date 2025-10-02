@@ -146,11 +146,11 @@ class DefinirOrigemDestinoView:
             self.janela_origem.deiconify()
 
     """
-        nome: Terminal de integração da UFAC, latitude -9.95071040598376, longitude -67.86371719462299
-        nome: Terminal Urbano, latitude -9.971671959478842, longitude -67.8048260268782
-        nome: Terminal de Integração Adalberto Sena, latitude -9.9326045871159, longitude -67.82572278877791
-        nome: Terminal De Integração Da Baixada, latitude -9.998975997618398, longitude -67.84323394436174
-        nome: Terminal de Integração CIDADE DO POVO, latitude -10.014614344306484, longitude -67.75301749318005
+        nome: Terminal Urbano, latitude -9.972261086504293, longitude -67.80508215454091
+        nome: Terminal de integração da UFAC, latitude -9.951996973380488, longitude -67.86377218887112
+        nome: Terminal de Integração Adalberto Sena, latitude -9.933183185350993, longitude -67.82624716099492
+        nome: Terminal De Integração Da Baixada, latitude -10.006097506472686, longitude -67.84569171741323
+        nome: Terminal de Integração Cidade do Povo, latitude -10.015813456823548, longitude -67.75233354029393
     """ 
     def carregar_pontos(self):
         self.pontos = {
