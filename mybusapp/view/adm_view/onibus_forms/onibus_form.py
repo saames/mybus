@@ -167,7 +167,7 @@ class OnibusForm:
             self.btn_save.config(state='disabled')
             return False
     
-    def cancelar(self):
+    def cancelar(self, event):
         can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro no sistema?')
         if can == 'yes':
             self.janela.destroy()
