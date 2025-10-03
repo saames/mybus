@@ -80,9 +80,12 @@ class GerenciarUsuariosView:
         self.btn_buscar.bind('<ButtonRelease-1>', self.pesquisar_usuario)
         self.btn_buscar.grid(column=2, row=0, padx=(5, 0)) 
 
-        self.btn_promover = ttk.Button(self.frm_menu, text='Promover Administrador', bootstyle='success', state='disabled')
-        self.btn_promover.grid(column=0, row=1, padx=2, pady=(10, 0), sticky='ew')
-        self.btn_promover.bind('<ButtonRelease-1>', self.promover_adm)
+
+        papel_logado = self.ge_usuarios.buscar_usuario_id(self.user_id)[0][4]
+        if papel_logado in ("superusuario", "super"):
+            self.btn_promover = ttk.Button(self.frm_menu, text='Promover Administrador', bootstyle='success', state='disabled')
+            self.btn_promover.grid(column=0, row=1, padx=2, pady=(10, 0), sticky='ew')
+            self.btn_promover.bind('<ButtonRelease-1>', self.promover_adm)
 
         self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning', state='disabled')
         self.btn_editar.grid(column=1, row=1, padx=2, pady=(10, 0), sticky='ew')
@@ -99,13 +102,18 @@ class GerenciarUsuariosView:
 
     def validar_botoes(self, *event):
         linha = item = self.tvw.selection()
+        if hasattr(self,'btn_promover'):
+            if linha :
+                self.btn_promover.config(state='enable')
+            else:
+                self.btn_promover.config(state='disabled')
         if linha: # Se uma linha for selecionada
-            self.btn_promover.config(state='enable')
+            #self.btn_promover.config(state='enable')
             self.btn_editar.config(state='enable')
             self.btn_excluir.config(state='enable')
             return True
         else:
-            self.btn_promover.config(state='disabled')
+            #self.btn_promover.config(state='disabled')
             self.btn_editar.config(state='disabled')
             self.btn_excluir.config(state='disabled')
             return False
@@ -137,6 +145,7 @@ class GerenciarUsuariosView:
             self.tvw.insert('', 'end', values=valores, tags=[tag_inativo, tag_ativo])
         
     def promover_adm(self, event):
+        
         item = self.tvw.selection()
         if item:
             if len(item) == 1:

@@ -34,7 +34,7 @@ class HomeLinhaView:
         self.btn_visualizar.grid(row=2, column=0, sticky='ew', pady=(0,10))
         self.btn_visualizar.bind('<ButtonRelease-1>', self.visualizar_Linha)
 
-        if (papel == "adm"):
+        if (papel == "adm" or papel == 'super'):
             # Botão Gerenciar linhas
             self.btn_gerenciar_linha = ttk.Button(self.frm_center,text="GERENCIAR LINHAS", bootstyle='secondary')
             self.btn_gerenciar_linha.grid(row=3, column=0, sticky='ew', pady=(0,10))
