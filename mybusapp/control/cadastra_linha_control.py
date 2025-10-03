@@ -73,3 +73,22 @@ class CadastrarLinhaControl():
         result = self.model.insert("Cronograma(tipoDia, horarios, linha_id)",
                                    ("U", horarios_formatado, linha_id))
         return result
+
+    def verificar_numero_existente(self, numero, linha_id_a_ignorar=None):
+        if linha_id_a_ignorar:
+            # busca com o id diferente do atual
+            result = self.model.find('Linha', f"numero = '{numero}'", f"id != {linha_id_a_ignorar}")
+        else:
+            # busca no geral
+            result = self.model.find('Linha', f"numero = '{numero}'")
+        return bool(result)
+
+    def verificar_nome_existente(self, nome, linha_id_a_ignorar=None):
+        padrao_busca = f"{nome}#%"
+        if linha_id_a_ignorar:
+            # busca com o id diferente do atual
+            result = self.model.find('Linha', f"nome LIKE '{padrao_busca}'", f"id != {linha_id_a_ignorar}")
+        else:
+            # busca no geral
+            result = self.model.find('Linha', f"nome LIKE '{padrao_busca}'")
+        return bool(result)

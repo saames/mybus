@@ -1,3 +1,4 @@
+from tkinter import messagebox
 import ttkbootstrap as ttk
 from resources.utils import Utils
 import datetime
@@ -112,7 +113,7 @@ class HorarioNovaLinhaView:
         self.btn_cancelar.bind('<ButtonRelease-1>',self)
 
         #botao salvar linha
-        self.btn_salvar = ttk.Button(self.frm_center,text='SALVAR LINHA',bootstyle='success',width=15)
+        self.btn_salvar = ttk.Button(self.frm_center,text='SALVAR LINHA',bootstyle='success',width=15, state="disabled")
         self.btn_salvar.grid(column=1,row=5)
         self.btn_salvar.bind('<ButtonRelease-1>',self.salvar_linha)
 
@@ -148,17 +149,21 @@ class HorarioNovaLinhaView:
             h_util = self.horarios_util[i] if i < len(self.horarios_util) else ""
             h_n_util = self.horarios_n_util[i] if i < len(self.horarios_n_util) else ""
             self.tvw.insert('', 'end', values=(h_util, h_n_util))
+        self.btn_salvar.config(state='normal')
 
 
     def salvar_linha(self, event):
-        if(len(self.horarios_util) == 0 and len(self.horarios_n_util) == 0):
-            self.gerar_horarios("")
+        if not self.horarios_util and not self.horarios_n_util:
+            messagebox.showwarning("Ação Necessária", "Clique em 'Gerar Horários' antes de salvar a linha.")
+            return
 
         self.linha["horarios_util"] = self.horarios_util
         self.linha["horarios_n_util"] = self.horarios_n_util
 
         result = self.linha_control.inserir_linha(self.linha)
-
         if(result):
+            messagebox.showinfo("Sucesso", "Linha cadastrada com sucesso!")
             self.janela.destroy()
             self.janela_origem.fechar_top_level()
+        else:
+            messagebox.showerror("Erro", "Ocorreu um erro ao salvar a linha. Tente novamente.")
