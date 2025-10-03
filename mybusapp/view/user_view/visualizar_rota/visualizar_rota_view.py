@@ -4,6 +4,7 @@ from tkinter import messagebox
 from resources.utils import Utils
 from resources.osrm.osrm import OSRM
 from control.rota_control import RotaControl
+from control.gerenciar_linhas_control import GerenciarLinhasControl
 
 class VisualizarRotaView:
     def __init__(self, master, linha):
@@ -14,13 +15,18 @@ class VisualizarRotaView:
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.grid(column=0, row=0, padx=10, pady=10)
 
-        #print(linha)
-        self.nome_completo = linha[1]
-        self.linha_id = linha[0]
 
         # Criação de Instâncias
         self.utils = Utils()
         self.rota_control = RotaControl()
+        self.linha_control = GerenciarLinhasControl()
+
+        self.linha_id = linha[0]
+        linha_bd = self.linha_control.find_linha(self.linha_id)
+        self.nome_completo_não_formatado = linha_bd[0][1].split("#")
+        self.nome_completo = self.nome_completo_não_formatado[0]
+
+
 
         # Botão voltar
         self.style = ttk.Style()
@@ -56,9 +62,9 @@ class VisualizarRotaView:
             self.lbl_legenda = ttk.Label(self.frm_center, text=' Legenda: ', bootstyle='primary-inverse')
             self.lbl_legenda.grid(column=0, row=2, columnspan=2 , sticky='we', pady=8)
 
-            self.nome_completo = self.nome_completo.split("–")
-            self.nome_origem = self.nome_completo[0].strip()
-            self.nome_destino = self.nome_completo[1].strip()
+            self.nome_origem_destino = self.nome_completo_não_formatado[1].split("-")
+            self.nome_origem = self.nome_origem_destino[0].strip()
+            self.nome_destino = self.nome_origem_destino[1].strip()
 
             self.lbl_ida_cor = ttk.Label(self.frm_center, bootstyle='info-inverse')
             self.lbl_ida_cor.grid(column=0, row=3, ipadx=8, ipady=0)
