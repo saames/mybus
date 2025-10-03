@@ -7,4 +7,5 @@ pyinstaller \
 --onefile \
 --windowed \
 --add-data "mybusapp/resources:resources" \
+--hidden-import='PIL._tkinter_finder' \
 mybusapp/main.py
