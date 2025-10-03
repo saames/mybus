@@ -2,6 +2,7 @@ from tkinter import messagebox
 import ttkbootstrap as ttk
 from resources.utils import Utils
 from view.user_view.redefinir_senha.codigo_seguranca_view import CodigoSegurancaView
+from control.redefinir_senha_control import RedefinirSenhaControl
 
 class SolicitarRedefinirSenhaView:
     def __init__(self, master):
@@ -14,6 +15,7 @@ class SolicitarRedefinirSenhaView:
 
         # Criação de Instâncias
         self.utils = Utils()
+        self.rs_control = RedefinirSenhaControl()
 
         # Título
         self.lbl_title = ttk.Label(self.frm_center, text='Redefinir Senha', bootstyle='primary-inverse', padding=(71, 11))
@@ -53,8 +55,8 @@ class SolicitarRedefinirSenhaView:
 
     
     def validar_campos(self, *event):
-        cpf = self.ent_CPF.get().replace(".","").replace("-","")
-        if len(cpf) == 11 and cpf != "XXXXXXXXXXX":
+        self.cpf = self.ent_CPF.get().replace(".","").replace("-","")
+        if len(self.cpf) == 11 and self.cpf != "XXXXXXXXXXX":
             self.btn_continuar.config(state='enable')
             return True
         else:
@@ -65,10 +67,16 @@ class SolicitarRedefinirSenhaView:
         self.janela.destroy()
 
     def continuar(self, event):
-        if self.validar_campos():
-            self.tl = ttk.Toplevel(self.janela)
-            CodigoSegurancaView(self.tl, self.janela) 
-            self.utils.call_top_view(self.janela, self.tl)
-            self.janela.destroy()
+        usuario = self.rs_control.buscar_usuario_cpf(self.cpf)
+        if len(usuario) == 1:
+            if self.validar_campos():
+                self.tl = ttk.Toplevel(self.janela)
+                # Implementar aqui um "Loading" visual em self.janela  
+                CodigoSegurancaView(self.tl, self.janela, usuario[0])
+                self.janela.withdraw()
+                self.janela.wait_window(self.tl)
+                self.janela.destroy()
+            else:
+                messagebox.showerror('Erro', 'Preencha o campo CPF corretamente.')
         else:
-            messagebox.showerror('Erro', 'Preencha o campo CPF.')
+            messagebox.showerror('Erro', 'Não foi possível encontrar o usuário.')

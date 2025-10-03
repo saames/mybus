@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from view.user_view.redefinir_senha.definir_nova_senha_view import DefinirNovaSenhaView
 
 class CodigoSegurancaView:
-    def __init__(self, master, janela_origem, email_usuario = 'marcos.manuares@sou.ufac.br'):
+    def __init__(self, master, janela_origem, usuario):
         # Ajustes na janela
         self.janela = master
         self.janela_origem = janela_origem
@@ -17,7 +17,8 @@ class CodigoSegurancaView:
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.pack(expand=True, padx=10, pady=10)
 
-        self.email_usuario = email_usuario
+        self.usuario = usuario
+        self.email_usuario = usuario[7]
         
         self.codigo_enviado = None
         self.timestamp_envio = None 
@@ -139,8 +140,9 @@ class CodigoSegurancaView:
             if self.ent_codigo_value.get() == self.codigo_enviado:
                 messagebox.showinfo("Sucesso", "Código validado com sucesso!", parent=self.janela)
                 self.tl = ttk.Toplevel(self.janela)
-                DefinirNovaSenhaView(self.tl, self.janela) 
-                self.utils.call_top_view(self.janela, self.tl)
+                DefinirNovaSenhaView(self.tl, self.janela, self.usuario) 
+                self.janela.withdraw()
+                self.janela.wait_window(self.tl)
                 self.janela.destroy()
             else:
                 messagebox.showerror("Erro", "Código de segurança inválido.", parent=self.janela)

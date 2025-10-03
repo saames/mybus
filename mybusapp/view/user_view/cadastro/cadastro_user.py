@@ -10,7 +10,6 @@ class CadastroUserView:
         # Ajustes na janela
         self.janela = master
         self.usuario = usuario
-        print(usuario)
         #self.janela.geometry('450x550')
         if(self.usuario == None):
             self.janela.title(" Formulário para Cadastro - MyBus")

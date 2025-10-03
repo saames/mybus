@@ -1,9 +1,10 @@
 from tkinter import messagebox
 import ttkbootstrap as ttk
 from resources.utils import Utils
+from control.redefinir_senha_control import RedefinirSenhaControl
 
 class DefinirNovaSenhaView:
-    def __init__(self, master, janela_origem):
+    def __init__(self, master, janela_origem, usuario):
         # Ajustes na janela
         self.janela = master
         self.janela.title("Redefinir senha - MyBus")
@@ -11,8 +12,11 @@ class DefinirNovaSenhaView:
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.pack(expand=True, padx=10, pady=10)
 
+        self.usuario = usuario
+
         # Criação de Instâncias
         self.utils = Utils()
+        self.rs_control = RedefinirSenhaControl()
 
         # Título
         self.lbl_title = ttk.Label(self.frm_center, text='Redefinir Senha', bootstyle='primary-inverse', padding=(116, 11))
@@ -76,9 +80,12 @@ class DefinirNovaSenhaView:
     def continuar(self, *event):
         if self.validar_campos():
             nova_senha = self.ent_password_value.get()
-            result = '' #implementar
+            result = self.rs_control.editar_senha(self.usuario, nova_senha)
             if result:
                 messagebox.showinfo("Sucesso", "Senha alterada com sucesso!")
                 self.janela.destroy()
             else:
                 messagebox.showerror("Erro", "Ocorreu um erro ao tentar alterar a senha.")
+                self.janela.destroy()
+        else:
+            messagebox.showerror("Erro", "Insira a nova senha corretamente.")
