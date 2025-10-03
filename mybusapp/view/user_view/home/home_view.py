@@ -72,7 +72,6 @@ class HomeLinhaView:
         GerenciarLinhasView(self.tl, self.janela) 
         self.utils.call_top_view(self.janela, self.tl)
 
-
     def gereciar_onibus(self, event):
         self.janela.withdraw() 
         self.tl = ttk.Toplevel(self.janela)
