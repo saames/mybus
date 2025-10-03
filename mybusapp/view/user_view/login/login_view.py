@@ -120,10 +120,13 @@ class LoginView:
                 f"Papel:{result[4]}\n"
                 f"Status:{result[5]}"
             )"""
-            self.reiniciar_tela()
-            self.tl = ttk.Toplevel(self.janela)
-            HomeLinhaView(self.tl, None, result[4], result[0])
-            self.utils.call_top_view(self.janela, self.tl)
+            if result[5] == 'A':
+                self.reiniciar_tela()
+                self.tl = ttk.Toplevel(self.janela)
+                HomeLinhaView(self.tl, None, result[4], result[0])
+                self.utils.call_top_view(self.janela, self.tl)
+            else:
+                messagebox.showwarning('Aviso', 'Login Indisponível.\nUsuário desativado.')
 
         else:
             messagebox.showerror('Erro', 'Login Inválido.\nTente novamente.')

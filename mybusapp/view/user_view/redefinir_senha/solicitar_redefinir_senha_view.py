@@ -66,9 +66,9 @@ class SolicitarRedefinirSenhaView:
 
     def continuar(self, event):
         if self.validar_campos():
-            self.janela.withdraw() 
             self.tl = ttk.Toplevel(self.janela)
             CodigoSegurancaView(self.tl, self.janela) 
             self.utils.call_top_view(self.janela, self.tl)
+            self.janela.destroy()
         else:
             messagebox.showerror('Erro', 'Preencha o campo CPF.')

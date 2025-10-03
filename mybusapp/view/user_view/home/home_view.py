@@ -82,7 +82,7 @@ class HomeLinhaView:
     def gereciar_usuarios(self, event):
         self.janela.withdraw() 
         self.tl = ttk.Toplevel(self.janela)
-        GerenciarUsuariosView(self.tl, self.janela)
+        GerenciarUsuariosView(self.tl, self.janela, self.user_id)
         self.utils.call_top_view(self.janela, self.tl)
 
     def sair(self, event):
