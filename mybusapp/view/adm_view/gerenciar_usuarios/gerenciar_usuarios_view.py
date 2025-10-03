@@ -154,6 +154,10 @@ class GerenciarUsuariosView:
                 dados_linha = self.tvw.item(item_id, 'values') # Pegando todos os dados da linha
                 nome_use = dados_linha[1]
                 id_use = dados_linha[0]
+
+                if id_use == self.user_id:
+                    messagebox.showerror('Erro', 'Você já é um Super Administrador.')
+                    return
                 papel_atual = dados_linha[3]
                 
                 if papel_atual == 'Administrador':
