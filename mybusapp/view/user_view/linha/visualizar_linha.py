@@ -205,7 +205,9 @@ class VisualizarLinhaView:
     def visualizar_horario(self,event):
         item = self.tvw.selection()
         if item:
-            linha = self.tvw.item(item)['values']
+            linha = list(self.tvw.item(item)['values'])
+            linha.insert(0, item[0])
+            linha = tuple(linha)
             self.tl = ttk.Toplevel(self.janela)
             HorariosLinhaView(self.tl,self.janela,linha)
             self.utils.call_top_view(self.janela,self.tl)
