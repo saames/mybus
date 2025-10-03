@@ -1,5 +1,6 @@
 import ttkbootstrap as ttk
 import tkintermapview as tkmap
+from tkinter import messagebox
 from resources.utils import Utils
 from control.gerenciar_linhas_control import GerenciarLinhasControl
 from view.adm_view.criar_linhas.criar_linhas_view import CriarLinhaView
@@ -73,7 +74,7 @@ class GerenciarLinhasView:
 
         self.btn_excluir = ttk.Button(self.frm_menu, text='Excluir', bootstyle='danger', state='disabled')
         self.btn_excluir.grid(column=3, row=0, padx=2)
-        self.btn_excluir.bind('<ButtonRelease-1>')
+        self.btn_excluir.bind('<ButtonRelease-1>', self.deletar_linha)
 
         #self.lbl_espacador = ttk.Label(self.frm_menu)
         #self.lbl_espacador.grid(column=4, row=0, padx=117)
@@ -147,5 +148,16 @@ class GerenciarLinhasView:
             self.tl = ttk.Toplevel(self.janela)
             HorariosLinhaView(self.tl,self.janela,linha)
             self.utils.call_top_view(self.janela,self.tl)
+        else:
+            messagebox.showerror("Erro", "É necessário selecionar uma linha.")
+
+    def deletar_linha(self, event):
+        item = self.tvw.selection()
+        if item:
+            linha = list(self.tvw.item(item)['values'])
+            response = messagebox.askyesno("Mensagem", f"Voce deseja exluir a linha {linha[2]}.{linha[1]}?")
+            if(response):
+                self.gerenciar_linhas_control.delete_linha(linha[0])
+                self.atualizar_tabela()
         else:
             messagebox.showerror("Erro", "É necessário selecionar uma linha.")
