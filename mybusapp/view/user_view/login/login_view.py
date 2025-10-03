@@ -80,6 +80,9 @@ class LoginView:
         self.janela.bind('<Return>', self.pedir_autenticacao)
         self.janela.bind('<Escape>', self.fechar_janela)
 
+        self.janela.bind_class('TButton', '<Enter>', self.utils.on_enter)
+        self.janela.bind_class('TButton', '<Leave>', self.utils.on_leave)
+
         self.utils.centraliza(self.janela)
 
     # Restrições básicas para autenticação

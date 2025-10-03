@@ -54,3 +54,9 @@ class Utils:
             janela.deiconify()
         except TclError as tcl:
             pass
+
+    def on_enter(self, event):
+        event.widget.winfo_toplevel().config(cursor="hand2")
+
+    def on_leave(self, event):
+        event.widget.winfo_toplevel().config(cursor="")

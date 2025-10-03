@@ -71,8 +71,9 @@ class SolicitarRedefinirSenhaView:
         if len(usuario) == 1:
             if self.validar_campos():
                 self.tl = ttk.Toplevel(self.janela)
-                # Implementar aqui um "Loading" visual em self.janela  
+                self.janela.config(cursor="watch") # Cursor loading
                 CodigoSegurancaView(self.tl, self.janela, usuario[0])
+                self.janela.config(cursor="") # Cursor padrão
                 self.janela.withdraw()
                 self.janela.wait_window(self.tl)
                 self.janela.destroy()
