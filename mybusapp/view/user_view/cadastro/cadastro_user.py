@@ -48,18 +48,20 @@ class CadastroUserView:
         self.ent_name.grid(column=1, row=1, sticky='ew', ipadx=50, pady=(0,5))
         self.ent_name.bind('<KeyRelease>', self.validar_campos)
 
-        self.lbl_CPF = ttk.Label(self.frm_center, text='CPF', bootstyle='inverse-secondary', 
-                                                               borderwidth=7, 
-                                                               padding=(56,0),
-                                                               font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_CPF.grid(column=0, row=2, sticky='w', pady=(0,5))
-        self.ent_CPF_value = ttk.StringVar()
-        if(self.usuario != None):
-            self.ent_CPF_value.set(self.usuario[2])
-        self.ent_CPF = ttk.Entry(self.frm_center, textvariable=self.ent_CPF_value)
-        self.ent_CPF.grid(column=1, row=2, sticky='ew', pady=(0, 5))
-        self.ent_CPF.bind('<KeyRelease>', self.validar_campos)
-        self.utils.add_placeholder(self.ent_CPF,'XXX.XXX.XXX-XX')
+        if(self.usuario == None):
+            # CPF
+            self.lbl_CPF = ttk.Label(self.frm_center, text='CPF', bootstyle='inverse-secondary', 
+                                                                borderwidth=7, 
+                                                                padding=(56,0),
+                                                                font=('TkDefaultFont', 10, 'bold'))
+            self.lbl_CPF.grid(column=0, row=2, sticky='w', pady=(0,5))
+            self.ent_CPF_value = ttk.StringVar()
+            if(self.usuario != None):
+                self.ent_CPF_value.set(self.usuario[2])
+            self.ent_CPF = ttk.Entry(self.frm_center, textvariable=self.ent_CPF_value)
+            self.ent_CPF.grid(column=1, row=2, sticky='ew', pady=(0, 5))
+            self.ent_CPF.bind('<KeyRelease>', self.validar_campos)
+            self.utils.add_placeholder(self.ent_CPF,'XXX.XXX.XXX-XX')
 
         # Email do usuário 
         self.lbl_email = ttk.Label(self.frm_center, text='Email', bootstyle='inverse-secondary', 
@@ -88,31 +90,32 @@ class CadastroUserView:
         self.ent_phone.bind('<KeyRelease>', self.validar_campos)
         self.utils.add_placeholder(self.ent_phone, '(XX)XXXXXXXXX')
 
-        # Senha do usuário
-        self.lbl_password = ttk.Label(self.frm_center, text='Senha (8 dígitos)', bootstyle='inverse-secondary', 
-                                                                     borderwidth=7, 
-                                                                     padding=(6,0),
-                                                                     font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_password.grid(column=0, row=5, sticky='w', pady=(0, 5))
-        self.ent_password_value = ttk.StringVar()
-        if(self.usuario != None):
-            self.ent_password_value.set(self.usuario[6])
-        self.ent_password = ttk.Entry(self.frm_center, show='*', textvariable=self.ent_password_value)
-        self.ent_password.grid(column=1, row=5, sticky='ew', pady=(0, 5))
-        self.ent_password.bind('<KeyRelease>', self.validar_campos)
+        if(self.usuario == None):
+            # Senha do usuário
+            self.lbl_password = ttk.Label(self.frm_center, text='Senha (8 dígitos)', bootstyle='inverse-secondary', 
+                                                                        borderwidth=7, 
+                                                                        padding=(6,0),
+                                                                        font=('TkDefaultFont', 10, 'bold'))
+            self.lbl_password.grid(column=0, row=5, sticky='w', pady=(0, 5))
+            self.ent_password_value = ttk.StringVar()
+            if(self.usuario != None):
+                self.ent_password_value.set(self.usuario[6])
+            self.ent_password = ttk.Entry(self.frm_center, show='*', textvariable=self.ent_password_value)
+            self.ent_password.grid(column=1, row=5, sticky='ew', pady=(0, 5))
+            self.ent_password.bind('<KeyRelease>', self.validar_campos)
 
-        # Confirmar senha
-        self.lbl_checker_pass = ttk.Label(self.frm_center, text='Confirmar Senha', bootstyle='inverse-secondary', 
-                                                                                   borderwidth=7, 
-                                                                                   padding=(7,0),
-                                                                                   font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_checker_pass.grid(column=0, row=6, sticky='w', pady=(0, 5))
-        self.ent_checker_pass_value = ttk.StringVar()
-        if(self.usuario != None):
-            self.ent_checker_pass_value.set(self.usuario[6])
-        self.ent_checker_pass = ttk.Entry(self.frm_center, show='*', textvariable=self.ent_checker_pass_value)
-        self.ent_checker_pass.grid(column=1, row=6, sticky='ew', pady=(0, 5))
-        self.ent_checker_pass.bind('<KeyRelease>', self.validar_campos)
+            # Confirmar senha
+            self.lbl_checker_pass = ttk.Label(self.frm_center, text='Confirmar Senha', bootstyle='inverse-secondary', 
+                                                                                    borderwidth=7, 
+                                                                                    padding=(7,0),
+                                                                                    font=('TkDefaultFont', 10, 'bold'))
+            self.lbl_checker_pass.grid(column=0, row=6, sticky='w', pady=(0, 5))
+            self.ent_checker_pass_value = ttk.StringVar()
+            if(self.usuario != None):
+                self.ent_checker_pass_value.set(self.usuario[6])
+            self.ent_checker_pass = ttk.Entry(self.frm_center, show='*', textvariable=self.ent_checker_pass_value)
+            self.ent_checker_pass.grid(column=1, row=6, sticky='ew', pady=(0, 5))
+            self.ent_checker_pass.bind('<KeyRelease>', self.validar_campos)
         
         # Frame dos botões
         self.frm_buttons = ttk.Frame(self.frm_center)
@@ -135,28 +138,33 @@ class CadastroUserView:
 
     def validar_campos(self, *event):
         nome = self.ent_name.get()
-        senha = self.ent_password.get()
-        confirmar_senha = self.ent_checker_pass.get()
         email = self.ent_email.get()
-        cpf = self.ent_CPF.get().replace(".","").replace("-","")
+        if(self.usuario == None):
+            senha = self.ent_password.get()
+            confirmar_senha = self.ent_checker_pass.get()
+            cpf = self.ent_CPF.get().replace(".","").replace("-","")
         telefone = self.ent_phone.get().replace("(","").replace(")","").replace("-","")
         
         # Verifica se os campos estão corretamente inseridos.
-        insercao_campos = (telefone.isdigit() and len(telefone)==11
-                           and nome != ""
-                           and len(cpf) == 11
-                           and len(senha) >= 8
-                           and confirmar_senha == senha
-                           and "@" in email
-                           and self.cpf_verificar.validate(f"{cpf[0:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}")
-                           )
+        if(self.usuario == None):
+            insercao_campos = (telefone.isdigit() and len(telefone)==11
+                            and nome != ""
+                            and len(cpf) == 11
+                            and len(senha) >= 8
+                            and confirmar_senha == senha
+                            and "@" in email
+                            and self.cpf_verificar.validate(f"{cpf[0:3]}.{cpf[3:6]}.{cpf[6:9]}-{cpf[9:11]}")
+                            )
+        else:
+            insercao_campos = (telefone.isdigit() and len(telefone)==11
+                            and nome != ""
+                            and "@" in email
+                            )
 
         # Verifica se os campos foram alterados em uma edição.
         if self.usuario:
             sem_alteracoes_campos = (nome == self.usuario[1]
-                                     and cpf == self.usuario[2]
                                      and telefone == self.usuario[3]
-                                     and senha == self.usuario[6]
                                      and email == self.usuario[7]
                                      )
             if insercao_campos and sem_alteracoes_campos:
@@ -181,17 +189,17 @@ class CadastroUserView:
     def cadastrar(self, event):
         if self.validar_campos():
             name = self.ent_name_value.get()
-            cpf = self.ent_CPF_value.get()
             email = self.ent_email.get()
             phone = self.ent_phone_value.get()
-            password = self.ent_password_value.get()
             if(self.usuario == None):
-                result = self.cadastrar_control.Cadastrar_usuario(name, cpf, phone, password, "user", "A")
+                cpf = self.ent_CPF_value.get()
+                password = self.ent_password_value.get()
+                result = self.cadastrar_control.Cadastrar_usuario(name, cpf, phone, password, "user", "A", email)
                 if(result):
                     messagebox.showinfo("Informação", "Cadastro realizado com sucesso!")
                     self.janela.destroy()
             else:
-                result = self.cadastrar_control.editar_usuario(self.usuario[0], name, cpf, password, phone, self.usuario[4], "A")
+                result = self.cadastrar_control.editar_usuario(self.usuario[0], name, self.usuario[2], self.usuario[6], phone, self.usuario[4], "A", email)
                 if(result):
                     messagebox.showinfo("Informação", "Edição realizada com sucesso!")
                     self.janela.destroy()

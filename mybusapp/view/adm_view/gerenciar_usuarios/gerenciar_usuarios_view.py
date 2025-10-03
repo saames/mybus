@@ -8,7 +8,7 @@ from view.user_view.cadastro.cadastro_user import CadastroUserView
 
 
 class GerenciarUsuariosView:
-    def __init__(self,master, janela_origem):
+    def __init__(self,master, janela_origem, user_id):
         self.janela = master
         self.janela_origem = janela_origem
         self.janela.title('Gerenciar Usuários - MyBus')
@@ -16,6 +16,8 @@ class GerenciarUsuariosView:
         #self.janela.resizable(False, False)
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.grid(column=0, row=0, padx=10, pady=10)
+
+        self.user_id = str(user_id)
 
         # Criação de Instâncias
         self.utils = Utils()
@@ -88,7 +90,7 @@ class GerenciarUsuariosView:
 
         self.btn_excluir = ttk.Button(self.frm_menu, text='Inativar', bootstyle='danger', state='disabled')
         self.btn_excluir.grid(column=2, row=1, padx=2, pady=(10, 0), sticky='ew')
-        self.btn_excluir.bind('<ButtonRelease-1>', self.excluir)
+        self.btn_excluir.bind('<ButtonRelease-1>', self.desativar)
 
         # Comandos para navegação
         self.janela.bind('<Escape>', self.voltar)
@@ -181,7 +183,7 @@ class GerenciarUsuariosView:
         else:
             messagebox.showwarning("Error", "Selecione um usuário para editar.")
 
-    def excluir(self, event):
+    def desativar(self, event):
         item = self.tvw.selection()
         if item:
             item_id = item[0] 
@@ -190,19 +192,26 @@ class GerenciarUsuariosView:
             nome_use = dados_linha[1]
             id_use = dados_linha[0]
             status_atual = dados_linha[4]
+
+            if id_use == '1':
+                messagebox.showinfo('Informação', 'Não é possível desativar o Super Usuário')
+                return 
+            elif id_use == self.user_id:
+                messagebox.showerror('Erro', 'Não é possível desativar seu próprio usuário.')
+                return
             
             if status_atual == 'Inativo':
-                 messagebox.showinfo('Informação', f'O usuário {nome_use} já esta inativo.')
+                 messagebox.showinfo('Informação', f'O usuário {nome_use} já esta desativado.')
                  return
             
-            res = messagebox.askquestion('Confirmar', f'Tem certeza que deseja tornar o usuário {nome_use} inativo?')
+            res = messagebox.askquestion('Confirmar', f'Tem certeza que deseja desativar o usuário {nome_use}?')
             
             if res == 'yes':
                 self.ge_usuarios.deletar_usuario(id_use)
                 self.atualizar_tabela()
-                messagebox.showinfo('Informação', 'Usuário inativado com sucesso!')
+                messagebox.showinfo('Informação', 'Usuário desativado com sucesso!')
         else:
-            messagebox.showwarning("Error", "Selecione um usuário para inativar.")
+            messagebox.showwarning("Error", "Selecione um usuário para desativar.")
         # elif len(item) > 0:
         #     messagebox.showwarning('Aviso', 'Selecione apenas 1 usuário')
         
