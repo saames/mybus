@@ -45,13 +45,15 @@ class UsuarioModel(Model):
     def search(self, termobusca):
         sql = f"""SELECT 
                     Usuario.id, 
-                    Usuario.nome, 
+                    Usuario.nome,
+                    Usuario.email,
                     Usuario.telefone, 
                     Usuario.papel, 
                     Usuario.status 
                     FROM Usuario
                     WHERE Usuario.id = '{termobusca}'
                        OR Usuario.nome LIKE '%{termobusca}%'
+                       OR Usuario.email LIKE '%{termobusca}%'
                        OR Usuario.telefone LIKE '%{termobusca}%'
                        OR Usuario.papel = '{termobusca}'
                        OR Usuario.status = (
