@@ -122,6 +122,7 @@ class GerenciarLinhasView:
         self.tl = ttk.Toplevel(self.janela)
         CriarLinhaView(self.tl, self.janela_origem)
         self.utils.call_top_view(self.janela, self.tl)
+        self.atualizar_tabela()
 
     def voltar(self, event=None):
             self.janela.destroy() 
