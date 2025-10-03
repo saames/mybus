@@ -47,3 +47,21 @@ class GerenciarOnibusControl:
             return  result
         else:
             return  None
+        
+    def verificar_numero_existente(self, numero, onibus_id_a_ignorar=None):
+        if onibus_id_a_ignorar:
+            # busca com o id diferente do atual
+            result = self.model.find('Onibus', f"numero = '{numero}'", f"id != {onibus_id_a_ignorar}")
+        else:
+            # busca no geral
+            result = self.model.find('Onibus', f"numero = '{numero}'")
+        return bool(result)
+
+    def verificar_placa_existente(self, placa, onibus_id_a_ignorar=None):
+        if onibus_id_a_ignorar:
+            # busca com o id diferente do atual
+            result = self.model.find('Onibus', f"placa = '{placa}'", f"id != {onibus_id_a_ignorar}")
+        else:
+            # busca no geral
+            result = self.model.find('Onibus', f"placa = '{placa}'")
+        return bool(result)
