@@ -7,7 +7,6 @@ class CronogramaControl:
 
     def listar_cronograma(self, linha_id):
         result = self.model.find("Cronograma", f"linha_id = {linha_id}")
-        print(result)
         cronograma = []
         for i in result:
             aux = []

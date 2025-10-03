@@ -8,10 +8,8 @@ class CadastrarLinhaControl():
     def inserir_linha(self, linha):
         nome = linha["nome"]
         linha_origem = linha["pontos_iniciais"][0][0]
-        print(linha_origem)
         linha_destino = linha["pontos_iniciais"][1][0]
 
-        print(linha_destino)
         nome += f"#{linha_origem}-{linha_destino}"
         numero = linha["numero"]
         result = self.model.insert("Linha(nome, numero)", (nome, numero))
@@ -48,7 +46,6 @@ class CadastrarLinhaControl():
             else:
                 linha_rota_volta += f"{linha_rota_volta_nao_formatada[i][0]},{linha_rota_volta_nao_formatada[i][1]}"
         linha_marcacao_volta_não_formatada = linha["marcacao-volta"]
-        print(linha_marcacao_volta_não_formatada)
         linha_marcacao_volta = ""
         for i in range(len(linha_marcacao_volta_não_formatada)):
             if (i < len(linha_marcacao_volta_não_formatada) - 1):
