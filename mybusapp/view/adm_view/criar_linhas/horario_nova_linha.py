@@ -106,10 +106,10 @@ class HorarioNovaLinhaView:
         self.brl = ttk.Scrollbar(self.frm_center, command=self.tvw.yview)
         self.brl.grid(column=2, row=4, sticky='ns', pady=6)
         self.tvw.configure(yscrollcommand=self.brl.set)
-        #botao cancelar
-        self.btn_cancelar = ttk.Button(self.frm_center,text='CANCELAR',bootstyle='danger',width=15)
+        #botao voltar
+        self.btn_cancelar = ttk.Button(self.frm_center,text='VOLTAR',bootstyle='secondary',width=15)
         self.btn_cancelar.grid(column=0,row=5)
-        self.btn_cancelar.bind('<ButtonRelease-1>',self)
+        self.btn_cancelar.bind('<ButtonRelease-1>',self.voltar)
 
         #botao salvar linha
         self.btn_salvar = ttk.Button(self.frm_center,text='SALVAR LINHA',bootstyle='success',width=15)
@@ -162,3 +162,5 @@ class HorarioNovaLinhaView:
         if(result):
             self.janela.destroy()
             self.janela_origem.fechar_top_level()
+    def voltar(self,event):
+        self.janela.destroy() 

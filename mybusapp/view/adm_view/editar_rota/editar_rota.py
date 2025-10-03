@@ -99,6 +99,7 @@ class EditarRotaView:
         
         self.btn_voltar = ttk.Button(self.frm_rodape, text="Voltar", bootstyle='secondary')
         self.btn_voltar.pack(side='left')
+        self.btn_voltar.bind('<ButtonRelease-1>', self.voltar)
 
         self.btn_continuar = ttk.Button(self.frm_rodape, text="Continuar", bootstyle='success')
         self.btn_continuar.pack(side='right')
@@ -257,4 +258,5 @@ class EditarRotaView:
             showerror("Error",
                       "Escolha um ponto intermediário para alterar sua posição (não é possível alterar a origem ou o destino).")
 
-
+    def voltar(self, *event):
+        self.janela.destroy()
