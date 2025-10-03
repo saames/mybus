@@ -3,6 +3,8 @@ import tkintermapview as tkmap
 from resources.utils import Utils
 from control.gerenciar_linhas_control import GerenciarLinhasControl
 from view.adm_view.criar_linhas.criar_linhas_view import CriarLinhaView
+from view.user_view.linha.horarios_linha import HorariosLinhaView
+from view.user_view.visualizar_rota.visualizar_rota_view import VisualizarRotaView
 
 class GerenciarLinhasView:
     def __init__(self, master, janela_origem):
@@ -78,11 +80,11 @@ class GerenciarLinhasView:
 
         self.btn_horarios = ttk.Button(self.frm_menu, text='Horários', bootstyle='secondary', state='disabled')
         self.btn_horarios.grid(column=5, row=0, padx=2)
-        self.btn_horarios.bind('<ButtonRelease-1>')
+        self.btn_horarios.bind('<ButtonRelease-1>', self.visualizar_horario)
 
         self.btn_rotas = ttk.Button(self.frm_menu, text='Rotas', bootstyle='secondary', state='disabled')
         self.btn_rotas.grid(column=6, row=0, padx=2)
-        self.btn_rotas.bind('<ButtonRelease-1>')
+        self.btn_rotas.bind('<ButtonRelease-1>', self.visualizar_rota)
 
         # Comandos de navegação
         self.janela.bind('<Escape>', self.voltar)
@@ -126,4 +128,24 @@ class GerenciarLinhasView:
 
     def voltar(self, event=None):
             self.janela.destroy() 
-            self.janela_origem.deiconify() 
+            self.janela_origem.deiconify()
+
+    def visualizar_rota(self, event):
+        item = self.tvw.selection()
+        if item:
+            linha = self.tvw.item(item)['values']
+            self.tl = ttk.Toplevel(self.janela)
+            VisualizarRotaView(self.tl, linha)
+            self.utils.call_top_view(self.janela, self.tl)
+        else:
+            messagebox.showerror("Erro", "É necessário selecionar uma linha.")
+
+    def visualizar_horario(self,event):
+        item = self.tvw.selection()
+        if item:
+            linha = list(self.tvw.item(item)['values'])
+            self.tl = ttk.Toplevel(self.janela)
+            HorariosLinhaView(self.tl,self.janela,linha)
+            self.utils.call_top_view(self.janela,self.tl)
+        else:
+            messagebox.showerror("Erro", "É necessário selecionar uma linha.")

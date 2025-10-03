@@ -8,5 +8,7 @@ class RotaControl:
 
     def buscar_rotas_da_linha(self, linha_id):
         result_bd = self.model.find("Rota", f"linha_id = {linha_id}")
-        result = [[(float(lat), float(lon)) for lat, lon in [coord.split(",") for coord in record[2].split("#")]] for record in result_bd]
+        result1 = [[(float(lat), float(lon)) for lat, lon in [coord.split(",") for coord in record[2].split("#")]] for record in result_bd]
+        result2=  [[(nome, float(lat), float(lon)) for nome, lat, lon in [coord.split(",") for coord in record[3].split("#")]] for record in result_bd]
+        result = [result1, result2]
         return result

@@ -5,9 +5,11 @@ from tkinter import messagebox
 from resources.photos import Base64
 from resources.utils import Utils
 from control.gerenciar_linhas_control import GerenciarLinhasControl
-from view.user_view.visualizar_rota.visualizar_rota_view import VisualizarRotaView
 from control.user_linha_control import UserLinhaControl
 from view.user_view.linha.horarios_linha import HorariosLinhaView
+from view.user_view.visualizar_rota.visualizar_rota_view import VisualizarRotaView
+
+
 class VisualizarLinhaView:
     def __init__(self,master, janela_origem, user_id=1):
         # Ajustes janela
