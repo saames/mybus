@@ -5,6 +5,7 @@ import random
 import string
 import yagmail
 from datetime import datetime, timedelta
+from view.user_view.redefinir_senha.definir_nova_senha_view import DefinirNovaSenhaView
 
 class CodigoSegurancaView:
     def __init__(self, master, janela_origem, email_usuario = 'marcos.manuares@sou.ufac.br'):
@@ -17,6 +18,7 @@ class CodigoSegurancaView:
         self.frm_center.pack(expand=True, padx=10, pady=10)
 
         self.email_usuario = email_usuario
+        
         self.codigo_enviado = None
         self.timestamp_envio = None 
         self.horario_fim_contagem = None
@@ -136,8 +138,9 @@ class CodigoSegurancaView:
 
             if self.ent_codigo_value.get() == self.codigo_enviado:
                 messagebox.showinfo("Sucesso", "Código validado com sucesso!", parent=self.janela)
-                # Aqui você chamaria a próxima tela para definir a nova senha
+                self.tl = ttk.Toplevel(self.janela)
+                DefinirNovaSenhaView(self.tl, self.janela) 
+                self.utils.call_top_view(self.janela, self.tl)
                 self.janela.destroy()
-                self.janela_origem.deiconify() # Apenas para exemplo
             else:
                 messagebox.showerror("Erro", "Código de segurança inválido.", parent=self.janela)
