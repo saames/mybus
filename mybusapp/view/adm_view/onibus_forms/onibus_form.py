@@ -213,6 +213,14 @@ class OnibusForm:
         linha_id = self.linha_id
         if not self.onibus_editar:
             if self.validar_campos():
+
+                if self.gereciar_onibus.verificar_numero_existente(number):
+                    messagebox.showerror("Erro de Validação", "O número informado já está cadastrado no sistema.")
+                    return
+                if self.gereciar_onibus.verificar_placa_existente(plate):
+                    messagebox.showerror("Erro de Validação", "A placa informada já está cadastrada no sistema.")
+                    return
+
                 result = self.gereciar_onibus.inserir_onibus(number, plate, status, linha_id)
                 if result:
                     messagebox.showinfo("Informação", "Cadastro realizado com sucesso!")
@@ -221,6 +229,18 @@ class OnibusForm:
                 messagebox.showerror('Erro', 'Insira os dados corretamente.')
         else:
             if self.validar_campos():
+                onibus_id = self.onibus_editar[0]
+                original_number = self.onibus_editar[1]
+                original_plate = self.onibus_editar[2]
+
+                if number != original_number and self.gereciar_onibus.verificar_numero_existente(number, onibus_id):
+                    messagebox.showerror("Erro de Validação", "O número informado já está sendo utilizado por outro ônibus.")
+                    return
+                
+                if plate != original_plate and self.gereciar_onibus.verificar_numero_existente(plate, onibus_id):
+                    messagebox.showerror("Erro de Validação", "A placa informada já está sendo utilizada por outro ônibus.")
+                    return
+
                 result = self.gereciar_onibus.editar_onibus(self.onibus_editar[0], number, plate, status, linha_id)
                 if result:
                     messagebox.showinfo("Informação", "Edição realizada com sucesso!")

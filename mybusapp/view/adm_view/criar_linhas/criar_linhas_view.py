@@ -1,5 +1,6 @@
 from tkinter import messagebox
 import ttkbootstrap as ttk
+from control.cadastra_linha_control import CadastrarLinhaControl
 from view.adm_view.definir_origem_destino.definir_origem_destino import DefinirOrigemDestinoView
 from resources.utils import Utils
 
@@ -15,6 +16,7 @@ class CriarLinhaView:
 
         # Criação de Instâncias
         self.utils = Utils()
+        self.gerenciar_linha = CadastrarLinhaControl()
 
         # Titulo
         self.lbl_title = ttk.Label(self.frm_center, text='Criar Linha', bootstyle='primary-inverse', padding=(156, 11))
@@ -74,6 +76,14 @@ class CriarLinhaView:
             self.btn_continue.config(state='disabled')
     
     def continuar(self):
+        numero = self.spb_number.get()
+        nome = self.ent_name.get()
+        if self.gerenciar_linha.verificar_numero_existente(numero):
+            messagebox.showerror("Erro de Validação", "O número informado já está cadastrado no sistema.")
+            return
+        if self.gerenciar_linha.verificar_nome_existente(nome):
+            messagebox.showerror("Erro de Validação", "O nome informado já está cadastrado no sistema.")
+            return
         linha = {}
         linha["nome"]=self.ent_name_value.get()
         linha["numero"]=self.spb_number_value.get()

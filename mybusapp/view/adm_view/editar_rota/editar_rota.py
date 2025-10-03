@@ -101,7 +101,7 @@ class EditarRotaView:
         self.btn_voltar.pack(side='left')
         self.btn_voltar.bind('<ButtonRelease-1>', self.voltar)
 
-        self.btn_continuar = ttk.Button(self.frm_rodape, text="Continuar", bootstyle='success')
+        self.btn_continuar = ttk.Button(self.frm_rodape, text="Continuar", bootstyle='success', state='disabled')
         self.btn_continuar.pack(side='right')
         self.btn_continuar.bind('<ButtonRelease-1>', self.abrir_proxima_tela)
 
@@ -133,6 +133,9 @@ class EditarRotaView:
             self.tree.insert('', 'end', values=self.pontos[item], tags=('geral',), iid=id_treeview)
 
     def abrir_proxima_tela(self, event):
+        if (self.sentido == "ida" and "rota-ida" not in self.linha) or (self.sentido == "volta" and "rota-volta" not in self.linha):
+            showerror("Ação Necessária", "Trace uma rota antes de avançar.")
+            return
         self.tl = ttk.Toplevel(self.janela)
         if(self.sentido == "ida"):
             if "rota-ida" not in (self.linha.keys()):
@@ -172,6 +175,7 @@ class EditarRotaView:
             self.linha["rota-volta"] = result
             self.linha["marcacao-volta"] = self.pontos
             self.mpv_rota.set_path(result, color="red", width=4)
+        self.btn_continuar.config(state='normal')    
 
     def adicionar_novo_ponto(self, event):
         self.tl = ttk.Toplevel()
@@ -203,10 +207,12 @@ class EditarRotaView:
         ponto = tuple(ponto)
         self.pontos.insert(ponto[0]-1, ponto)
         self.atualizar(self.pontos)
+        self.btn_continuar.config(state='disabled')
 
     def adicionar_ponto_editado(self, ponto):
         self.pontos[ponto[0]-1] = ponto
         self.atualizar(self.pontos)
+        self.btn_continuar.config(state='disabled')
 
     def excluir_ponto(self, event):
         linha = self.tree.selection()
@@ -217,6 +223,7 @@ class EditarRotaView:
                 if(response):
                     self.pontos.pop(item[0]-1)
                     self.atualizar(self.pontos)
+                    self.btn_continuar.config(state='disabled')
             else:
                 showerror("Error",
                           "A exclusão do ponto de origem e do ponto de destino não é permitida. Para realizar essa ação, retorne à tela anterior.")
@@ -233,6 +240,7 @@ class EditarRotaView:
                 self.pontos.insert(item_lista[0] - 2, item_lista)
                 self.atualizar(self.pontos)
                 self.tree.selection_set([f'{item_lista[0]-1}'])
+                self.btn_continuar.config(state='disabled')
             else:
                 if(item[0] in (1, len(self.pontos))):
                     showerror("Error",
@@ -250,6 +258,7 @@ class EditarRotaView:
                 self.pontos.insert(item_lista[0], item_lista)
                 self.atualizar(self.pontos)
                 self.tree.selection_set([f"{item_lista[0]+1}"])
+                self.btn_continuar.config(state='disabled')
             else:
                 if (item[0] in (1, len(self.pontos))):
                     showerror("Error",
