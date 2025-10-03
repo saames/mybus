@@ -21,7 +21,7 @@ class CriarLinhaView:
         self.lbl_title.grid(column=0,row=0, columnspan=2, pady=(0,20))
 
         # Nome da rota
-        self.lbl_name = ttk.Label(self.frm_center, text='Nome',bootstyle='inverse-secondary', 
+        self.lbl_name = ttk.Label(self.frm_center, text='Nome',bootstyle='inverse-secondary',
                                                                          borderwidth=7, 
                                                                          padding=(14,0),
                                                                          font=('TkDefaultFont', 10, 'bold'))
@@ -74,11 +74,17 @@ class CriarLinhaView:
             self.btn_continue.config(state='disabled')
     
     def continuar(self):
+        linha = {}
+        linha["nome"]=self.ent_name_value.get()
+        linha["numero"]=self.spb_number_value.get()
         self.tl = ttk.Toplevel(self.janela)
-        DefinirOrigemDestinoView(self.tl, self.janela)
+        DefinirOrigemDestinoView(self.tl, self, linha)
         self.utils.call_top_view(self.janela, self.tl)
     
     def cancelar(self, *event):
         can = messagebox.askquestion('Cancelar cadastro', 'Deseja cancelar o processo de cadastro de linha?')
         if can == 'yes':
             self.janela.destroy()
+
+    def fechar_top_level(self):
+        self.janela.destroy()

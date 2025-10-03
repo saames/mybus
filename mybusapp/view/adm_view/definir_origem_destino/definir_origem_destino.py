@@ -3,9 +3,10 @@ import ttkbootstrap as ttk
 import tkintermapview as tkmap
 from view.adm_view.editar_rota.editar_rota import EditarRotaView
 from resources.utils import Utils
+from tkinter import TclError
 
 class DefinirOrigemDestinoView:
-    def __init__(self, master, janela_origem):
+    def __init__(self, master, janela_origem, linha):
         self.janela = master
         self.janela_origem = janela_origem
         self.janela.title('Definir Rota - MyBus')
@@ -15,6 +16,10 @@ class DefinirOrigemDestinoView:
 
         self.utils = Utils()
         self.frm_center.columnconfigure(0, weight=1, minsize=250)
+
+        #Pegando as informações ja inserida da linha
+        self.linha = linha
+
         # Título
         self.lbl_title = ttk.Label(self.frm_center, text='Definir Origem e Destino',  bootstyle='primary', font=('TkDefaultFont', 14, 'bold'))
         self.lbl_title.grid(column=0, row=0, sticky='w', pady=(0, 15), columnspan=2)
@@ -92,14 +97,18 @@ class DefinirOrigemDestinoView:
         if origem_nome == "Selecione" or destino_nome == "Selecione":
             messagebox.showwarning("Aviso", "Selecione uma origem e um destino antes de salvar.")
             return
-        origem = self.pontos.get(origem_nome)
-        destino = self.pontos.get(destino_nome)
+        origem = list(self.pontos.get(origem_nome))
+        destino = list(self.pontos.get(destino_nome))
+        origem.insert(0, origem_nome)
+        destino.insert(0, destino_nome)
+        origem = tuple(origem)
+        destino = tuple(destino)
         self.rota.append(origem)
         self.rota.append(destino)
-        print(f"Pontos salvos {self.rota}")
+        self.linha["pontos_iniciais"]=self.rota
 
         self.tl = ttk.Toplevel(self.janela)
-        EditarRotaView(self.tl, self.janela)
+        EditarRotaView(self.tl, self, self.linha)
         self.utils.call_top_view(self.janela, self.tl)
 
             
@@ -213,3 +222,7 @@ class DefinirOrigemDestinoView:
                 self.cbx_origem.current(0)
                 self.origem_lat = None
                 self.origem_lon = None
+
+    def fechar_top_level(self):
+        self.janela.destroy()
+        self.janela_origem.fechar_top_level()
