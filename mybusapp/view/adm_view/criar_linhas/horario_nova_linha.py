@@ -1,16 +1,20 @@
 import ttkbootstrap as ttk
 from resources.utils import Utils
 import datetime
+from control.cadastra_linha_control import CadastrarLinhaControl
 
 
 class HorarioNovaLinhaView:
-    def __init__(self,master,janela_origem=None,linha=None):
+    def __init__(self,master, janela_origem=None,linha=None):
         # Ajustes janela
         self.janela = master
         self.janela_origem = janela_origem
         #self.nome_linha = linha[0]
         #self.numero_linha = linha[1]
         #self.janela.geometry('700x550')
+
+        self.linha = linha
+
         self.janela.title('Cronograma de Horarios - MyBus')
         self.janela.resizable(False,False)
         self.frm_center = ttk.Frame(self.janela)
@@ -18,6 +22,7 @@ class HorarioNovaLinhaView:
 
         #Criando Instancias
         #self.utils = Utils()
+        self.linha_control = CadastrarLinhaControl()
 
         # Botão Voltar
         #self.style = ttk.Style()
@@ -51,6 +56,7 @@ class HorarioNovaLinhaView:
         self.intervalo_d_n_util = ttk.StringVar()
         self.lista_intevalo = ['15','30','45']
 
+        self.horarios_util = []
         self.cbx_intervalo_d_util = ttk.Combobox(self.frm_center,
                                      values=self.lista_intevalo, 
                                      textvariable=self.intervalo_d_util,
@@ -58,6 +64,7 @@ class HorarioNovaLinhaView:
         self.cbx_intervalo_d_util.current(0)
         self.cbx_intervalo_d_util.grid(column=1,row=1)
 
+        self.horarios_n_util = []
         self.lbl_dia_n_util = ttk.Label(
                                     self.frm_center, 
                                     text='Intervalo Dias Não úteis', 
@@ -77,7 +84,6 @@ class HorarioNovaLinhaView:
         self.cbx_intervalo_d_n_util.grid(column=1,row=2)
 
         #botão gerar horarios
-
         self.btn_gerar = ttk.Button(self.frm_center,text='Gerar Horários',width=15)
         self.btn_gerar.grid(column=0,row=3,pady=4,sticky='w')
         self.btn_gerar.bind('<ButtonRelease-1>',self.gerar_horarios)
@@ -108,7 +114,7 @@ class HorarioNovaLinhaView:
         #botao salvar linha
         self.btn_salvar = ttk.Button(self.frm_center,text='SALVAR LINHA',bootstyle='success',width=15)
         self.btn_salvar.grid(column=1,row=5)
-        self.btn_salvar.bind('<ButtonRelease-1>',self)
+        self.btn_salvar.bind('<ButtonRelease-1>',self.salvar_linha)
 
     def gerar_horarios(self, event):
         for item in self.tvw.get_children():
@@ -124,21 +130,35 @@ class HorarioNovaLinhaView:
             intervalo_n_util = 15
 
         # Gera horários de 5:00 até 23:45 para cada coluna
-        horarios_util = []
+        self.horarios_util = []
         hora_util = datetime.datetime.strptime("05:00", "%H:%M")
         fim = datetime.datetime.strptime("23:45", "%H:%M")
         while hora_util <= fim:
-            horarios_util.append(hora_util.strftime("%H:%M"))
+            self.horarios_util.append(hora_util.strftime("%H:%M"))
             hora_util += datetime.timedelta(minutes=intervalo_util)
 
-        horarios_n_util = []
+        self.horarios_n_util = []
         hora_n_util = datetime.datetime.strptime("05:00", "%H:%M")
         while hora_n_util <= fim:
-            horarios_n_util.append(hora_n_util.strftime("%H:%M"))
+            self.horarios_n_util.append(hora_n_util.strftime("%H:%M"))
             hora_n_util += datetime.timedelta(minutes=intervalo_n_util)
 
-        max_len = max(len(horarios_util), len(horarios_n_util))
+        max_len = max(len(self.horarios_util), len(self.horarios_n_util))
         for i in range(max_len):
-            h_util = horarios_util[i] if i < len(horarios_util) else ""
-            h_n_util = horarios_n_util[i] if i < len(horarios_n_util) else ""
+            h_util = self.horarios_util[i] if i < len(self.horarios_util) else ""
+            h_n_util = self.horarios_n_util[i] if i < len(self.horarios_n_util) else ""
             self.tvw.insert('', 'end', values=(h_util, h_n_util))
+
+
+    def salvar_linha(self, event):
+        if(len(self.horarios_util) == 0 and len(self.horarios_n_util) == 0):
+            self.gerar_horarios("")
+
+        self.linha["horarios_util"] = self.horarios_util
+        self.linha["horarios_n_util"] = self.horarios_n_util
+
+        result = self.linha_control.inserir_linha(self.linha)
+
+        if(result):
+            self.janela.destroy()
+            self.janela_origem.fechar_top_level()

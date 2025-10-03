@@ -109,6 +109,10 @@ class GerenciarLinhasView:
         for item in dados:
             self.tvw.delete(item)
         tuplas = self.gerenciar_linhas_control.listar_linhas()
+        for i in range(len(tuplas)):
+            linha = list(tuplas[i])
+            linha[1] = linha[1].split("#")[0]
+            tuplas[i] = linha
         for item in tuplas:
             tag_geral = tuple()
             tag_geral = ('geral',)
@@ -116,8 +120,9 @@ class GerenciarLinhasView:
 
     def criar_linha(self, event):
         self.tl = ttk.Toplevel(self.janela)
-        CriarLinhaView(self.tl, self.janela)
+        CriarLinhaView(self.tl, self.janela_origem)
         self.utils.call_top_view(self.janela, self.tl)
+        self.atualizar_tabela()
 
     def voltar(self, event=None):
             self.janela.destroy() 

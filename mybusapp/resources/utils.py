@@ -1,4 +1,5 @@
 import ttkbootstrap as ttk
+from tkinter import TclError
 
 class Utils:
     # Centraliza janela
@@ -48,6 +49,8 @@ class Utils:
     def call_top_view(self, master, tl):
         janela = master
         janela.withdraw()  # Oculta janela, iconify() para apenas minimizar.
-        janela.wait_window(
-            tl)  # .wait_window() aguarda o fechamento da janela_cadastro para rodar o deiconify.
-        janela.deiconify()
+        janela.wait_window(tl)  # .wait_window() aguarda o fechamento da janela_cadastro para rodar o deiconify.
+        try:
+            janela.deiconify()
+        except TclError as tcl:
+            pass

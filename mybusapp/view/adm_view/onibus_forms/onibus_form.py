@@ -135,7 +135,7 @@ class OnibusForm:
 
         for i in result:
             self.keys.append(i[0])
-            self.values.append(f"{i[2]} : {i[1]}")
+            self.values.append(f"{i[2]} : {i[1].split("#")[0]}")
 
         self.keys.append(None)
         self.values.append("Nenhuma linha associada.")

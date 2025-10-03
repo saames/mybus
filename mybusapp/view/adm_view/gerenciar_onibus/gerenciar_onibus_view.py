@@ -111,6 +111,12 @@ class GerenciarOnibusView:
         if(tuplas == None):
             tuplas = self.ge_onibus.listar_onibus()
 
+        for i in range(len(tuplas)):
+            linha = list(tuplas[i])
+            if(linha[4]):
+                linha[4] = linha[4].split("#")[0]
+                tuplas[i] = linha
+
         for item in tuplas:
             valores = list(item)  # Converte para lista
             tag_inativo = tuple()

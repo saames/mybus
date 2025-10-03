@@ -3,8 +3,7 @@ import requests
 class OSRM:
 
     def gerar_rota(self, pontos):
-        coordenadas_url = ";".join([f"{lon},{lat}" for lat, lon in pontos])
-        print(coordenadas_url)
+        coordenadas_url = ";".join([f"{x[0]},{x[1]}" for x in pontos])
         try:
             url = f"http://router.project-osrm.org/route/v1/driving/{coordenadas_url}?overview=full&geometries=geojson"
             response = requests.get(url)

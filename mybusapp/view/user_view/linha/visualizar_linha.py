@@ -154,12 +154,19 @@ class VisualizarLinhaView:
         for item in dados:
             self.tvw.delete(item)
         self.tuplas = self.gerenciar_linha.listar_linhas()
+        for i in range(len(self.tuplas)):
+            linha = list(self.tuplas[i])
+            linha[1] = linha[1].split("#")[0]
+            linha = tuple(linha)
+            self.tuplas[i] = linha
         user_linha = sorted(self.userLinha.buscar_linhas_do_usuario(self.user_id), key=lambda x: x[2])
         self.fav = []
         conta = 0
         poss = 0
+
         for i in self.tuplas:
             self.fav.append("N")
+
         for i in range(len(self.tuplas)):
             if(conta < len(user_linha)):
                 if self.tuplas[i][0] == user_linha[conta][2]:
