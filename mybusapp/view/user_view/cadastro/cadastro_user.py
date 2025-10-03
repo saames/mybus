@@ -190,15 +190,41 @@ class CadastroUserView:
         if self.validar_campos():
             name = self.ent_name_value.get()
             email = self.ent_email.get()
-            phone = self.ent_phone_value.get()
+            phone = self.ent_phone_value.get().replace("(", "").replace(")", "")
             if(self.usuario == None):
-                cpf = self.ent_CPF_value.get()
+                cpf = self.ent_CPF_value.get().replace(".","").replace("-","")
+
+                # Validando se já existe um cpf, email, ou telefone cadastrado no sistema
+                if self.cadastrar_control.verificar_cpf_existente(cpf):
+                    messagebox.showerror("Erro de Validação", "O CPF informado já está cadastrado no sistema.")
+                    return 
+
+                if self.cadastrar_control.verificar_email_existente(email):
+                    messagebox.showerror("Erro de Validação", "O e-mail informado já está cadastrado no sistema.")
+                    return
+                
+                if self.cadastrar_control.verificar_telefone_existente(phone):
+                    messagebox.showerror("Erro de Validação", "O telefone informado já está cadastrado no sistema.")
+                    return
+
                 password = self.ent_password_value.get()
                 result = self.cadastrar_control.Cadastrar_usuario(name, cpf, phone, password, "user", "A", email)
                 if(result):
                     messagebox.showinfo("Informação", "Cadastro realizado com sucesso!")
                     self.janela.destroy()
             else:
+                user_id = self.usuario[0]
+                original_email = self.usuario[7] if len(self.usuario) > 7 else None
+                original_phone = self.usuario[3]
+
+                if email != original_email and self.cadastrar_control.verificar_email_existente(email, user_id):
+                    messagebox.showerror("Erro de Validação", "O e-mail informado já está sendo utilizado por outro usuário.")
+                    return
+
+                if phone != original_phone and self.cadastrar_control.verificar_telefone_existente(phone, user_id):
+                    messagebox.showerror("Erro de Validação", "O telefone informado já está sendo utilizado por outro usuário.")
+                    return
+            
                 result = self.cadastrar_control.editar_usuario(self.usuario[0], name, self.usuario[2], self.usuario[6], phone, self.usuario[4], "A", email)
                 if(result):
                     messagebox.showinfo("Informação", "Edição realizada com sucesso!")
