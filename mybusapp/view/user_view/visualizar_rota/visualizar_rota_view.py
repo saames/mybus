@@ -54,9 +54,13 @@ class VisualizarRotaView:
             self.mpv_rota = tkmap.TkinterMapView(self.frm_center, width=554, height=350) # Cria mapa
             self.mpv_rota.set_position(-9.972802894375437, -67.82629104665347) # Define a posição em Rio Branco
             self.mpv_rota.set_zoom(13) # Ajusta o zoom
-            self.mpv_rota.set_path(result[0], color="#0B67CD", width=5)
-            self.mpv_rota.set_path(result[1], color="red", width=4)
+            self.mpv_rota.set_path(result[0][0], color="#0B67CD", width=5)
+            self.mpv_rota.set_path(result[0][1], color="red", width=4)
             self.mpv_rota.grid(column=0, row=1, columnspan=2)
+
+            for item in result[1]:
+                for i in item:
+                    self.mpv_rota.set_marker(i[1], i[2], i[0])
 
             # Legenda
             self.lbl_legenda = ttk.Label(self.frm_center, text=' Legenda: ', bootstyle='primary-inverse')
