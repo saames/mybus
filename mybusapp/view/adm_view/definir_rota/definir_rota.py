@@ -26,7 +26,7 @@ class DefinirRotaView:
         self.lbl_click.grid(column=0, row=1, sticky='w', pady=(0, 15), columnspan=2)
 
         # Ponto
-        self.lbl_ponto = ttk.Label(self.frm_center, text='Parada', bootstyle='secondary-inverse')
+        self.lbl_ponto = ttk.Label(self.frm_center, text=' Parada', bootstyle='secondary-inverse')
         self.lbl_ponto.grid(column=0, row=3, columnspan=2, sticky='we', ipady=5)
         self.ent_ponto_value = ttk.StringVar()
         if(self.ponto_editar):
@@ -57,7 +57,7 @@ class DefinirRotaView:
 
         # Botão Buscar Localização
         self.btn_buscar = ttk.Button(self.frm_center, text='Buscar Localização', bootstyle='secondary', command=self.buscar_e_marcar_no_mapa)
-        self.btn_buscar.grid(column=0, row=7, columnspan=2, sticky='e', pady=(20, 0), ipadx=5)
+        self.btn_buscar.grid(column=0, row=7, columnspan=2, sticky='e', pady=(20, 65), ipadx=5)
 
         # Mapa
         self.lbl_map = ttk.Label(self.frm_center, text='Pré-Visualização da Rota')

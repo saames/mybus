@@ -45,7 +45,7 @@ class EditarRotaView:
         self.tree.heading('N°', text='N°')
         self.tree.heading('Nome', text='NOME DO PONTO')
         self.tree.column('N°', anchor='center', width=40, minwidth=40)
-        self.tree.column('Nome', anchor='center', width=250, minwidth=250)
+        self.tree.column('Nome', anchor='center', width=400, minwidth=400)
         self.tree.tag_configure("geral", background="#002B5C", foreground="white")
         self.tree.pack(side='left', fill='both', expand=True)
 
@@ -58,20 +58,27 @@ class EditarRotaView:
         self.frm_botoes_lista = ttk.Frame(self.frm_esquerda)
         self.frm_botoes_lista.pack(side='left', fill='y', padx=(5, 0))
 
+        # Estilização para os botões
+        style = ttk.Style()
+        style.configure('Add.success.TButton', font=('TkDefaultFont', 15, 'bold'))
+        style.configure('Edit.warning.TButton', font=('TkDefaultFont', 12, 'bold'))
+        style.configure('Remove.danger.TButton', font=('TkDefaultFont', 15, 'bold'))
+        style.configure('Move.secondary.TButton', font=('TkDefaultFont', 15, 'bold'))
+
         # Botões
-        self.btn_adicionar = ttk.Button(self.frm_botoes_lista, text="+", bootstyle='success')
+        self.btn_adicionar = ttk.Button(self.frm_botoes_lista, text="+", style='Add.success.TButton')
         self.btn_adicionar.pack(side='top', pady=2)
         self.btn_adicionar.bind('<ButtonRelease-1>', self.adicionar_novo_ponto)
-        self.btn_editar = ttk.Button(self.frm_botoes_lista, text="..", bootstyle='warning')
-        self.btn_editar.pack(side='top', pady=2)
+        self.btn_editar = ttk.Button(self.frm_botoes_lista, text="...", style='Edit.warning.TButton')
+        self.btn_editar.pack(side='top', pady=2, ipady=2)
         self.btn_editar.bind('<ButtonRelease-1>', self.editar_ponto)
-        self.btn_remover = ttk.Button(self.frm_botoes_lista, text="X", bootstyle='danger')
+        self.btn_remover = ttk.Button(self.frm_botoes_lista, text="×", style='Remove.danger.TButton')
         self.btn_remover.pack(side='top', pady=2)
         self.btn_remover.bind('<ButtonRelease-1>', self.excluir_ponto)
-        self.btn_subir = ttk.Button(self.frm_botoes_lista, text="▲", bootstyle='secondary')
+        self.btn_subir = ttk.Button(self.frm_botoes_lista, text="▲", style='Move.secondary.TButton')
         self.btn_subir.pack(side='top', pady=(20, 2))
         self.btn_subir.bind('<ButtonRelease-1>', self.subir_ordem)
-        self.btn_descer = ttk.Button(self.frm_botoes_lista, text="▼",bootstyle='secondary' )
+        self.btn_descer = ttk.Button(self.frm_botoes_lista, text="▼",style='Move.secondary.TButton')
         self.btn_descer.pack(side='top', pady=2)
         self.btn_descer.bind('<ButtonRelease-1>', self.descer_ordem)
 
@@ -109,6 +116,8 @@ class EditarRotaView:
             self.atualizar(self.pontos_ida)
         else:
             self.atualizar()
+        
+        self.utils.centraliza(self.janela)
 
     def atualizar(self, pontos = None):
         for item in self.tree.get_children():
