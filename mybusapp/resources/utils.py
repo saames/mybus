@@ -56,7 +56,13 @@ class Utils:
             pass
 
     def on_enter(self, event):
-        event.widget.winfo_toplevel().config(cursor="hand2")
+        try:
+            event.widget.winfo_toplevel().config(cursor="hand2")
+        except AttributeError:
+            pass # Evitar conflito com messagebox
 
     def on_leave(self, event):
-        event.widget.winfo_toplevel().config(cursor="")
+        try:
+            event.widget.winfo_toplevel().config(cursor="")
+        except AttributeError:
+            pass # Evitar conflito com messagebox
