@@ -252,7 +252,7 @@ class EditarRotaView:
                     self.btn_continuar.config(state='disabled')
             else:
                 showerror("Error",
-                          "A exclusão do ponto de origem e do ponto de destino não é permitida. Para realizar essa ação, retorne à tela anterior.")
+                          "A exclusão do ponto de origem e do ponto de destino não é permitida.")
         else:
             showerror("Error",
                       "Escolha um ponto intermediário para Excluir (não é possível alterar a origem ou o destino).")
