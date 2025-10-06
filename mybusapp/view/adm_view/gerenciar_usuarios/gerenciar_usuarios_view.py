@@ -83,9 +83,9 @@ class GerenciarUsuariosView:
 
         papel_logado = self.ge_usuarios.buscar_usuario_id(self.user_id)[0][4]
         if papel_logado in ("superusuario", "super"):
-            self.btn_promover = ttk.Button(self.frm_menu, text='Promover Administrador', bootstyle='success', state='disabled')
-            self.btn_promover.grid(column=0, row=1, padx=2, pady=(10, 0), sticky='ew')
-            self.btn_promover.bind('<ButtonRelease-1>', self.promover_adm)
+            self.btn_alterar_papel = ttk.Button(self.frm_menu, text='Promover Administrador', bootstyle='success', state='disabled')
+            self.btn_alterar_papel.grid(column=0, row=1, padx=2, pady=(10, 0), sticky='ew')
+            self.btn_alterar_papel.bind('<ButtonRelease-1>', self.alterar_papel)
 
         self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning', state='disabled')
         self.btn_editar.grid(column=1, row=1, padx=2, pady=(10, 0), sticky='ew')
@@ -102,11 +102,16 @@ class GerenciarUsuariosView:
 
     def validar_botoes(self, *event):
         linha = item = self.tvw.selection()
-        if hasattr(self,'btn_promover'):
-            if linha :
-                self.btn_promover.config(state='enable')
+        if hasattr(self,'btn_alterar_papel'):
+            dados_linha = self.tvw.item(linha[0], 'values')
+            if dados_linha[4] == 'user':
+                self.btn_alterar_papel.config(text='Promover Administrador')
+            elif dados_linha[4] == 'adm':
+                self.btn_alterar_papel.config(text='Rebaixar Administrador')
+            if not linha or dados_linha[4] == 'super':
+                self.btn_alterar_papel.config(state='disabled')
             else:
-                self.btn_promover.config(state='disabled')
+                self.btn_alterar_papel.config(state='enable')
         if linha: # Se uma linha for selecionada
             #self.btn_promover.config(state='enable')
             self.btn_editar.config(state='enable')
@@ -144,7 +149,7 @@ class GerenciarUsuariosView:
 
             self.tvw.insert('', 'end', values=valores, tags=[tag_inativo, tag_ativo])
         
-    def promover_adm(self, event):
+    def alterar_papel(self, event):
         
         item = self.tvw.selection()
         if item:
@@ -158,18 +163,23 @@ class GerenciarUsuariosView:
                 if id_use == self.user_id:
                     messagebox.showerror('Erro', 'Você já é um Super Administrador.')
                     return
-                papel_atual = dados_linha[3]
                 
-                if papel_atual == 'Administrador':
-                    messagebox.showinfo('Informação', f'O usuário {nome_use} já é administrador')
-                    return
-                
-                res = messagebox.askquestion('Confirmar', f'Tem certeza da promoção do usuário {nome_use}, para o papel de administrador?')
-                
-                if res == 'yes':
-                    self.ge_usuarios.promover_usuario(id_use)
-                    self.atualizar_tabela()
-                    messagebox.showinfo('Informação', 'Usuário foi promovido a administrador')
+                papel_atual = dados_linha[4]
+                if papel_atual == 'adm':
+                    res = messagebox.askquestion('Confirmar', f'Tem certeza da remoção de permissões de administrador do usuário {nome_use}?')
+                    if res == 'yes':
+                        self.ge_usuarios.rebaixar_usuario(id_use)
+                        self.atualizar_tabela()
+                        messagebox.showinfo('Informação', 'Usuário foi rebaixado')
+                else:
+                    res = messagebox.askquestion('Confirmar', f'Tem certeza da promoção do usuário {nome_use}, para o papel de administrador?') 
+                    if res == 'yes':
+                        self.ge_usuarios.promover_usuario(id_use)
+                        self.atualizar_tabela()
+                        messagebox.showinfo('Informação', 'Usuário foi promovido a administrador')
+                self.btn_alterar_papel.config(state='disabled')
+                self.btn_editar.config(state='disabled')
+                self.btn_excluir.config(state='disabled')
         else:
             messagebox.showerror('Erro','Selecione um usuário para promover a administrador.')
         

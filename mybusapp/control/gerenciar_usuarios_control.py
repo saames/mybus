@@ -22,3 +22,6 @@ class GerenciarUsuariosControl:
 
     def promover_usuario(self,id):
         return self.model.promover(id)
+
+    def rebaixar_usuario(self,id):
+        return self.model.rebaixar(id)

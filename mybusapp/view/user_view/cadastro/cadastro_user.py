@@ -132,6 +132,7 @@ class CadastroUserView:
 
         # Comandos de navegação
         self.janela.bind('<Escape>', self.cancelar)
+        self.janela.bind('<Return>', self.cadastrar)
 
         self.utils.centraliza(self.janela)
 

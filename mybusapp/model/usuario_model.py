@@ -30,6 +30,18 @@ class UsuarioModel(Model):
         except Error as er:
             print(er)
 
+    def rebaixar(self, id):
+        sql = f"UPDATE Usuario SET papel = 'user' where id = {id};"
+        try:
+            con = self.conexao.get_conexao()
+            cursor = con.cursor()
+            result = cursor.execute(sql).rowcount
+            con.commit()
+            con.close()
+            return result
+        except Error as er:
+            print(er)
+
     def getAll(self):
         sql = f"SELECT Usuario.id, Usuario.nome, Usuario.email, Usuario.telefone, Usuario.papel, Usuario.status FROM Usuario"
         try:
