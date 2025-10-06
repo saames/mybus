@@ -1,11 +1,23 @@
 Remove todos os arquivos 'pycache':
 find . -type d -name "__pycache__" -exec rm -r {} +
 
-Cria um execultável (executar na pasta mybus)
+Remove todos os arquivos __init__.py
+find . -type f -name "__init__.py" -exec rm {} +
+
+Cria um execultável (BD DEV) (executar na pasta mybus)
 pyinstaller \
 --name mybus \
 --onefile \
 --windowed \
 --add-data "mybusapp/resources:resources" \
+--hidden-import='PIL._tkinter_finder' \
+mybusapp/main.py
+
+Cria um execultável (executar na pasta mybus)
+pyinstaller \
+--name mybus \
+--onefile \
+--windowed \
+--icon="mybusapp/mybusIcon.png" \
 --hidden-import='PIL._tkinter_finder' \
 mybusapp/main.py
