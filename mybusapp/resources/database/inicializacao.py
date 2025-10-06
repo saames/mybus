@@ -5,7 +5,7 @@ class Inicializacao:
 
     def __init__(self):
         self.conexao = Conexao()
-        sql = """
+        sql = """        
             CREATE TABLE IF NOT EXISTS Linha (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nome VARCHAR(255) NOT NULL,
@@ -24,7 +24,7 @@ class Inicializacao:
             );
 
             INSERT OR IGNORE INTO Usuario (nome, cpf, telefone, papel, status, senha, email)
-            VALUES ('SUPER ADM', '00000000000', '680000000000', 'super', 'ativo', '00000000', 'adm@email.com');
+            VALUES ('SUPER ADM', '00000000000', '680000000000', 'super', 'A', '00000000', 'adm@email.com');
 
             CREATE TABLE IF NOT EXISTS UserLinha (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -63,11 +63,15 @@ class Inicializacao:
             );
         """
         try:
-            con = self.conexao.get_conexao()
-            cursor = self.con.cursor()
-            cursor.execute(sql)
-            con.commit()
-            con.close()
+            self.con = self.conexao.get_conexao()
+            self.cursor = self.con.cursor()
+            for item in sql.split(";"):
+                item += ";"
+                item = item.strip("\n")
+                item = item.strip()
+                self.cursor.execute(item)
+            self.con.commit()
+            self.con.close()
         except Error as er:
             print(er)
 

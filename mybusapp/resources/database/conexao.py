@@ -9,6 +9,7 @@ class Conexao:
         BASE_DIR = Path(__file__).resolve().parent
         caminho = BASE_DIR / "mybusDB.db"
         caminho = caminho.resolve()
+        caminho = "mybusDB.db"
         try:
             conexao = sqlite3.connect(caminho)
             return conexao
