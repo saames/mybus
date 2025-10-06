@@ -244,7 +244,7 @@ class EditarRotaView:
         linha = self.tree.selection()
         if (len(linha)):
             item = self.tree.item(linha[0])["values"]
-            if (item[0] not in (1, len(self.pontos) + 1)):
+            if (item[0] not in (1, len(self.pontos))):
                 response = askyesno("Excluir", f"Deseja excluir o ponto: {item[0]}. {item[1]}")
                 if(response):
                     self.pontos.pop(item[0]-1)
