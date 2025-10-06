@@ -12,7 +12,10 @@ class CadastrarLinhaControl():
 
         nome += f"#{linha_origem}-{linha_destino}"
         numero = linha["numero"]
-        result = self.model.insert("Linha(nome, numero)", (nome, numero))
+        if("id" not in linha.keys()):
+            result = self.model.insert("Linha(nome, numero)", (nome, numero))
+        else:
+            result = self.model.update("Linha(nome, numero)", (f"'{nome}'", f"'{numero}'"), linha["id"])
         if(result):
             linha_id = self.model.find("Linha", f"nome = '{nome}'", f"numero = '{numero}'")
             return self.inserir_rota_ida(linha, linha_id[0][0])
@@ -33,7 +36,13 @@ class CadastrarLinhaControl():
                 linha_marcacao_ida += f"{linha_marcacao_ida_não_formatada[i][1]},{linha_marcacao_ida_não_formatada[i][2]},{linha_marcacao_ida_não_formatada[i][3]}#"
             else:
                 linha_marcacao_ida += f"{linha_marcacao_ida_não_formatada[i][1]},{linha_marcacao_ida_não_formatada[i][2]},{linha_marcacao_ida_não_formatada[i][3]}"
-        result = self.model.insert("Rota(trajetoSentido, coordenadas, marcacao, linha_id)", ('I', linha_rota_ida, linha_marcacao_ida, linha_id))
+        if ("id" not in linha.keys()):
+            result = self.model.insert("Rota(trajetoSentido, coordenadas, marcacao, linha_id)", ('I', linha_rota_ida, linha_marcacao_ida, linha_id))
+        else:
+            self.rotas = self.model.find("Rota", f"linha_id = {linha_id}")
+            if(self.rotas):
+                rota_ida_id = self.rotas[0][0]
+                result = self.model.update("Rota(trajetoSentido, coordenadas, marcacao, linha_id)", ('"I"', f"'{linha_rota_ida}'", f"'{linha_marcacao_ida}'", linha_id), rota_ida_id)
         if(result):
             return self.inserir_rota_volta(linha, linha_id)
 
@@ -52,23 +61,41 @@ class CadastrarLinhaControl():
                 linha_marcacao_volta += f"{linha_marcacao_volta_não_formatada[i][1]},{linha_marcacao_volta_não_formatada[i][2]},{linha_marcacao_volta_não_formatada[i][3]}#"
             else:
                 linha_marcacao_volta += f"{linha_marcacao_volta_não_formatada[i][1]},{linha_marcacao_volta_não_formatada[i][2]},{linha_marcacao_volta_não_formatada[i][3]}"
-        result = self.model.insert("Rota(trajetoSentido, coordenadas, marcacao, linha_id)",
+        if ("id" not in linha.keys()):
+            result = self.model.insert("Rota(trajetoSentido, coordenadas, marcacao, linha_id)",
                                    ('V', linha_rota_volta, linha_marcacao_volta, linha_id))
+        else:
+            rota_volta_id = self.rotas[1][0]
+            result = self.model.update("Rota(trajetoSentido, coordenadas, marcacao, linha_id)",
+                                       ('"V"', f"'{linha_rota_volta}'", f"'{linha_marcacao_volta}'", linha_id), rota_volta_id)
         if (result):
             return self.inserir_horarios_util(linha, linha_id)
 
     def inserir_horarios_util(self, linha, linha_id):
         horarios_não_formatado = linha["horarios_util"]
         horarios_formatado = "#".join(horarios_não_formatado)
-        result = self.model.insert("Cronograma(tipoDia, horarios, linha_id)", ("U", horarios_formatado, linha_id))
+        if ("id" not in linha.keys()):
+            result = self.model.insert("Cronograma(tipoDia, horarios, linha_id)", ("U", horarios_formatado, linha_id))
+        else:
+            self.cronogramas = self.model.find("Cronograma", f"linha_id = {linha_id}")
+            if(self.cronogramas):
+                crono_util_id = self.cronogramas[0][0]
+                print(crono_util_id)
+                result = self.model.update("Cronograma(tipoDia, horarios, linha_id)", ("'U'", f"'{horarios_formatado}'", linha_id), crono_util_id)
         if(result):
             return self.inserir_horarios_n_util(linha, linha_id)
 
     def inserir_horarios_n_util(self, linha, linha_id):
         horarios_não_formatado = linha["horarios_n_util"]
         horarios_formatado = "#".join(horarios_não_formatado)
-        result = self.model.insert("Cronograma(tipoDia, horarios, linha_id)",
-                                   ("U", horarios_formatado, linha_id))
+        if ("id" not in linha.keys()):
+            result = self.model.insert("Cronograma(tipoDia, horarios, linha_id)",
+                                   ("N", horarios_formatado, linha_id))
+        else:
+            crono_n_util_id = self.cronogramas[1][0]
+            print(crono_n_util_id)
+            result = self.model.update("Cronograma(tipoDia, horarios, linha_id)", ("'N'", f"'{horarios_formatado}'", linha_id),
+                                       crono_n_util_id)
         return result
 
     def verificar_numero_existente(self, numero, linha_id_a_ignorar=None):

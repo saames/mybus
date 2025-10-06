@@ -112,10 +112,24 @@ class EditarRotaView:
         self.btn_continuar.pack(side='right')
         self.btn_continuar.bind('<ButtonRelease-1>', self.abrir_proxima_tela)
 
-        if(self.pontos_ida):
-            self.atualizar(self.pontos_ida)
+
+        if ("id" not in self.linha.keys()):
+            if (self.pontos_ida):
+                self.atualizar(self.pontos_ida)
+            else:
+                self.atualizar()
         else:
-            self.atualizar()
+            if(sentido == "ida"):
+                pontos_editar = self.linha["marcacao-ida"]
+                self.pontos = [(x + 1, pontos_editar[x][0], pontos_editar[x][1], pontos_editar[x][2]) for x in
+                               range(len(pontos_editar))]
+                self.atualizar(self.pontos)
+            else:
+                pontos_editar = self.linha["marcacao-volta"]
+                self.pontos = [(x + 1, pontos_editar[x][0], pontos_editar[x][1], pontos_editar[x][2]) for x in
+                               range(len(pontos_editar))]
+                self.atualizar(self.pontos)
+
         
         self.utils.centraliza(self.janela)
 
@@ -150,14 +164,17 @@ class EditarRotaView:
             if "rota-ida" not in (self.linha.keys()):
                 self.tracar_rota("")
             if(len(self.pontos) > 2):
-                response = askyesno("Menssagem",
-                                    "Você gostaria de definir a rota de retorno como o inverso da rota de ida?")
-                if (response):
-                    pontos_tela_volta = self.pontos[::-1]
-                    EditarRotaView(self.tl, self, self.linha, sentido="volta", pontos_ida=pontos_tela_volta)
+                if "id" not in self.linha.keys():
+                    response = askyesno("Menssagem",
+                                        "Você gostaria de definir a rota de retorno como o inverso da rota de ida?")
+                    if (response):
+                        pontos_tela_volta = self.pontos[::-1]
+                        EditarRotaView(self.tl, self, self.linha, sentido="volta", pontos_ida=pontos_tela_volta)
+                    else:
+                        pontos_tela_volta = [self.pontos[len(self.pontos)-1], self.pontos[0]]
+                        EditarRotaView(self.tl, self, self.linha, sentido="volta", pontos_ida=pontos_tela_volta)
                 else:
-                    pontos_tela_volta = [self.pontos[len(self.pontos)-1], self.pontos[0]]
-                    EditarRotaView(self.tl, self, self.linha, sentido="volta", pontos_ida=pontos_tela_volta)
+                    EditarRotaView(self.tl, self, self.linha, sentido="volta")
             else:
                 pontos_tela_volta = [self.pontos[len(self.pontos) - 1], self.pontos[0]]
                 EditarRotaView(self.tl, self, self.linha, sentido="volta", pontos_ida=pontos_tela_volta)

@@ -70,7 +70,7 @@ class GerenciarLinhasView:
 
         self.btn_editar = ttk.Button(self.frm_menu, text='Editar', bootstyle='warning', state='disabled')
         self.btn_editar.grid(column=1, row=0, padx=2)
-        self.btn_editar.bind('<ButtonRelease-1>')
+        self.btn_editar.bind('<ButtonRelease-1>', self.editar_linha)
 
         self.btn_excluir = ttk.Button(self.frm_menu, text='Excluir', bootstyle='danger', state='disabled')
         self.btn_excluir.grid(column=3, row=0, padx=2)
@@ -158,6 +158,19 @@ class GerenciarLinhasView:
             response = messagebox.askyesno("Mensagem", f"Voce deseja exluir a linha {linha[2]}.{linha[1]}?")
             if(response):
                 self.gerenciar_linhas_control.delete_linha(linha[0])
+                self.atualizar_tabela()
+        else:
+            messagebox.showerror("Erro", "É necessário selecionar uma linha.")
+
+    def editar_linha(self, event):
+        item = self.tvw.selection()
+        if item:
+            linha_treeview = list(self.tvw.item(item)['values'])
+            linha = self.gerenciar_linhas_control.find_linha_completa(linha_treeview[0])
+            if(linha):
+                self.tl = ttk.Toplevel(self.janela)
+                CriarLinhaView(self.tl, self.janela_origem, linha)
+                self.utils.call_top_view(self.janela, self.tl)
                 self.atualizar_tabela()
         else:
             messagebox.showerror("Erro", "É necessário selecionar uma linha.")

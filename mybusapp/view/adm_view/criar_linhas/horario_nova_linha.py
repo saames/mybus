@@ -62,7 +62,12 @@ class HorarioNovaLinhaView:
                                      values=self.lista_intevalo, 
                                      textvariable=self.intervalo_d_util,
                                      state='readonly')
-        self.cbx_intervalo_d_util.current(0)
+        if "id" not in self.linha.keys():
+            self.cbx_intervalo_d_util.current(0)
+        else:
+            index = self.lista_intevalo.index(linha["intervalo_util"])
+            self.cbx_intervalo_d_util.current(index)
+
         self.cbx_intervalo_d_util.grid(column=1,row=1)
 
         self.horarios_n_util = []
@@ -81,7 +86,11 @@ class HorarioNovaLinhaView:
                                      values=self.lista_intevalo, 
                                      textvariable=self.intervalo_d_n_util,
                                      state='readonly')
-        self.cbx_intervalo_d_n_util.current(0)
+        if "id" not in self.linha.keys():
+            self.cbx_intervalo_d_n_util.current(0)
+        else:
+            index_n_util = self.lista_intevalo.index(linha["intervalo_n_util"])
+            self.cbx_intervalo_d_n_util.current(index_n_util)
         self.cbx_intervalo_d_n_util.grid(column=1,row=2)
 
         #botão gerar horarios
@@ -116,6 +125,9 @@ class HorarioNovaLinhaView:
         self.btn_salvar = ttk.Button(self.frm_center,text='SALVAR LINHA',bootstyle='success',width=15, state="disabled")
         self.btn_salvar.grid(column=1,row=5)
         self.btn_salvar.bind('<ButtonRelease-1>',self.salvar_linha)
+
+        if "id" in self.linha.keys():
+            self.gerar_horarios("")
 
     def gerar_horarios(self, event):
         for item in self.tvw.get_children():
@@ -156,13 +168,15 @@ class HorarioNovaLinhaView:
         if not self.horarios_util and not self.horarios_n_util:
             messagebox.showwarning("Ação Necessária", "Clique em 'Gerar Horários' antes de salvar a linha.")
             return
-
         self.linha["horarios_util"] = self.horarios_util
         self.linha["horarios_n_util"] = self.horarios_n_util
 
         result = self.linha_control.inserir_linha(self.linha)
         if(result):
-            messagebox.showinfo("Sucesso", "Linha cadastrada com sucesso!")
+            if("id" not in self.linha.keys()):
+                messagebox.showinfo("Sucesso", "Linha cadastrada com sucesso!")
+            else:
+                messagebox.showinfo("Sucesso", "Linha editada com sucesso!")
             self.janela.destroy()
             self.janela_origem.fechar_top_level()
         else:

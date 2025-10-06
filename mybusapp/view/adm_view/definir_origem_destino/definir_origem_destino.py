@@ -1,6 +1,7 @@
 from tkinter import messagebox
 import ttkbootstrap as ttk
 import tkintermapview as tkmap
+from lxml.isoschematron import iso_dsdl_include
 from view.adm_view.editar_rota.editar_rota import EditarRotaView
 from resources.utils import Utils
 from tkinter import TclError
@@ -106,6 +107,13 @@ class DefinirOrigemDestinoView:
         self.rota.append(origem)
         self.rota.append(destino)
         self.linha["pontos_iniciais"]=self.rota
+        if ("id" in self.linha.keys()):
+            rota_ida_end = len(self.linha["marcacao-ida"]) - 1
+            rota_volta_end = len(self.linha["marcacao-volta"]) - 1
+            self.linha["marcacao-ida"][0] = origem
+            self.linha["marcacao-ida"][rota_ida_end] = destino
+            self.linha["marcacao-volta"][0] = destino
+            self.linha["marcacao-volta"][rota_volta_end] = origem
 
         self.tl = ttk.Toplevel(self.janela)
         EditarRotaView(self.tl, self, self.linha)
@@ -174,8 +182,17 @@ class DefinirOrigemDestinoView:
         self.cbx_origem["values"] = nomes
         self.cbx_destino["values"] = nomes
 
-        self.cbx_origem.current(0)
-        self.cbx_destino.current(0)
+        if("id" not in self.linha.keys()):
+            self.cbx_origem.current(0)
+            self.cbx_destino.current(0)
+        else:
+            pontos_list = list(self.pontos.keys())
+            ponto_origem_index = pontos_list.index(self.linha["pontos_iniciais"][0][0]) + 1
+            ponto_destino_index = pontos_list.index(self.linha["pontos_iniciais"][1][0]) + 1
+            self.cbx_origem.current(ponto_origem_index)
+            self.cbx_destino.current(ponto_destino_index)
+            self.origem_selecionado("")
+            self.destino_selecionado("")
 
         # Adiciona a lógica de exclusão
         self.cbx_origem.bind("<<ComboboxSelected>>", self.origem_selecionado)
@@ -195,6 +212,9 @@ class DefinirOrigemDestinoView:
             ponto = self.pontos.get(escolhido)
             if ponto:
                 self.origem_lat, self.origem_lon = ponto
+
+
+
 
         # Atualizar opções do destino removendo a origem selecionada
         nomes = ["Selecione"] + [nome for nome in self.pontos.keys() if nome != escolhido]
@@ -222,6 +242,7 @@ class DefinirOrigemDestinoView:
                 self.cbx_origem.current(0)
                 self.origem_lat = None
                 self.origem_lon = None
+
 
     def fechar_top_level(self):
         self.janela.destroy()

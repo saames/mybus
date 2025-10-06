@@ -5,21 +5,32 @@ from view.adm_view.definir_origem_destino.definir_origem_destino import DefinirO
 from resources.utils import Utils
 
 class CriarLinhaView:
-    def __init__(self, master, janela_origem):
+    def __init__(self, master, janela_origem, linha=None):
         self.janela = master
+        #Pegando a linha para o editar
+        self.linha = linha
+
         self.janela_origem = janela_origem
-        self.janela.title('Criar Linha - MyBus')
+        if(self.linha):
+            self.janela.title('Editar Linha - MyBus')
+        else:
+            self.janela.title('Criar Linha - MyBus')
         #self.janela.geometry('400x300')
         self.janela.resizable(False, False)
         self.frm_center = ttk.Frame(self.janela)
         self.frm_center.pack(expand=True, padx=10, pady=10)
+
 
         # Criação de Instâncias
         self.utils = Utils()
         self.gerenciar_linha = CadastrarLinhaControl()
 
         # Titulo
-        self.lbl_title = ttk.Label(self.frm_center, text='Criar Linha', bootstyle='primary-inverse', padding=(156, 11))
+        if(self.linha):
+            title_text = "Editar Linha"
+        else:
+            title_text = "Criar Linha"
+        self.lbl_title = ttk.Label(self.frm_center, text=title_text, bootstyle='primary-inverse', padding=(156, 11))
         self.lbl_title.grid(column=0,row=0, columnspan=2, pady=(0,20))
 
         # Nome da rota
@@ -28,8 +39,10 @@ class CriarLinhaView:
                                                                          padding=(14,0),
                                                                          font=('TkDefaultFont', 10, 'bold'))
         self.lbl_name.grid(column=0, row=1, sticky='w', pady=(0,5))
-        
+
         self.ent_name_value = ttk.StringVar()
+        if(self.linha):
+            self.ent_name_value.set(linha["nome"].split("#")[0])
         self.ent_name = ttk.Entry(self.frm_center, textvariable=self.ent_name_value)
         self.ent_name.grid(column=1, row=1, sticky='ew', ipadx=60, pady=(0,5))
         self.ent_name.bind('<KeyRelease>', self.validar_campos)
@@ -41,6 +54,8 @@ class CriarLinhaView:
                                                                     font=('TkDefaultFont', 10, 'bold'))
         self.lbl_number.grid(column=0, row=2, sticky='w', pady=(0,5))
         self.spb_number_value = ttk.IntVar(value=1)
+        if(self.linha):
+            self.spb_number_value.set(int(self.linha["numero"]))
         self.spb_number = ttk.Spinbox(self.frm_center, textvariable=self.spb_number_value, from_=1, to=999, format='%03.0f')
         self.spb_number.set(f"{self.spb_number_value.get():03d}") # Solução para o número começar com 3 casas antes da vírgula.
         self.spb_number.grid(column=1, row=2, sticky='ew', pady=(0, 5))
@@ -66,6 +81,9 @@ class CriarLinhaView:
 
         self.utils.centraliza(self.janela)
 
+        if(linha):
+            self.validar_campos("")
+
     
     def validar_campos(self, event):
         nome = self.ent_name.get()
@@ -78,17 +96,18 @@ class CriarLinhaView:
     def continuar(self):
         numero = self.spb_number.get()
         nome = self.ent_name.get()
-        if self.gerenciar_linha.verificar_numero_existente(numero):
+        if self.gerenciar_linha.verificar_numero_existente(numero) and self.linha == None:
             messagebox.showerror("Erro de Validação", "O número informado já está cadastrado no sistema.")
             return
-        if self.gerenciar_linha.verificar_nome_existente(nome):
+        if self.gerenciar_linha.verificar_nome_existente(nome) and self.linha == None:
             messagebox.showerror("Erro de Validação", "O nome informado já está cadastrado no sistema.")
             return
-        linha = {}
-        linha["nome"]=self.ent_name_value.get()
-        linha["numero"]=self.spb_number_value.get()
+        if(not self.linha):
+            self.linha = {}
+        self.linha["nome"]=self.ent_name_value.get()
+        self.linha["numero"]=self.spb_number_value.get()
         self.tl = ttk.Toplevel(self.janela)
-        DefinirOrigemDestinoView(self.tl, self, linha)
+        DefinirOrigemDestinoView(self.tl, self, self.linha)
         self.utils.call_top_view(self.janela, self.tl)
     
     def cancelar(self, *event):
