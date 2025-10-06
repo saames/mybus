@@ -133,9 +133,11 @@ class VisualizarLinhaView:
 
     def selecionado(self):
         item_selecionado = self.tvw.selection()
-        linha_id = int(item_selecionado[0])
-        if(linha_id):
-            return linha_id
+        if(len(item_selecionado) > 0):
+            linha_id = int(item_selecionado[0])
+            if(linha_id):
+                return linha_id
+        return None
 
     def verificar_favorito(self, event):
         if(len(self.tvw.selection()) > 0):
