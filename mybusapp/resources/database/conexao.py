@@ -6,9 +6,6 @@ from pathlib import Path
 
 class Conexao:
     def get_conexao(self):
-        BASE_DIR = Path(__file__).resolve().parent
-        caminho = BASE_DIR / "mybusDB.db"
-        caminho = caminho.resolve()
         caminho = "mybusDB.db"
         try:
             conexao = sqlite3.connect(caminho)
