@@ -95,8 +95,9 @@ class CriarLinhaView:
     
     def continuar(self):
         numero = self.spb_number.get()
+        testar_n = int(numero)
         nome = self.ent_name.get()
-        if self.gerenciar_linha.verificar_numero_existente(numero) and self.linha == None:
+        if self.gerenciar_linha.verificar_numero_existente(testar_n) and self.linha == None:
             messagebox.showerror("Erro de Validação", "O número informado já está cadastrado no sistema.")
             return
         if self.gerenciar_linha.verificar_nome_existente(nome) and self.linha == None:
