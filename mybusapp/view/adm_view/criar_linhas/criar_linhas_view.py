@@ -53,11 +53,12 @@ class CriarLinhaView:
                                                                     padding=(6,0),
                                                                     font=('TkDefaultFont', 10, 'bold'))
         self.lbl_number.grid(column=0, row=2, sticky='w', pady=(0,5))
-        self.spb_number_value = ttk.IntVar(value=1)
+        self.spb_number_value = ttk.StringVar(value="1")
         if(self.linha):
             self.spb_number_value.set(int(self.linha["numero"]))
         self.spb_number = ttk.Spinbox(self.frm_center, textvariable=self.spb_number_value, from_=1, to=999, format='%03.0f')
-        self.spb_number.set(f"{self.spb_number_value.get():03d}") # Solução para o número começar com 3 casas antes da vírgula.
+        numero = self.spb_number_value.get()
+        self.spb_number.set(f"{int(numero):03d}") # Solução para o número começar com 3 casas antes da vírgula.
         self.spb_number.grid(column=1, row=2, sticky='ew', pady=(0, 5))
         self.spb_number.bind('<KeyRelease>', self.validar_campos)
         self.spb_number.bind('<ButtonRelease>', self.validar_campos)
@@ -106,7 +107,7 @@ class CriarLinhaView:
         if(not self.linha):
             self.linha = {}
         self.linha["nome"]=self.ent_name_value.get()
-        self.linha["numero"]=self.spb_number_value.get()
+        self.linha["numero"]=int(self.spb_number_value.get())
         self.tl = ttk.Toplevel(self.janela)
         DefinirOrigemDestinoView(self.tl, self, self.linha)
         self.utils.call_top_view(self.janela, self.tl)
