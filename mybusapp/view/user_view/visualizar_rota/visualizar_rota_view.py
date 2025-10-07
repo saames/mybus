@@ -37,7 +37,7 @@ class VisualizarRotaView:
 
         # Nome da rota
         self.nome_rota = f'Rota: {linha[0]} {self.nome_completo}'
-        self.lbl_nome_rota = ttk.Label(self.frm_center, text=self.nome_rota, bootstyle='primary-inverse', padding=(150, 11))
+        self.lbl_nome_rota = ttk.Label(self.frm_center, text=self.nome_rota, bootstyle='primary-inverse', padding=(1, 11), anchor='center', width=63)
         self.lbl_nome_rota.grid(column=1, row=0)
 
         self.traçar_rota()
