@@ -11,7 +11,7 @@ class CadastrarLinhaControl():
         linha_destino = linha["pontos_iniciais"][1][0]
 
         nome += f"#{linha_origem}-{linha_destino}"
-        numero = f"{int(linha["numero"]):03d}"
+        numero = f"{int(linha['numero']):03d}"
         if("id" not in linha.keys()):
             result = self.model.insert("Linha(nome, numero)", (nome, numero))
         else:
