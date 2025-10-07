@@ -48,6 +48,7 @@ class EditarRotaView:
         self.tree.column('Nome', anchor='center', width=400, minwidth=400)
         self.tree.tag_configure("geral", background="#002B5C", foreground="white")
         self.tree.pack(side='left', fill='both', expand=True)
+        self.tree.bind('<ButtonRelease-1>', self.validar_botoes)
 
         # Scrollbar
         self.scrollbar = ttk.Scrollbar(self.frm_tree, orient='vertical', command=self.tree.yview)
@@ -69,16 +70,16 @@ class EditarRotaView:
         self.btn_adicionar = ttk.Button(self.frm_botoes_lista, text="+", style='Add.success.TButton')
         self.btn_adicionar.pack(side='top', pady=2)
         self.btn_adicionar.bind('<ButtonRelease-1>', self.adicionar_novo_ponto)
-        self.btn_editar = ttk.Button(self.frm_botoes_lista, text="...", style='Edit.warning.TButton')
+        self.btn_editar = ttk.Button(self.frm_botoes_lista, text="...", style='Edit.warning.TButton', state='disabled')
         self.btn_editar.pack(side='top', pady=2, ipady=2)
         self.btn_editar.bind('<ButtonRelease-1>', self.editar_ponto)
-        self.btn_remover = ttk.Button(self.frm_botoes_lista, text="×", style='Remove.danger.TButton')
+        self.btn_remover = ttk.Button(self.frm_botoes_lista, text="×", style='Remove.danger.TButton', state='disabled')
         self.btn_remover.pack(side='top', pady=2)
         self.btn_remover.bind('<ButtonRelease-1>', self.excluir_ponto)
-        self.btn_subir = ttk.Button(self.frm_botoes_lista, text="▲", style='Move.secondary.TButton')
+        self.btn_subir = ttk.Button(self.frm_botoes_lista, text="▲", style='Move.secondary.TButton', state='disabled')
         self.btn_subir.pack(side='top', pady=(20, 2))
         self.btn_subir.bind('<ButtonRelease-1>', self.subir_ordem)
-        self.btn_descer = ttk.Button(self.frm_botoes_lista, text="▼",style='Move.secondary.TButton')
+        self.btn_descer = ttk.Button(self.frm_botoes_lista, text="▼",style='Move.secondary.TButton', state='disabled')
         self.btn_descer.pack(side='top', pady=2)
         self.btn_descer.bind('<ButtonRelease-1>', self.descer_ordem)
 
@@ -132,6 +133,30 @@ class EditarRotaView:
 
         
         self.utils.centraliza(self.janela)
+
+    def validar_botoes(self, *event):
+        linha = self.tree.selection()
+        if linha:
+            item = self.tree.item(linha[0])["values"]
+            print(item[0])
+            if item[0] in (1, len(self.pontos)):
+                self.btn_editar.config(state='disabled')
+                self.btn_remover.config(state='disabled')
+                self.btn_subir.config(state='disabled')
+                self.btn_descer.config(state='disabled')
+            else:
+                self.btn_editar.config(state='enable')
+                self.btn_remover.config(state='enable')
+                if item[0] != 2:
+                    self.btn_subir.config(state='enable')
+                else:
+                    self.btn_subir.config(state='disabled')
+                if item[0] != len(self.pontos)-1:
+                    self.btn_descer.config(state='enable')
+                else:
+                    self.btn_descer.config(state='disabled')
+                    
+
 
     def atualizar(self, pontos = None):
         for item in self.tree.get_children():
@@ -205,7 +230,7 @@ class EditarRotaView:
 
     def adicionar_novo_ponto(self, event):
         self.tl = ttk.Toplevel()
-        DefinirRotaView(self.tl, self)
+        DefinirRotaView(self.tl, self.janela)
         self.utils.call_top_view(self.janela, self.tl)
 
     def editar_ponto(self, event):
@@ -218,10 +243,10 @@ class EditarRotaView:
                 DefinirRotaView(self.tl, self, item)
                 self.utils.call_top_view(self.janela, self.tl)
             else:
-                showerror("Error", "A edição do ponto de origem e do ponto de destino não é permitida. Para realizar essa ação, retorne à tela anterior.")
+                showerror("Error", "A edição do ponto de origem/destino não é permitida. Para realizar essa ação, retorne à tela anterior.")
         else:
             showerror("Error",
-                      "Escolha um ponto intermediário para editar (não é possível alterar a origem ou o destino).")
+                      "Escolha um ponto intermediário para editar.")
 
     def adicionar_ponta_na_lista(self, ponto):
         ultima_ponto = list(self.pontos[len(self.pontos) - 1])
@@ -252,15 +277,19 @@ class EditarRotaView:
                     self.btn_continuar.config(state='disabled')
             else:
                 showerror("Error",
-                          "A exclusão do ponto de origem e do ponto de destino não é permitida.")
+                          "A exclusão do ponto de origem/destino não é permitida. Para realizar essa ação, retorne à tela anterior.")
         else:
             showerror("Error",
-                      "Escolha um ponto intermediário para Excluir (não é possível alterar a origem ou o destino).")
+                      "Escolha um ponto intermediário para Excluir.")
 
     def subir_ordem(self, event):
         linha = self.tree.selection()
         if (len(linha)):
             item = self.tree.item(linha[0])["values"]
+            if item[0] == 2:
+                showerror("Error",
+                          "A alteração de posição do ponto de origem/destino não é permitida. Para realizar essa ação, retorne à tela anterior.")
+                return
             if (item[0]-1 > 1 and item[0] not in (1, len(self.pontos))):
                 item_lista = list(self.pontos.pop(item[0]-1))
                 self.pontos.insert(item_lista[0] - 2, item_lista)
@@ -270,15 +299,19 @@ class EditarRotaView:
             else:
                 if(item[0] in (1, len(self.pontos))):
                     showerror("Error",
-                          "A alteração de posição do ponto de origem e do ponto de destino não é permitida. Para realizar essa ação, retorne à tela anterior.")
+                          "A alteração de posição do ponto de origem/destino não é permitida. Para realizar essa ação, retorne à tela anterior.")
         else:
             showerror("Error",
-                      "Escolha um ponto intermediário para alterar sua posição (não é possível alterar a origem ou o destino).")
+                      "Escolha um ponto intermediário para alterar sua posição.")
 
     def descer_ordem(self, event):
         linha = self.tree.selection()
         if (len(linha)):
             item = self.tree.item(linha[0])["values"]
+            if item[0] == len(self.pontos)-1:
+                showerror("Error",
+                          "A alteração de posição do ponto de origem/destino não é permitida. Para realizar essa ação, retorne à tela anterior.")
+                return
             if (item[0]+1 < len(self.pontos) and item[0] not in (1, len(self.pontos))):
                 item_lista = list(self.pontos.pop(item[0] - 1))
                 self.pontos.insert(item_lista[0], item_lista)
@@ -288,7 +321,7 @@ class EditarRotaView:
             else:
                 if (item[0] in (1, len(self.pontos))):
                     showerror("Error",
-                              "A alteração de posição do ponto de origem e do ponto de destino não é permitida. Para realizar essa ação, retorne à tela anterior.")
+                              "A alteração de posição do ponto de origem/destino não é permitida. Para realizar essa ação, retorne à tela anterior.")
         else:
             showerror("Error",
                       "Escolha um ponto intermediário para alterar sua posição (não é possível alterar a origem ou o destino).")
