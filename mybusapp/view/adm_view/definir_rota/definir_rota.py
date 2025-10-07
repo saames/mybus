@@ -88,7 +88,7 @@ class DefinirRotaView:
             if not lat_texto or not lon_texto:
                 messagebox.showwarning("Campo Vazio", "Por favor, preencha as coordenadas da parada")
                 return
-            if not nome_ponto and nome_ponto == "Rua, Número, Bairro":
+            if not nome_ponto or nome_ponto == "Rua, Número, Bairro":
                 messagebox.showwarning("Campo Vazio", "Por favor, preencha o nome da parada")
                 return
 
@@ -98,8 +98,10 @@ class DefinirRotaView:
                 self.janela_origem.adicionar_ponto_editado(self.ponto)
             else:
                 self.ponto = (nome_ponto, float(lat_texto), float(lon_texto))
+                print(nome_ponto)
                 self.janela.destroy()
                 self.janela_origem.adicionar_ponta_na_lista(self.ponto)
+
 
 
 
