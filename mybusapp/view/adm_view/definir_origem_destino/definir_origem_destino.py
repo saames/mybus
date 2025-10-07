@@ -43,8 +43,7 @@ class DefinirOrigemDestinoView:
             state='readonly',
             width=30
         )
-        self.cbx_origem.grid(column=0, row=3, columnspan=2, sticky='we', pady=(0, 2))  
-        self.cbx_origem.bind('<<ComboboxSelected>>')
+        self.cbx_origem.grid(column=0, row=3, columnspan=2, sticky='we', pady=(0, 30))  
 
         # Destino
         self.lbl_destino = ttk.Label( self.frm_center,
@@ -66,11 +65,10 @@ class DefinirOrigemDestinoView:
         )
         self.cbx_destino.grid(column=0, row=5, columnspan=2, sticky='we', pady=(0, 2))  
         self.carregar_pontos()
-        self.cbx_destino.bind('<<ComboboxSelected>>')
 
         # Botão Buscar Localização
         self.btn_buscar = ttk.Button(self.frm_center, text='Buscar Localização', bootstyle='secondary', command=self.buscar_e_marcar_no_mapa)
-        self.btn_buscar.grid(column=0, row=7, columnspan=2, sticky='e', pady=(20, 0), ipadx=5)
+        self.btn_buscar.grid(column=0, row=7, columnspan=2, sticky='e', pady=(20, 90), ipadx=5)
 
         # Mapa
         self.lbl_map = ttk.Label(self.frm_center, text='Pré-Visualização da Rota')
@@ -85,10 +83,16 @@ class DefinirOrigemDestinoView:
         self.btn_voltar.grid(column=0, row=8, pady=(40,0), sticky='w')
 
         # Botão Salvar Pontos
-        self.btn_salvar = ttk.Button(self.frm_center, text='Salvar Pontos', bootstyle='success', command=self.salvar_pontos)
+        self.btn_salvar = ttk.Button(self.frm_center, text='Salvar Pontos', bootstyle='success', command=self.salvar_pontos, state='disabled')
         self.btn_salvar.grid(column=2, row=8, pady=(40,0), sticky='e')
 
         self.utils.centraliza(self.janela)
+
+    def validar_botoes(self, *event):
+        if self.origem.get() != 'Selecione' and self.destino.get() != 'Selecione':
+            self.btn_salvar.config(state='normal')
+        else:
+            self.btn_salvar.config(state='disabled')
 
     def salvar_pontos(self):
         origem_nome = self.origem.get()
@@ -160,7 +164,6 @@ class DefinirOrigemDestinoView:
 
     def voltar(self):
             self.janela.destroy() 
-            self.janela_origem.deiconify()
 
     """
         nome: Terminal Urbano, latitude -9.972261086504293, longitude -67.80508215454091
@@ -212,6 +215,7 @@ class DefinirOrigemDestinoView:
             ponto = self.pontos.get(escolhido)
             if ponto:
                 self.origem_lat, self.origem_lon = ponto
+        self.validar_botoes()
 
 
 
@@ -225,25 +229,27 @@ class DefinirOrigemDestinoView:
             self.destino_lon = None
 
     def destino_selecionado(self, event=None):
-            escolhido = self.destino.get()
-            if escolhido == "Selecione":
-                self.destino_lat = None
-                self.destino_lon = None
-            else:
-                # Busca direta no dicionário
-                ponto = self.pontos.get(escolhido)
-                if ponto:
-                    self.destino_lat, self.destino_lon = ponto
+        escolhido = self.destino.get()
+        if escolhido == "Selecione":
+            self.destino_lat = None
+            self.destino_lon = None
+        else:
+            # Busca direta no dicionário
+            ponto = self.pontos.get(escolhido)
+            if ponto:
+                self.destino_lat, self.destino_lon = ponto
 
-            # Mesma lógica para o combobox de origem
-            nomes = ["Selecione"] + [nome for nome in self.pontos.keys() if nome != escolhido]
-            self.cbx_origem["values"] = nomes
-            if self.origem.get() == escolhido:  
-                self.cbx_origem.current(0)
-                self.origem_lat = None
-                self.origem_lon = None
+        # Mesma lógica para o combobox de origem
+        nomes = ["Selecione"] + [nome for nome in self.pontos.keys() if nome != escolhido]
+        self.cbx_origem["values"] = nomes
+        if self.origem.get() == escolhido:  
+            self.cbx_origem.current(0)
+            self.origem_lat = None
+            self.origem_lon = None
+        self.validar_botoes()
+                
 
 
     def fechar_top_level(self):
         self.janela.destroy()
-        self.janela_origem.fechar_top_level()
+        
