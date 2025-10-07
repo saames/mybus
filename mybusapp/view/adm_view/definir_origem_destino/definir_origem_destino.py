@@ -252,4 +252,5 @@ class DefinirOrigemDestinoView:
 
     def fechar_top_level(self):
         self.janela.destroy()
+        self.janela_origem.fechar_top_level()
         
