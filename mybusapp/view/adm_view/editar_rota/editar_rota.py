@@ -303,6 +303,7 @@ class EditarRotaView:
         else:
             showerror("Error",
                       "Escolha um ponto intermediário para alterar sua posição.")
+        self.validar_botoes()
 
     def descer_ordem(self, event):
         linha = self.tree.selection()
@@ -325,6 +326,7 @@ class EditarRotaView:
         else:
             showerror("Error",
                       "Escolha um ponto intermediário para alterar sua posição (não é possível alterar a origem ou o destino).")
+        self.validar_botoes()
 
     def voltar(self, *event):
         self.janela.destroy()

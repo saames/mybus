@@ -98,7 +98,7 @@ class DefinirRotaView:
                 self.janela_origem.adicionar_ponto_editado(self.ponto)
             else:
                 self.ponto = (nome_ponto, float(lat_texto), float(lon_texto))
-                print(nome_ponto)
+                # print(nome_ponto)
                 self.janela.destroy()
                 self.janela_origem.adicionar_ponto_na_lista(self.ponto)
 
