@@ -3,7 +3,7 @@ import ttkbootstrap as ttk
 from resources.utils import Utils
 import datetime
 from control.cadastra_linha_control import CadastrarLinhaControl
-
+from resources.utils import Utils
 
 class HorarioNovaLinhaView:
     def __init__(self,master, janela_origem=None,linha=None):
@@ -22,7 +22,7 @@ class HorarioNovaLinhaView:
         self.frm_center.grid(column=0, row=0, padx=10, pady=10)
 
         #Criando Instancias
-        #self.utils = Utils()
+        self.utils = Utils()
         self.linha_control = CadastrarLinhaControl()
 
         # Botão Voltar
@@ -37,20 +37,20 @@ class HorarioNovaLinhaView:
         self.lbl_titulo = ttk.Label(self.frm_center, 
                                     text=f'Definir Cronograma de horarios', 
                                     bootstyle='primary-inverse',
-                                    padding=(100,11),
+                                    padding=(103,11),
                                     anchor='center')
-        self.lbl_titulo.grid(column=0, row=0, columnspan=2,pady=4,sticky='we')
+        self.lbl_titulo.grid(column=0, row=0, columnspan=3,pady=(5,10),sticky='we')
 
         self.lbl_dia_util = ttk.Label(
                                     self.frm_center, 
                                     text='Intervalo Dias úteis', 
                                     bootstyle='inverse-secondary', 
                                     borderwidth=7, 
-                                    padding=(5,0),
+                                    padding=(0,0),
                                     width=20,
                                     anchor='center',
                                     font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_dia_util.grid(column=0, row=1, sticky='w', pady=(0,5))
+        self.lbl_dia_util.grid(column=0, row=1, sticky='ew', ipadx=2, padx=(0,2))
 
         #combobox intervalo
         self.intervalo_d_util = ttk.StringVar()
@@ -68,7 +68,7 @@ class HorarioNovaLinhaView:
             index = self.lista_intevalo.index(linha["intervalo_util"])
             self.cbx_intervalo_d_util.current(index)
 
-        self.cbx_intervalo_d_util.grid(column=1,row=1)
+        self.cbx_intervalo_d_util.grid(column=1,row=1, columnspan=2, sticky='ew', padx=(2,0))
 
         self.horarios_n_util = []
         self.lbl_dia_n_util = ttk.Label(
@@ -76,11 +76,11 @@ class HorarioNovaLinhaView:
                                     text='Intervalo Dias Não úteis', 
                                     bootstyle='inverse-secondary', 
                                     borderwidth=7, 
-                                    padding=(5,0),
+                                    padding=(0,0),
                                     width=20,
                                     anchor='center',
                                     font=('TkDefaultFont', 10, 'bold'))
-        self.lbl_dia_n_util.grid(column=0, row=2, sticky='w', pady=(0,5))
+        self.lbl_dia_n_util.grid(column=0, row=2, sticky='ew', ipadx=2, padx=(0,2))
 
         self.cbx_intervalo_d_n_util = ttk.Combobox(self.frm_center,
                                      values=self.lista_intevalo, 
@@ -91,11 +91,11 @@ class HorarioNovaLinhaView:
         else:
             index_n_util = self.lista_intevalo.index(linha["intervalo_n_util"])
             self.cbx_intervalo_d_n_util.current(index_n_util)
-        self.cbx_intervalo_d_n_util.grid(column=1,row=2)
+        self.cbx_intervalo_d_n_util.grid(column=1,row=2, columnspan=2,sticky='ew', padx=(2,0))
 
         #botão gerar horarios
         self.btn_gerar = ttk.Button(self.frm_center,text='Gerar Horários',width=15)
-        self.btn_gerar.grid(column=0,row=3,pady=4,sticky='w')
+        self.btn_gerar.grid(column=0,row=3, columnspan=3, pady=(10,10), sticky='ew')
         self.btn_gerar.bind('<ButtonRelease-1>',self.gerar_horarios)
 
 
@@ -104,7 +104,7 @@ class HorarioNovaLinhaView:
         self.tvw = ttk.Treeview(self.frm_center, height=8, columns=colunas, show='headings', selectmode='browse')
         self.tvw.heading('dutil', text='DIAS ÚTEIS')
         self.tvw.heading('dnutil', text='DIAS NÃO ÚTEIS')
-        self.tvw.grid(column=0, row=4, columnspan=2, pady=6, sticky='w')
+        self.tvw.grid(column=0, row=4, columnspan=2, sticky='w', pady=(0,10))
         # Alinha o campo com a coluna
         self.tvw.column('dutil', anchor='center',)
         self.tvw.column('dnutil', anchor='center',)
@@ -114,20 +114,30 @@ class HorarioNovaLinhaView:
 
         # Scrollbar da Tabela
         self.brl = ttk.Scrollbar(self.frm_center, command=self.tvw.yview)
-        self.brl.grid(column=2, row=4, sticky='ns', pady=6)
+        self.brl.grid(column=2, row=4, sticky='ns', pady=(0,10))
         self.tvw.configure(yscrollcommand=self.brl.set)
+        
+        self.frm_botoes = ttk.Frame(self.frm_center)
+        self.frm_botoes.grid(column=0, row=5, columnspan=3)
+        
         #botao voltar
-        self.btn_cancelar = ttk.Button(self.frm_center,text='VOLTAR',bootstyle='secondary',width=15)
-        self.btn_cancelar.grid(column=0,row=5)
+        self.btn_cancelar = ttk.Button(self.frm_botoes,text='VOLTAR',bootstyle='secondary',width=15)
+        self.btn_cancelar.grid(column=0,row=0, padx=(0,5))
         self.btn_cancelar.bind('<ButtonRelease-1>',self.voltar)
 
         #botao salvar linha
-        self.btn_salvar = ttk.Button(self.frm_center,text='SALVAR LINHA',bootstyle='success',width=15, state="disabled")
-        self.btn_salvar.grid(column=1,row=5)
+        self.btn_salvar = ttk.Button(self.frm_botoes,text='SALVAR LINHA',bootstyle='success',width=15, state="disabled")
+        self.btn_salvar.grid(column=1,row=0, padx=(5,0))
         self.btn_salvar.bind('<ButtonRelease-1>',self.salvar_linha)
 
         if "id" in self.linha.keys():
             self.gerar_horarios("")
+
+        # Comandos de navegação
+        self.janela.bind('<Return>', self.salvar_linha)
+        self.janela.bind('<Escape>', self.voltar)
+
+        self.utils.centraliza(self.janela)
 
     def gerar_horarios(self, event):
         for item in self.tvw.get_children():
