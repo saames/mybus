@@ -28,3 +28,13 @@ A aplicação exibirá mapas mostrando o trajeto dos ônibus e a localização d
 **3. Instale as bibliotecas necessárias:**
 
 `pip install -r requirements.txt`
+
+**4. Instale o ttktheme 'mybus':**
+
+`python3 -m ttkcreator`
+
+Clique em 'Import' e abra o arquivo:
+
+/mybusapp/resources/estilo.py
+
+Clique em 'OK'
