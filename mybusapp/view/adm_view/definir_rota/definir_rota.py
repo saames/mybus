@@ -100,7 +100,7 @@ class DefinirRotaView:
                 self.ponto = (nome_ponto, float(lat_texto), float(lon_texto))
                 print(nome_ponto)
                 self.janela.destroy()
-                self.janela_origem.adicionar_ponta_na_lista(self.ponto)
+                self.janela_origem.adicionar_ponto_na_lista(self.ponto)
 
 
 
@@ -206,5 +206,4 @@ class DefinirRotaView:
             self.mpv_rota.set_marker(lat, lon)
 
     def voltar(self):
-            self.janela.destroy() 
-            self.janela_origem.deiconify()
+            self.janela.destroy()

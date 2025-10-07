@@ -138,7 +138,7 @@ class EditarRotaView:
         linha = self.tree.selection()
         if linha:
             item = self.tree.item(linha[0])["values"]
-            print(item[0])
+            #print(item[0]) # Debug
             if item[0] in (1, len(self.pontos)):
                 self.btn_editar.config(state='disabled')
                 self.btn_remover.config(state='disabled')
@@ -230,7 +230,7 @@ class EditarRotaView:
 
     def adicionar_novo_ponto(self, event):
         self.tl = ttk.Toplevel()
-        DefinirRotaView(self.tl, self.janela)
+        DefinirRotaView(self.tl, self)
         self.utils.call_top_view(self.janela, self.tl)
 
     def editar_ponto(self, event):
@@ -238,7 +238,7 @@ class EditarRotaView:
 
         if(len(linha)):
             item = self.tree.item(linha[0])["values"]
-            if(item[0] not in (1, len(self.pontos) + 1)):
+            if(item[0] not in (1, len(self.pontos))):
                 self.tl = ttk.Toplevel()
                 DefinirRotaView(self.tl, self, item)
                 self.utils.call_top_view(self.janela, self.tl)
@@ -248,7 +248,7 @@ class EditarRotaView:
             showerror("Error",
                       "Escolha um ponto intermediário para editar.")
 
-    def adicionar_ponta_na_lista(self, ponto):
+    def adicionar_ponto_na_lista(self, ponto):
         ultima_ponto = list(self.pontos[len(self.pontos) - 1])
         ultima_ponto[0] = ultima_ponto[0] + 1
         ultima_ponto = tuple(ultima_ponto)
