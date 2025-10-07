@@ -63,7 +63,7 @@ class HomeLinhaView:
     def visualizar_Linha(self, event):
         self.janela.withdraw() 
         self.tl = ttk.Toplevel(self.janela)
-        VisualizarLinhaView(self.tl,self.janela)
+        VisualizarLinhaView(self.tl,self.janela,self.user_id)
         self.utils.call_top_view(self.janela, self.tl)
 
     def gerenciar_linha(self, event):
