@@ -44,11 +44,11 @@ class HorariosLinhaView:
         self.btn_voltar.bind('<ButtonRelease-1>',self.voltar)
 
         # Título da janela
-        self.lbl_titulo = ttk.Label(self.frm_center, text=f'Linha-{self.numero_linha} {self.nome_linha}', bootstyle='primary-inverse', width=60,padding=(0,11),anchor='center')
+        self.lbl_titulo = ttk.Label(self.frm_center, text=f'Linha-{self.numero_linha} {self.nome_linha}', bootstyle='primary-inverse', width=65,padding=(0,11),anchor='center')
         self.lbl_titulo.grid(column=1, row=0, columnspan=3,pady=4)
 
         #tiulo treeview dia util
-        self.lbl_treeview_dia_util = ttk.Label(self.frm_center,text='Dias Uteis',bootstyle='primary-inverse', padding=(0, 11),width=65,anchor='center')
+        self.lbl_treeview_dia_util = ttk.Label(self.frm_center,text='Dias Uteis',bootstyle='primary-inverse', padding=(2, 11),width=70,anchor='center')
         self.lbl_treeview_dia_util.grid(column=0,row=1,columnspan=4)
 
         # Tabela (cabeçalho + corpo)
@@ -60,8 +60,8 @@ class HorariosLinhaView:
             self.tvw_dias_uteis.insert('', 'end', values=item)
         self.tvw_dias_uteis.grid(column=0, row=2, columnspan=3, pady=6, sticky='we')
         # Alinha o campo com a coluna
-        self.tvw_dias_uteis.column('turb', anchor='center',)
-        self.tvw_dias_uteis.column('tufac', anchor='center',)
+        self.tvw_dias_uteis.column('turb', anchor='center', width=276, minwidth=200)
+        self.tvw_dias_uteis.column('tufac', anchor='center', width=276, minwidth=200)
 
         # Configura cor para status
         self.tvw_dias_uteis.tag_configure("geral", background="#002B5C")
@@ -72,8 +72,8 @@ class HorariosLinhaView:
         self.tvw_dias_uteis.configure(yscrollcommand=self.brl_dias_uteis.set)
 
         #tiulo treeview dia não util
-        self.lbl_treeview_dia_n_util = ttk.Label(self.frm_center,text='Dias Não Úteis',bootstyle='primary-inverse', padding=(0, 11),width=65,anchor='center')
-        self.lbl_treeview_dia_n_util.grid(column=0,row=3,columnspan=3)
+        self.lbl_treeview_dia_n_util = ttk.Label(self.frm_center,text='Dias Não Úteis',bootstyle='primary-inverse', padding=(2, 11),width=70,anchor='center')
+        self.lbl_treeview_dia_n_util.grid(column=0,row=3,columnspan=4)
         # Tabela (cabeçalho + corpo)
         colunas = ['turb', 'tufac']
         self.tvw_dias_n_uteis = ttk.Treeview(self.frm_center, height=8, columns=colunas, show='headings', selectmode='browse')
@@ -83,8 +83,8 @@ class HorariosLinhaView:
             self.tvw_dias_n_uteis.insert('', 'end', values=item)
         self.tvw_dias_n_uteis.grid(column=0, row=4, columnspan=3, pady=6, sticky='we')
         # Alinha o campo com a coluna
-        self.tvw_dias_n_uteis.column('turb', anchor='center', )
-        self.tvw_dias_n_uteis.column('tufac', anchor='center',)
+        self.tvw_dias_n_uteis.column('turb', anchor='center', width=276, minwidth=200)
+        self.tvw_dias_n_uteis.column('tufac', anchor='center', width=276, minwidth=200)
 
         # Configura cor para status
         self.tvw_dias_n_uteis.tag_configure("geral", background="#002B5C")
