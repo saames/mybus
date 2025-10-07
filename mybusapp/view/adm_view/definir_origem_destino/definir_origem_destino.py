@@ -64,7 +64,7 @@ class DefinirOrigemDestinoView:
             width=30
         )
         self.cbx_destino.grid(column=0, row=5, columnspan=2, sticky='we', pady=(0, 2))  
-        self.carregar_pontos()
+
 
         # Botão Buscar Localização
         self.btn_buscar = ttk.Button(self.frm_center, text='Buscar Localização', bootstyle='secondary', command=self.buscar_e_marcar_no_mapa)
@@ -86,6 +86,7 @@ class DefinirOrigemDestinoView:
         self.btn_salvar = ttk.Button(self.frm_center, text='Salvar Pontos', bootstyle='success', command=self.salvar_pontos, state='disabled')
         self.btn_salvar.grid(column=2, row=8, pady=(40,0), sticky='e')
 
+        self.carregar_pontos()
         self.utils.centraliza(self.janela)
 
     def validar_botoes(self, *event):
