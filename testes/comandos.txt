@@ -18,6 +18,5 @@ pyinstaller \
 --name mybus \
 --onefile \
 --windowed \
---icon="mybusapp/mybusIcon.png" \
 --hidden-import='PIL._tkinter_finder' \
 mybusapp/main.py
