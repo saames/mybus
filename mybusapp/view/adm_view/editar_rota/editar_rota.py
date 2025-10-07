@@ -111,7 +111,7 @@ class EditarRotaView:
 
         self.btn_continuar = ttk.Button(self.frm_rodape, text="Continuar", bootstyle='success', state='disabled')
         self.btn_continuar.pack(side='right')
-        self.btn_continuar.bind('<ButtonRelease-1>', self.abrir_proxima_tela)
+        self.btn_continuar.bind('<ButtonRelease-1>', self.verificar_continuar)
 
 
         if ("id" not in self.linha.keys()):
@@ -179,6 +179,13 @@ class EditarRotaView:
                 ponto_mod[0] = id_treeview
                 self.pontos[item] = ponto_mod
             self.tree.insert('', 'end', values=self.pontos[item], tags=('geral',), iid=id_treeview)
+
+    def verificar_continuar(self, event):
+        if str(self.btn_continuar['state']) == 'disabled':
+            showerror("Ação necessária", "Trace uma rota antes de continuar.")
+            return
+        self.abrir_proxima_tela(event)
+
 
     def abrir_proxima_tela(self, event):
         if (self.sentido == "ida" and "rota-ida" not in self.linha) or (self.sentido == "volta" and "rota-volta" not in self.linha):
