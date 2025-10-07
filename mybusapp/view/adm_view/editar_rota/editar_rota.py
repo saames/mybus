@@ -184,7 +184,6 @@ class EditarRotaView:
         if (self.sentido == "ida" and "rota-ida" not in self.linha) or (self.sentido == "volta" and "rota-volta" not in self.linha):
             showerror("Ação Necessária", "Trace uma rota antes de avançar.")
             return
-        self.tl = ttk.Toplevel(self.janela)
         if(self.sentido == "ida"):
             if "rota-ida" not in (self.linha.keys()):
                 self.tracar_rota("")
@@ -193,21 +192,30 @@ class EditarRotaView:
                     response = askyesno("Menssagem",
                                         "Você gostaria de definir a rota de retorno como o inverso da rota de ida?")
                     if (response):
+                        self.tl = ttk.Toplevel(self.janela)
                         pontos_tela_volta = self.pontos[::-1]
                         EditarRotaView(self.tl, self, self.linha, sentido="volta", pontos_ida=pontos_tela_volta)
+                        self.utils.call_top_view(self.janela, self.tl)
                     else:
+                        self.tl = ttk.Toplevel(self.janela)
                         pontos_tela_volta = [self.pontos[len(self.pontos)-1], self.pontos[0]]
                         EditarRotaView(self.tl, self, self.linha, sentido="volta", pontos_ida=pontos_tela_volta)
+                        self.utils.call_top_view(self.janela, self.tl)
                 else:
+                    self.tl = ttk.Toplevel(self.janela)
                     EditarRotaView(self.tl, self, self.linha, sentido="volta")
+                    self.utils.call_top_view(self.janela, self.tl)
             else:
+                self.tl = ttk.Toplevel(self.janela)
                 pontos_tela_volta = [self.pontos[len(self.pontos) - 1], self.pontos[0]]
                 EditarRotaView(self.tl, self, self.linha, sentido="volta", pontos_ida=pontos_tela_volta)
+                self.utils.call_top_view(self.janela, self.tl)
         else:
+            self.tl = ttk.Toplevel(self.janela)
             if "rota-volta" not in (self.linha.keys()):
                 self.tracar_rota("")
             HorarioNovaLinhaView(self.tl, self, self.linha)
-        self.utils.call_top_view(self.janela, self.tl)
+            self.utils.call_top_view(self.janela, self.tl)
 
     def fechar_top_level(self):
         self.janela.destroy()
